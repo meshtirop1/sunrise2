@@ -1,0 +1,509 @@
+{#{% extends 'base.html' %}#}
+{#{% load static %}#}
+{##}
+{#{% block title %}Our Services - Sunrise Drilling Ltd{% endblock %}#}
+{##}
+{#{% block description %}Explore our comprehensive range of services including drilling, dam construction, water surveys, geological surveys, transport, logistics, and general supplies in Kenya.{% endblock %}#}
+{##}
+{#{% block extra_css %}#}
+{#<link rel="stylesheet" href="{% static 'css/main.css' %}">#}
+{#<link rel="stylesheet" href="{% static 'css/services.css' %}">#}
+{#{% endblock %}#}
+{##}
+{#{% block content %}#}
+{#<!-- Services Header -->#}
+{#<section class="services-header">#}
+{#    <div class="container">#}
+{#        <h1 class="services-title">Our Services</h1>#}
+{#        <p class="services-subtitle">Comprehensive solutions for all your drilling, construction, and supply needs</p>#}
+{#    </div>#}
+{#</section>#}
+{##}
+{#<!-- Services Main -->#}
+{#<section class="services-main">#}
+{#    <div class="container">#}
+{#        <h2 class="section-title animate-on-scroll">The areas we are working on are:</h2>#}
+{#        #}
+{#        <div class="services-grid">#}
+{#            <!-- Construction of Dams -->#}
+{#            <div class="service-card animate-on-scroll">#}
+{#                <div class="service-image">#}
+{#                    <img src="{% static 'images/services/dam.jpg' %}" alt="Dam Construction" class="service-img">#}
+{#                </div>#}
+{#                <div class="service-content">#}
+{#                    <h3 class="service-title">Construction of Dams</h3>#}
+{#                    <p class="service-description">We specialize in constructing durable dams to store and manage water resources, ensuring long-term sustainability for communities and industries.</p>#}
+{#                    #}
+{#                    <ul class="service-features">#}
+{#                        <li>Earth and rock-fill dam construction</li>#}
+{#                        <li>Water storage and management systems</li>#}
+{#                        <li>Environmental impact assessment</li>#}
+{#                        <li>Long-term maintenance support</li>#}
+{#                    </ul>#}
+{#                    #}
+{#                    <div class="service-cta">#}
+{#                        <a href="{% url 'main:contact' %}" class="service-btn service-btn-primary">Get Quote</a>#}
+{#                        <a href="{% url 'main:gallery' %}" class="service-btn service-btn-secondary">View Projects</a>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#            #}
+{#            <!-- Drilling of Boreholes -->#}
+{#            <div class="service-card animate-on-scroll">#}
+{#                <div class="service-image">#}
+{#                    <img src="{% static 'images/services/eqp_drilling.jpg' %}" alt="Borehole Drilling" class="service-img">#}
+{#                </div>#}
+{#                <div class="service-content">#}
+{#                    <h3 class="service-title">Drilling of Boreholes</h3>#}
+{#                    <p class="service-description">Our borehole drilling services provide reliable access to clean groundwater, helping households, businesses, and agricultural projects meet their water needs.</p>#}
+{#                    #}
+{#                    <ul class="service-features">#}
+{#                        <li>Water well drilling and installation</li>#}
+{#                        <li>Pump installation and maintenance</li>#}
+{#                        <li>Water quality testing</li>#}
+{#                        <li>Borehole rehabilitation services</li>#}
+{#                    </ul>#}
+{#                    #}
+{#                    <div class="service-cta">#}
+{#                        <a href="{% url 'main:contact' %}" class="service-btn service-btn-primary">Get Quote</a>#}
+{#                        <a href="{% url 'main:gallery' %}" class="service-btn service-btn-secondary">View Projects</a>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#            #}
+{#            <!-- Construction of Water Pans -->#}
+{#            <div class="service-card animate-on-scroll">#}
+{#                <div class="service-image">#}
+{#                    <img src="{% static 'images/services/waterpans.png' %}" alt="Water Pan Construction" class="service-img">#}
+{#                </div>#}
+{#                <div class="service-content">#}
+{#                    <h3 class="service-title">Construction of Water Pans</h3>#}
+{#                    <p class="service-description">We build high-quality water pans to collect and store rainwater, supporting irrigation, livestock, and domestic water supply.</p>#}
+{#                    #}
+{#                    <ul class="service-features">#}
+{#                        <li>Rainwater harvesting systems</li>#}
+{#                        <li>Livestock watering solutions</li>#}
+{#                        <li>Irrigation water storage</li>#}
+{#                        <li>Liner installation and protection</li>#}
+{#                    </ul>#}
+{#                    #}
+{#                    <div class="service-cta">#}
+{#                        <a href="{% url 'main:contact' %}" class="service-btn service-btn-primary">Get Quote</a>#}
+{#                        <a href="{% url 'main:gallery' %}" class="service-btn service-btn-secondary">View Projects</a>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#            #}
+{#            <!-- Transport and Logistics -->#}
+{#            <div class="service-card animate-on-scroll">#}
+{#                <div class="service-image">#}
+{#                    <img src="{% static 'images/services/transport.jpg' %}" alt="Transport and Logistics" class="service-img">#}
+{#                </div>#}
+{#                <div class="service-content">#}
+{#                    <h3 class="service-title">Transport and Logistics</h3>#}
+{#                    <p class="service-description">Our transport and logistics services ensure the efficient movement of goods and materials, providing seamless supply chain solutions for various industries.</p>#}
+{#                    #}
+{#                    <ul class="service-features">#}
+{#                        <li>Heavy equipment transportation</li>#}
+{#                        <li>Construction material delivery</li>#}
+{#                        <li>Supply chain management</li>#}
+{#                        <li>Regional and cross-border logistics</li>#}
+{#                    </ul>#}
+{#                    #}
+{#                    <div class="service-cta">#}
+{#                        <a href="{% url 'main:contact' %}" class="service-btn service-btn-primary">Get Quote</a>#}
+{#                        <a href="{% url 'main:gallery' %}" class="service-btn service-btn-secondary">View Fleet</a>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#            #}
+{#            <!-- General Supplies -->#}
+{#            <div class="service-card animate-on-scroll">#}
+{#                <div class="service-image">#}
+{#                    <img src="{% static 'images/services/transport.jpg' %}" alt="General Supplies" class="service-img">#}
+{#                </div>#}
+{#                <div class="service-content">#}
+{#                    <h3 class="service-title">General Supplies</h3>#}
+{#                    <p class="service-description">We supply high-quality construction materials, equipment, and essential goods, ensuring businesses and projects have what they need to succeed.</p>#}
+{#                    #}
+{#                    <ul class="service-features">#}
+{#                        <li>Construction materials and equipment</li>#}
+{#                        <li>Drilling tools and accessories</li>#}
+{#                        <li>Water treatment chemicals</li>#}
+{#                        <li>Safety equipment and gear</li>#}
+{#                    </ul>#}
+{#                    #}
+{#                    <div class="service-cta">#}
+{#                        <a href="{% url 'main:contact' %}" class="service-btn service-btn-primary">Get Quote</a>#}
+{#                        <a href="{% url 'main:contact' %}" class="service-btn service-btn-secondary">Request Catalog</a>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#            #}
+{#            <!-- Water Surveys and Consultancy -->#}
+{#            <div class="service-card animate-on-scroll">#}
+{#                <div class="service-image">#}
+{#                    <img src="{% static 'images/services/geo.jpg' %}" alt="Water Surveys and Consultancy" class="service-img">#}
+{#                </div>#}
+{#                <div class="service-content">#}
+{#                    <h3 class="service-title">Water Surveys & Consultancy</h3>#}
+{#                    <p class="service-description">Our consultancy services offer expert water surveys and assessments, helping clients make informed decisions about water resource management and development.</p>#}
+{#                    #}
+{#                    <ul class="service-features">#}
+{#                        <li>Hydrogeological surveys</li>#}
+{#                        <li>Water resource assessment</li>#}
+{#                        <li>Feasibility studies</li>#}
+{#                        <li>Project planning and design</li>#}
+{#                    </ul>#}
+{#                    #}
+{#                    <div class="service-cta">#}
+{#                        <a href="{% url 'main:contact' %}" class="service-btn service-btn-primary">Get Quote</a>#}
+{#                        <a href="{% url 'main:about' %}" class="service-btn service-btn-secondary">Learn More</a>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#            #}
+{#            <!-- Geological Survey -->#}
+{#            <div class="service-card animate-on-scroll">#}
+{#                <div class="service-image">#}
+{#                    <img src="{% static 'images/services/geo.jpg' %}" alt="Geological Survey" class="service-img">#}
+{#                </div>#}
+{#                <div class="service-content">#}
+{#                    <h3 class="service-title">Geological Survey</h3>#}
+{#                    <p class="service-description">Our geological survey services provide detailed analysis of subsurface conditions, supporting informed decisions for construction, drilling, and resource exploration projects.</p>#}
+{#                    #}
+{#                    <ul class="service-features">#}
+{#                        <li>Subsurface geological mapping</li>#}
+{#                        <li>Soil and rock analysis</li>#}
+{#                        <li>Geotechnical assessments</li>#}
+{#                        <li>Site suitability evaluation</li>#}
+{#                    </ul>#}
+{#                    #}
+{#                    <div class="service-cta">#}
+{#                        <a href="{% url 'main:contact' %}" class="service-btn service-btn-primary">Get Quote</a>#}
+{#                        <a href="{% url 'main:about' %}" class="service-btn service-btn-secondary">Learn More</a>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#            #}
+{#            <!-- Plumbing Works -->#}
+{#            <div class="service-card animate-on-scroll">#}
+{#                <div class="service-image">#}
+{#                    <img src="{% static 'images/services/plumbing.jpg' %}" alt="Plumbing Works" class="service-img">#}
+{#                </div>#}
+{#                <div class="service-content">#}
+{#                    <h3 class="service-title">Plumbing Works</h3>#}
+{#                    <p class="service-description">We provide professional plumbing services, from installations to repairs, ensuring efficient water distribution and drainage systems for residential and commercial properties.</p>#}
+{#                    #}
+{#                    <ul class="service-features">#}
+{#                        <li>Water system installation</li>#}
+{#                        <li>Drainage and sewerage systems</li>#}
+{#                        <li>Pipe repairs and maintenance</li>#}
+{#                        <li>Water pressure optimization</li>#}
+{#                    </ul>#}
+{#                    #}
+{#                    <div class="service-cta">#}
+{#                        <a href="{% url 'main:contact' %}" class="service-btn service-btn-primary">Get Quote</a>#}
+{#                        <a href="{% url 'main:contact' %}" class="service-btn service-btn-secondary">Emergency Service</a>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+{#</section>#}
+{##}
+{#<!-- Process Section -->#}
+{#<section class="process-section">#}
+{#    <div class="container">#}
+{#        <h2 class="section-title animate-on-scroll">Our Process</h2>#}
+{#        <p class="section-subtitle animate-on-scroll">How we deliver exceptional results for every project</p>#}
+{#        #}
+{#        <div class="process-steps">#}
+{#            <div class="process-step animate-on-scroll">#}
+{#                <div class="process-number">1</div>#}
+{#                <h3 class="process-title">Consultation</h3>#}
+{#                <p class="process-description">We begin with a thorough consultation to understand your specific needs and project requirements.</p>#}
+{#            </div>#}
+{#            #}
+{#            <div class="process-step animate-on-scroll">#}
+{#                <div class="process-number">2</div>#}
+{#                <h3 class="process-title">Site Assessment</h3>#}
+{#                <p class="process-description">Our experts conduct detailed site surveys and assessments to determine the best approach for your project.</p>#}
+{#            </div>#}
+{#            #}
+{#            <div class="process-step animate-on-scroll">#}
+{#                <div class="process-number">3</div>#}
+{#                <h3 class="process-title">Planning & Design</h3>#}
+{#                <p class="process-description">We develop comprehensive plans and designs tailored to your specific requirements and local conditions.</p>#}
+{#            </div>#}
+{#            #}
+{#            <div class="process-step animate-on-scroll">#}
+{#                <div class="process-number">4</div>#}
+{#                <h3 class="process-title">Implementation</h3>#}
+{#                <p class="process-description">Our skilled team executes the project with precision, using modern equipment and proven techniques.</p>#}
+{#            </div>#}
+{#            #}
+{#            <div class="process-step animate-on-scroll">#}
+{#                <div class="process-number">5</div>#}
+{#                <h3 class="process-title">Quality Assurance</h3>#}
+{#                <p class="process-description">We conduct thorough quality checks and testing to ensure all work meets our high standards.</p>#}
+{#            </div>#}
+{#            #}
+{#            <div class="process-step animate-on-scroll">#}
+{#                <div class="process-number">6</div>#}
+{#                <h3 class="process-title">Delivery & Support</h3>#}
+{#                <p class="process-description">We deliver the completed project and provide ongoing support and maintenance services.</p>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+{#</section>#}
+{##}
+{#<!-- Why Choose Us Section -->#}
+{#<section class="why-choose">#}
+{#    <div class="container">#}
+{#        <h2 class="section-title animate-on-scroll">Why Choose Sunrise Drilling?</h2>#}
+{#        <p class="section-subtitle animate-on-scroll">What sets us apart in the industry</p>#}
+{#        #}
+{#        <div class="why-choose-grid">#}
+{#            <div class="why-choose-item animate-on-scroll">#}
+{#                <div class="why-choose-icon">#}
+{#                    <i class="fas fa-clock"></i>#}
+{#                </div>#}
+{#                <h3 class="why-choose-title">6+ Years Experience</h3>#}
+{#                <p class="why-choose-description">Since 2019, we have been delivering reliable drilling and construction services across Kenya and East Africa.</p>#}
+{#            </div>#}
+{#            #}
+{#            <div class="why-choose-item animate-on-scroll">#}
+{#                <div class="why-choose-icon">#}
+{#                    <i class="fas fa-certificate"></i>#}
+{#                </div>#}
+{#                <h3 class="why-choose-title">Certified & Compliant</h3>#}
+{#                <p class="why-choose-description">ISO certified and KEBS compliant, ensuring all our services meet international quality standards.</p>#}
+{#            </div>#}
+{#            #}
+{#            <div class="why-choose-item animate-on-scroll">#}
+{#                <div class="why-choose-icon">#}
+{#                    <i class="fas fa-tools"></i>#}
+{#                </div>#}
+{#                <h3 class="why-choose-title">Modern Equipment</h3>#}
+{#                <p class="why-choose-description">We use state-of-the-art drilling equipment and modern construction tools for efficient project delivery.</p>#}
+{#            </div>#}
+{#            #}
+{#            <div class="why-choose-item animate-on-scroll">#}
+{#                <div class="why-choose-icon">#}
+{#                    <i class="fas fa-users-cog"></i>#}
+{#                </div>#}
+{#                <h3 class="why-choose-title">Expert Team</h3>#}
+{#                <p class="why-choose-description">Our skilled professionals bring years of experience and expertise to every project we undertake.</p>#}
+{#            </div>#}
+{#            #}
+{#            <div class="why-choose-item animate-on-scroll">#}
+{#                <div class="why-choose-icon">#}
+{#                    <i class="fas fa-map-marked-alt"></i>#}
+{#                </div>#}
+{#                <h3 class="why-choose-title">Regional Coverage</h3>#}
+{#                <p class="why-choose-description">Extensive network across Kenya and East African countries for comprehensive service delivery.</p>#}
+{#            </div>#}
+{#            #}
+{#            <div class="why-choose-item animate-on-scroll">#}
+{#                <div class="why-choose-icon">#}
+{#                    <i class="fas fa-headset"></i>#}
+{#                </div>#}
+{#                <h3 class="why-choose-title">24/7 Support</h3>#}
+{#                <p class="why-choose-description">Round-the-clock customer support and emergency services for all your urgent needs.</p>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+{#</section>#}
+{##}
+{#<!-- Services CTA Section -->#}
+{#<section class="services-cta">#}
+{#    <div class="container">#}
+{#        <div class="services-cta-content">#}
+{#            <h2 class="services-cta-title animate-on-scroll">Ready to Get Started?</h2>#}
+{#            <p class="services-cta-subtitle animate-on-scroll">Contact us today for a free consultation and quote for your project</p>#}
+{#            #}
+{#            <div class="services-cta-buttons animate-on-scroll">#}
+{#                <a href="{% url 'main:contact' %}" class="btn btn-secondary btn-lg">#}
+{#                    <i class="fas fa-phone"></i> Get Free Quote#}
+{#                </a>#}
+{#                <a href="{% url 'main:gallery' %}" class="btn btn-outline btn-lg">#}
+{#                    <i class="fas fa-images"></i> View Our Work#}
+{#                </a>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+{#</section>#}
+{#{% endblock %}#}
+{##}
+{#{% block extra_js %}#}
+{#<script>#}
+{#    // Add smooth scrolling animation on scroll#}
+{#    document.addEventListener('DOMContentLoaded', function() {#}
+{#        const observerOptions = {#}
+{#            threshold: 0.1,#}
+{#            rootMargin: '0px 0px -50px 0px'#}
+{#        };#}
+{##}
+{#        const observer = new IntersectionObserver(function(entries) {#}
+{#            entries.forEach(entry => {#}
+{#                if (entry.isIntersecting) {#}
+{#                    entry.target.style.animationDelay = '0.2s';#}
+{#                    entry.target.classList.add('fade-in');#}
+{#                }#}
+{#            });#}
+{#        }, observerOptions);#}
+{##}
+{#        // Observe all elements with animate-on-scroll class#}
+{#        const animatedElements = document.querySelectorAll('.animate-on-scroll');#}
+{#        animatedElements.forEach(el => observer.observe(el));#}
+{#    });#}
+{#</script>#}
+{#{% endblock %}#}
+
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Our Services - Sunrise Drilling Ltd{% endblock %}
+
+{% block description %}Explore our comprehensive range of services including drilling, dam construction, water surveys, geological surveys, transport, logistics, and general supplies in Kenya.{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/main.css' %}">
+<link rel="stylesheet" href="{% static 'css/services.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- Services Header -->
+<section class="services-header">
+    <div class="container">
+        <h1 class="services-title">Our Services</h1>
+        <p class="services-subtitle">Comprehensive solutions for all your drilling, construction, and supply needs</p>
+    </div>
+</section>
+
+<!-- Services Main -->
+<section class="services-main">
+    <div class="container">
+        <h2 class="section-title animate-on-scroll">The areas we are working on are:</h2>
+        
+        <div class="services-grid">
+            {% for service in services %}
+            <div class="service-card animate-on-scroll">
+                <div class="service-image">
+                    {% if service.image %}
+                        <img src="{{ service.image.url }}" alt="{{ service.title }}" class="service-img">
+                    {% else %}
+                        <img src="{% static 'images/services/placeholder.jpg' %}" alt="{{ service.title }}" class="service-img">
+                    {% endif %}
+                </div>
+                <div class="service-content">
+                    <h3 class="service-title">{{ service.title }}</h3>
+                    <p class="service-description">{{ service.description }}</p>
+                    
+                    <ul class="service-features">
+                        {% for feature in service.get_features_list %}
+                            <li>{{ feature }}</li>
+                        {% endfor %}
+                    </ul>
+                    
+                    <div class="service-cta">
+                        <a href="{% url service.primary_cta_url %}" class="service-btn service-btn-primary">{{ service.primary_cta_text }}</a>
+                        <a href="{% url service.secondary_cta_url %}" class="service-btn service-btn-secondary">{{ service.secondary_cta_text }}</a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p>No services available at the moment.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Process Section -->
+<section class="process-section">
+    <div class="container">
+        <h2 class="section-title animate-on-scroll">Our Process</h2>
+        <p class="section-subtitle animate-on-scroll">How we deliver exceptional results for every project</p>
+        
+        <div class="process-steps">
+            {% for step in process_steps %}
+            <div class="process-step animate-on-scroll">
+                <div class="process-number">{{ forloop.counter }}</div>
+                <h3 class="process-title">{{ step.title }}</h3>
+                <p class="process-description">{{ step.description }}</p>
+            </div>
+            {% empty %}
+            <p>No process steps available at the moment.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Why Choose Us Section -->
+<section class="why-choose">
+    <div class="container">
+        <h2 class="section-title animate-on-scroll">Why Choose Sunrise Drilling?</h2>
+        <p class="section-subtitle animate-on-scroll">What sets us apart in the industry</p>
+        
+        <div class="why-choose-grid">
+            {% for item in why_choose_items %}
+            <div class="why-choose-item animate-on-scroll">
+                <div class="why-choose-icon">
+                    <i class="fas {{ item.icon }}"></i>
+                </div>
+                <h3 class="why-choose-title">{{ item.title }}</h3>
+                <p class="why-choose-description">{{ item.description }}</p>
+            </div>
+            {% empty %}
+            <p>No reasons to choose us available at the moment.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Services CTA Section -->
+<section class="services-cta">
+    <div class="container">
+        <div class="services-cta-content">
+            <h2 class="services-cta-title animate-on-scroll">{{ cta.title }}</h2>
+            <p class="services-cta-subtitle animate-on-scroll">{{ cta.subtitle }}</p>
+            
+            <div class="services-cta-buttons animate-on-scroll">
+                <a href="{% url cta.primary_cta_url %}" class="btn btn-secondary btn-lg">
+                    <i class="fas fa-phone"></i> {{ cta.primary_cta_text }}
+                </a>
+                <a href="{% url cta.secondary_cta_url %}" class="btn btn-outline btn-lg">
+                    <i class="fas fa-images"></i> {{ cta.secondary_cta_text }}
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Add smooth scrolling animation on scroll
+    document.addEventListener('DOMContentLoaded', function() {
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationDelay = '0.2s';
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all elements with animate-on-scroll class
+        const animatedElements = document.querySelectorAll('.animate-on-scroll');
+        animatedElements.forEach(el => observer.observe(el));
+    });
+</script>
+{% endblock %}

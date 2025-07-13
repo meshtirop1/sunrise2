@@ -1,0 +1,774 @@
+{#{% extends 'base.html' %}#}
+{#{% load static %}#}
+{##}
+{#{% block title %}Gallery - Sunrise Drilling Ltd{% endblock %}#}
+{##}
+{#{% block description %}View our portfolio of completed projects including dam construction, borehole drilling, water pans, geological surveys, and other water solutions across Kenya.{% endblock %}#}
+{##}
+{#{% block extra_css %}#}
+{#<link rel="stylesheet" href="{% static 'css/main.css' %}">#}
+{#<link rel="stylesheet" href="{% static 'css/gallery.css' %}">#}
+{#{% endblock %}#}
+{##}
+{#{% block content %}#}
+{#<!-- Gallery Header -->#}
+{#<section class="gallery-header">#}
+{#    <div class="container">#}
+{#        <h1 class="gallery-title">Our Gallery</h1>#}
+{#        <p class="gallery-subtitle">Explore our portfolio of successful projects and see the quality of our work</p>#}
+{#    </div>#}
+{#</section>#}
+{##}
+{#<!-- Gallery Filters -->#}
+{#<section class="gallery-filters">#}
+{#    <div class="container">#}
+{#        <div class="filter-tabs">#}
+{#            <button class="filter-tab active" data-filter="all">All Projects</button>#}
+{#            <button class="filter-tab" data-filter="dams">Dams</button>#}
+{#            <button class="filter-tab" data-filter="boreholes">Boreholes</button>#}
+{#            <button class="filter-tab" data-filter="water-pans">Water Pans</button>#}
+{#            <button class="filter-tab" data-filter="geological-surveys">Geological Surveys</button>#}
+{#            <button class="filter-tab" data-filter="headquarters">Headquarters</button>#}
+{#        </div>#}
+{#    </div>#}
+{#</section>#}
+{##}
+{#<!-- Gallery Main -->#}
+{#<section class="gallery-main">#}
+{#    <div class="container">#}
+{#        <div class="gallery-grid" id="galleryGrid">#}
+{#            <!-- Headquarters Images -->#}
+{#            <div class="gallery-item" data-category="headquarters">#}
+{#                <div class="gallery-image">#}
+{#                    <img src="{% static 'images/gallery/headquarters-office.jpg' %}" alt="Main Office Complex" class="gallery-img">#}
+{#                    <div class="gallery-overlay">#}
+{#                        <div class="gallery-zoom">#}
+{#                            <i class="fas fa-search-plus"></i>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#                <div class="gallery-info">#}
+{#                    <div class="gallery-category">Headquarters</div>#}
+{#                    <h3 class="gallery-title-item">Main Office Complex</h3>#}
+{#                    <p class="gallery-description">Our modern headquarters facility in Eldoret, equipped with state-of-the-art equipment and vehicles.</p>#}
+{#                </div>#}
+{#            </div>#}
+{#            #}
+{#            <div class="gallery-item" data-category="headquarters">#}
+{#                <div class="gallery-image">#}
+{#                    <img src="{% static 'images/gallery/headquarters-yard.jpg' %}" alt="Equipment Yard" class="gallery-img">#}
+{#                    <div class="gallery-overlay">#}
+{#                        <div class="gallery-zoom">#}
+{#                            <i class="fas fa-search-plus"></i>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#                <div class="gallery-info">#}
+{#                    <div class="gallery-category">Headquarters</div>#}
+{#                    <h3 class="gallery-title-item">Equipment Yard</h3>#}
+{#                    <p class="gallery-description">Our well-organized equipment yard showcasing our drilling rigs and construction machinery.</p>#}
+{#                </div>#}
+{#            </div>#}
+{#            #}
+{#            <div class="gallery-item" data-category="headquarters">#}
+{#                <div class="gallery-image">#}
+{#                    <img src="{% static 'images/gallery/headquarters-workshop.jpg' %}" alt="Workshop Facility" class="gallery-img">#}
+{#                    <div class="gallery-overlay">#}
+{#                        <div class="gallery-zoom">#}
+{#                            <div class="gallery-zoom">#}
+{#                                <i class="fas fa-search-plus"></i>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#                <div class="gallery-info">#}
+{#                    <div class="gallery-category">Headquarters</div>#}
+{#                    <h3 class="gallery-title-item">Workshop Facility</h3>#}
+{#                    <p class="gallery-description">Our maintenance workshop where we service and maintain all our drilling equipment.</p>#}
+{#                </div>#}
+{#            </div>#}
+{#            #}
+{#            <!-- Dam Construction Projects -->#}
+{#            <div class="gallery-item" data-category="dams">#}
+{#                <div class="gallery-image">#}
+{#                    <img src="{% static 'images/gallery/community-dam.jpg' %}" alt="Community Water Dam" class="gallery-img">#}
+{#                    <div class="gallery-overlay">#}
+{#                        <div class="gallery-zoom">#}
+{#                            <i class="fas fa-search-plus"></i>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#                <div class="gallery-info">#}
+{#                    <div class="gallery-category">Dam Construction</div>#}
+{#                    <h3 class="gallery-title-item">Community Water Dam</h3>#}
+{#                    <p class="gallery-description">Large-scale dam construction project providing water storage for local communities.</p>#}
+{#                </div>#}
+{#            </div>#}
+{#            #}
+{#            <div class="gallery-item" data-category="dams">#}
+{#                <div class="gallery-image">#}
+{#                    <img src="{% static 'images/gallery/agricultural-dam.jpg' %}" alt="Agricultural Dam" class="gallery-img">#}
+{#                    <div class="gallery-overlay">#}
+{#                        <div class="gallery-zoom">#}
+{#                            <i class="fas fa-search-plus"></i>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#                <div class="gallery-info">#}
+{#                    <div class="gallery-category">Dam Construction</div>#}
+{#                    <h3 class="gallery-title-item">Agricultural Dam</h3>#}
+{#                    <p class="gallery-description">Irrigation dam project supporting agricultural activities in rural areas.</p>#}
+{#                </div>#}
+{#            </div>#}
+{#            #}
+{#            <!-- Borehole Drilling Projects -->#}
+{#            <div class="gallery-item" data-category="boreholes">#}
+{#                <div class="gallery-image">#}
+{#                    <img src="{% static 'images/gallery/school-borehole.jpg' %}" alt="School Water Borehole" class="gallery-img">#}
+{#                    <div class="gallery-overlay">#}
+{#                        <div class="gallery-zoom">#}
+{#                            <i class="fas fa-search-plus"></i>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#                <div class="gallery-info">#}
+{#                    <div class="gallery-category">Borehole Drilling</div>#}
+{#                    <h3 class="gallery-title-item">School Water Borehole</h3>#}
+{#                    <p class="gallery-description">Clean water access project for educational institutions in remote areas.</p>#}
+{#                </div>#}
+{#            </div>#}
+{#            #}
+{#            <div class="gallery-item" data-category="boreholes">#}
+{#                <div class="gallery-image">#}
+{#                    <img src="{% static 'images/gallery/commercial-borehole.jpg' %}" alt="Commercial Borehole" class="gallery-img">#}
+{#                    <div class="gallery-overlay">#}
+{#                        <div class="gallery-zoom">#}
+{#                            <i class="fas fa-search-plus"></i>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#                <div class="gallery-info">#}
+{#                    <div class="gallery-category">Borehole Drilling</div>#}
+{#                    <h3 class="gallery-title-item">Commercial Borehole</h3>#}
+{#                    <p class="gallery-description">High-capacity borehole for commercial and industrial water supply needs.</p>#}
+{#                </div>#}
+{#            </div>#}
+{#            #}
+{#            <div class="gallery-item" data-category="boreholes">#}
+{#                <div class="gallery-image">#}
+{#                    <img src="{% static 'images/gallery/community-borehole.jpg' %}" alt="Community Borehole" class="gallery-img">#}
+{#                    <div class="gallery-overlay">#}
+{#                        <div class="gallery-zoom">#}
+{#                            <i class="fas fa-search-plus"></i>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#                <div class="gallery-info">#}
+{#                    <div class="gallery-category">Borehole Drilling</div>#}
+{#                    <h3 class="gallery-title-item">Community Borehole</h3>#}
+{#                    <p class="gallery-description">Community water project providing clean drinking water to rural villages.</p>#}
+{#                </div>#}
+{#            </div>#}
+{#            #}
+{#            <!-- Water Pan Projects -->#}
+{#            <div class="gallery-item" data-category="water-pans">#}
+{#                <div class="gallery-image">#}
+{#                    <img src="{% static 'images/gallery/livestock-water-pan.jpg' %}" alt="Livestock Water Pan" class="gallery-img">#}
+{#                    <div class="gallery-overlay">#}
+{#                        <div class="gallery-zoom">#}
+{#                            <i class="fas fa-search-plus"></i>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#                <div class="gallery-info">#}
+{#                    <div class="gallery-category">Water Pans</div>#}
+{#                    <h3 class="gallery-title-item">Livestock Water Pan</h3>#}
+{#                    <p class="gallery-description">Rainwater harvesting system for livestock watering in pastoral communities.</p>#}
+{#                </div>#}
+{#            </div>#}
+{#            #}
+{#            <div class="gallery-item" data-category="water-pans">#}
+{#                <div class="gallery-image">#}
+{#                    <img src="{% static 'images/gallery/farm-irrigation-pan.jpg' %}" alt="Farm Irrigation Pan" class="gallery-img">#}
+{#                    <div class="gallery-overlay">#}
+{#                        <div class="gallery-zoom">#}
+{#                            <i class="fas fa-search-plus"></i>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#                <div class="gallery-info">#}
+{#                    <div class="gallery-category">Water Pans</div>#}
+{#                    <h3 class="gallery-title-item">Farm Irrigation Pan</h3>#}
+{#                    <p class="gallery-description">Water storage solution for agricultural irrigation and crop production.</p>#}
+{#                </div>#}
+{#            </div>#}
+{##}
+{#            <!-- Geological Survey Projects -->#}
+{#            <div class="gallery-item" data-category="geological-surveys">#}
+{#                <div class="gallery-image">#}
+{#                    <img src="{% static 'images/gallery/geological-survey-site.jpg' %}" alt="Geological Survey Site" class="gallery-img">#}
+{#                    <div class="gallery-overlay">#}
+{#                        <div class="gallery-zoom">#}
+{#                            <i class="fas fa-search-plus"></i>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#                <div class="gallery-info">#}
+{#                    <div class="gallery-category">Geological Surveys</div>#}
+{#                    <h3 class="gallery-title-item">Subsurface Mapping Project</h3>#}
+{#                    <p class="gallery-description">Detailed geological survey for subsurface mapping to support construction planning.</p>#}
+{#                </div>#}
+{#            </div>#}
+{#            #}
+{#            <div class="gallery-item" data-category="geological-surveys">#}
+{#                <div class="gallery-image">#}
+{#                    <img src="{% static 'images/gallery/geotechnical-assessment.jpg' %}" alt="Geotechnical Assessment" class="gallery-img">#}
+{#                    <div class="gallery-overlay">#}
+{#                        <div class="gallery-zoom">#}
+{#                            <i class="fas fa-search-plus"></i>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#                <div class="gallery-info">#}
+{#                    <div class="gallery-category">Geological Surveys</div>#}
+{#                    <h3 class="gallery-title-item">Geotechnical Assessment</h3>#}
+{#                    <p class="gallery-description">Geotechnical analysis for site suitability in infrastructure development.</p>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+{#</section>#}
+{##}
+{#<!-- Project Categories -->#}
+{#<section class="project-categories">#}
+{#    <div class="container">#}
+{#        <h2 class="section-title animate-on-scroll">Project Categories</h2>#}
+{#        <p class="section-subtitle animate-on-scroll">Explore our diverse range of water solution projects</p>#}
+{#        #}
+{#        <div class="categories-grid">#}
+{#            <div class="category-card animate-on-scroll">#}
+{#                <div class="category-icon">#}
+{#                    <img src="{% static 'images/services/dam.jpg' %}" alt="Dam Construction" class="category-img">#}
+{#                </div>#}
+{#                <h3 class="category-title">Dam Construction</h3>#}
+{#                <p class="category-count">15+ Projects Completed</p>#}
+{#                <a href="#" class="category-link" data-filter="dams">#}
+{#                    View Projects <i class="fas fa-arrow-right"></i>#}
+{#                </a>#}
+{#            </div>#}
+{#            #}
+{#            <div class="category-card animate-on-scroll">#}
+{#                <div class="category-icon">#}
+{#                    <img src="{% static 'images/services/borehole.jpg' %}" alt="Borehole Drilling" class="category-img">#}
+{#                </div>#}
+{#                <h3 class="category-title">Borehole Drilling</h3>#}
+{#                <p class="category-count">50+ Boreholes Drilled</p>#}
+{#                <a href="#" class="category-link" data-filter="boreholes">#}
+{#                    View Projects <i class="fas fa-arrow-right"></i>#}
+{#                </a>#}
+{#            </div>#}
+{#            #}
+{#            <div class="category-card animate-on-scroll">#}
+{#                <div class="category-icon">#}
+{#                    <img src="{% static 'images/services/water-pan.jpg' %}" alt="Water Pans" class="category-img">#}
+{#                </div>#}
+{#                <h3 class="category-title">Water Pans</h3>#}
+{#                <p class="category-count">25+ Water Pans Built</p>#}
+{#                <a href="#" class="category-link" data-filter="water-pans">#}
+{#                    View Projects <i class="fas fa-arrow-right"></i>#}
+{#                </a>#}
+{#            </div>#}
+{#            #}
+{#            <div class="category-card animate-on-scroll">#}
+{#                <div class="category-icon">#}
+{#                    <img src="{% static 'images/services/geological-survey.jpg' %}" alt="Geological Surveys" class="category-img">#}
+{#                </div>#}
+{#                <h3 class="category-title">Geological Surveys</h3>#}
+{#                <p class="category-count">10+ Surveys Completed</p>#}
+{#                <a href="#" class="category-link" data-filter="geological-surveys">#}
+{#                    View Projects <i class="fas fa-arrow-right"></i>#}
+{#                </a>#}
+{#            </div>#}
+{#            #}
+{#            <div class="category-card animate-on-scroll">#}
+{#                <div class="category-icon">#}
+{#                    <img src="{% static 'images/services/headquarters.jpg' %}" alt="Headquarters" class="category-img">#}
+{#                </div>#}
+{#                <h3 class="category-title">Headquarters</h3>#}
+{#                <p class="category-count">Our Facilities</p>#}
+{#                <a href="#" class="category-link" data-filter="headquarters">#}
+{#                    View Facilities <i class="fas fa-arrow-right"></i>#}
+{#                </a>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+{#</section>#}
+{##}
+{#<!-- Gallery Stats -->#}
+{#<section class="gallery-stats">#}
+{#    <div class="container">#}
+{#        <h2 class="section-title animate-on-scroll">Our Achievements</h2>#}
+{#        #}
+{#        <div class="stats-grid">#}
+{#            <div class="stat-item animate-on-scroll">#}
+{#                <span class="stat-number">90+</span>#}
+{#                <span class="stat-label">Projects Completed</span>#}
+{#            </div>#}
+{#            #}
+{#            <div class="stat-item animate-on-scroll">#}
+{#                <span class="stat-number">6+</span>#}
+{#                <span class="stat-label">Years of Experience</span>#}
+{#            </div>#}
+{#            #}
+{#            <div class="stat-item animate-on-scroll">#}
+{#                <span class="stat-number">100%</span>#}
+{#                <span class="stat-label">Client Satisfaction</span>#}
+{#            </div>#}
+{#            #}
+{#            <div class="stat-item animate-on-scroll">#}
+{#                <span class="stat-number">24/7</span>#}
+{#                <span class="stat-label">Support Available</span>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+{#</section>#}
+{##}
+{#<!-- Gallery Modal -->#}
+{#<div class="gallery-modal" id="galleryModal">#}
+{#    <div class="modal-content">#}
+{#        <span class="modal-close" id="modalClose">×</span>#}
+{#        <span class="modal-nav modal-prev" id="modalPrev">❮</span>#}
+{#        <span class="modal-nav modal-next" id="modalNext">❯</span>#}
+{#        <img class="modal-image" id="modalImage" src="" alt="">#}
+{#    </div>#}
+{#</div>#}
+{#{% endblock %}#}
+{##}
+{#{% block extra_js %}#}
+{#<script>#}
+{#    document.addEventListener('DOMContentLoaded', function() {#}
+{#        // Filter functionality#}
+{#        const filterTabs = document.querySelectorAll('.filter-tab');#}
+{#        const galleryItems = document.querySelectorAll('.gallery-item');#}
+{#        const categoryLinks = document.querySelectorAll('.category-link');#}
+{#        #}
+{#        // Filter tab click handler#}
+{#        filterTabs.forEach(tab => {#}
+{#            tab.addEventListener('click', function() {#}
+{#                const filter = this.getAttribute('data-filter');#}
+{#                #}
+{#                // Update active tab#}
+{#                filterTabs.forEach(t => t.classList.remove('active'));#}
+{#                this.classList.add('active');#}
+{#                #}
+{#                // Filter gallery items#}
+{#                filterGallery(filter);#}
+{#            });#}
+{#        });#}
+{#        #}
+{#        // Category link click handler#}
+{#        categoryLinks.forEach(link => {#}
+{#            link.addEventListener('click', function(e) {#}
+{#                e.preventDefault();#}
+{#                const filter = this.getAttribute('data-filter');#}
+{#                #}
+{#                // Update active tab#}
+{#                filterTabs.forEach(t => t.classList.remove('active'));#}
+{#                const targetTab = document.querySelector(`[data-filter="${filter}"]`);#}
+{#                if (targetTab) {#}
+{#                    targetTab.classList.add('active');#}
+{#                }#}
+{#                #}
+{#                // Filter gallery items#}
+{#                filterGallery(filter);#}
+{#                #}
+{#                // Scroll to gallery#}
+{#                document.querySelector('.gallery-main').scrollIntoView({#}
+{#                    behavior: 'smooth'#}
+{#                });#}
+{#            });#}
+{#        });#}
+{#        #}
+{#        function filterGallery(filter) {#}
+{#            galleryItems.forEach(item => {#}
+{#                if (filter === 'all' || item.getAttribute('data-category') === filter) {#}
+{#                    item.style.display = 'block';#}
+{#                    setTimeout(() => {#}
+{#                        item.style.opacity = '1';#}
+{#                        item.style.transform = 'translateY(0)';#}
+{#                    }, 100);#}
+{#                } else {#}
+{#                    item.style.opacity = '0';#}
+{#                    item.style.transform = 'translateY(20px)';#}
+{#                    setTimeout(() => {#}
+{#                        item.style.display = 'none';#}
+{#                    }, 300);#}
+{#                }#}
+{#            });#}
+{#        }#}
+{#        #}
+{#        // Modal functionality#}
+{#        const modal = document.getElementById('galleryModal');#}
+{#        const modalImage = document.getElementById('modalImage');#}
+{#        const modalClose = document.getElementById('modalClose');#}
+{#        const modalPrev = document.getElementById('modalPrev');#}
+{#        const modalNext = document.getElementById('modalNext');#}
+{#        #}
+{#        let currentImageIndex = 0;#}
+{#        let visibleImages = [];#}
+{#        #}
+{#        // Open modal when gallery item is clicked#}
+{#        galleryItems.forEach((item, index) => {#}
+{#            item.addEventListener('click', function() {#}
+{#                // Get all visible images#}
+{#                visibleImages = Array.from(galleryItems).filter(item => #}
+{#                    item.style.display !== 'none'#}
+{#                );#}
+{#                currentImageIndex = visibleImages.indexOf(this);#}
+{#                #}
+{#                // Set modal image#}
+{#                const imgElement = this.querySelector('.gallery-img');#}
+{#                modalImage.src = imgElement.src;#}
+{#                modalImage.alt = imgElement.alt;#}
+{#                #}
+{#                modal.classList.add('active');#}
+{#                document.body.style.overflow = 'hidden';#}
+{#            });#}
+{#        });#}
+{#        #}
+{#        // Close modal#}
+{#        modalClose.addEventListener('click', closeModal);#}
+{#        modal.addEventListener('click', function(e) {#}
+{#            if (e.target === modal) {#}
+{#                closeModal();#}
+{#            }#}
+{#        });#}
+{#        #}
+{#        function closeModal() {#}
+{#            modal.classList.remove('active');#}
+{#            document.body.style.overflow = 'auto';#}
+{#        }#}
+{#        #}
+{#        // Navigation#}
+{#        modalPrev.addEventListener('click', function() {#}
+{#            currentImageIndex = (currentImageIndex - 1 + visibleImages.length) % visibleImages.length;#}
+{#            updateModalImage();#}
+{#        });#}
+{#        #}
+{#        modalNext.addEventListener('click', function() {#}
+{#            currentImageIndex = (currentImageIndex + 1) % visibleImages.length;#}
+{#            updateModalImage();#}
+{#        });#}
+{#        #}
+{#        function updateModalImage() {#}
+{#            const currentItem = visibleImages[currentImageIndex];#}
+{#            const imgElement = currentItem.querySelector('.gallery-img');#}
+{#            modalImage.src = imgElement.src;#}
+{#            modalImage.alt = imgElement.alt;#}
+{#        }#}
+{#        #}
+{#        // Keyboard navigation#}
+{#        document.addEventListener('keydown', function(e) {#}
+{#            if (modal.classList.contains('active')) {#}
+{#                if (e.key === 'Escape') {#}
+{#                    closeModal();#}
+{#                } else if (e.key === 'ArrowLeft') {#}
+{#                    modalPrev.click();#}
+{#                } else if (e.key === 'ArrowRight') {#}
+{#                    modalNext.click();#}
+{#                }#}
+{#            }#}
+{#        });#}
+{#        #}
+{#        // Animation on scroll#}
+{#        const observerOptions = {#}
+{#            threshold: 0.1,#}
+{#            rootMargin: '0px 0px -50px 0px'#}
+{#        };#}
+{##}
+{#        const observer = new IntersectionObserver(function(entries) {#}
+{#            entries.forEach(entry => {#}
+{#                if (entry.isIntersecting) {#}
+{#                    entry.target.style.animationDelay = '0.2s';#}
+{#                    entry.target.classList.add('fade-in');#}
+{#                }#}
+{#            });#}
+{#        }, observerOptions);#}
+{##}
+{#        // Observe all elements with animate-on-scroll class#}
+{#        const animatedElements = document.querySelectorAll('.animate-on-scroll');#}
+{#        animatedElements.forEach(el => observer.observe(el));#}
+{#    });#}
+{#</script>#}
+{#{% endblock %}#}
+
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Gallery - Sunrise Drilling Ltd{% endblock %}
+
+{% block description %}View our portfolio of completed projects including dam construction, borehole drilling, water pans, geological surveys, and other water solutions across Kenya.{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/main.css' %}">
+<link rel="stylesheet" href="{% static 'css/gallery.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- Gallery Header -->
+<section class="gallery-header">
+    <div class="container">
+        <h1 class="gallery-title">Our Gallery</h1>
+        <p class="gallery-subtitle">Explore our portfolio of successful projects and see the quality of our work</p>
+    </div>
+</section>
+
+<!-- Gallery Filters -->
+<section class="gallery-filters">
+    <div class="container">
+        <div class="filter-tabs">
+            <button class="filter-tab active" data-filter="all">All Projects</button>
+            {% for category in categories %}
+            <button class="filter-tab" data-filter="{{ category.slug }}">{{ category.name }}</button>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Gallery Main -->
+<section class="gallery-main">
+    <div class="container">
+        <div class="gallery-grid" id="galleryGrid">
+            {% for item in gallery_items %}
+            <div class="gallery-item" data-category="{{ item.category.slug }}">
+                <div class="gallery-image">
+                    <img src="{{ item.image.url }}" alt="{{ item.title }}" class="gallery-img">
+                    <div class="gallery-overlay">
+                        <div class="gallery-zoom">
+                            <i class="fas fa-search-plus"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="gallery-info">
+                    <div class="gallery-category">{{ item.category.name }}</div>
+                    <h3 class="gallery-title-item">{{ item.title }}</h3>
+                    <p class="gallery-description">{{ item.description }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Project Categories -->
+<section class="project-categories">
+    <div class="container">
+        <h2 class="section-title animate-on-scroll">Project Categories</h2>
+        <p class="section-subtitle animate-on-scroll">Explore our diverse range of water solution projects</p>
+        
+        <div class="categories-grid">
+            {% for category in categories %}
+            <div class="category-card animate-on-scroll">
+                <div class="category-icon">
+                    {% if category.image %}
+                        <img src="{{ category.image.url }}" alt="{{ category.name }}" class="category-img">
+                    {% else %}
+                        <img src="{% static 'images/services/default.jpg' %}" alt="{{ category.name }}" class="category-img">
+                    {% endif %}
+                </div>
+                <h3 class="category-title">{{ category.name }}</h3>
+                <p class="category-count">{{ category.project_count }}</p>
+                <a href="#" class="category-link" data-filter="{{ category.slug }}">
+                    View Projects <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Gallery Stats -->
+<section class="gallery-stats">
+    <div class="container">
+        <h2 class="section-title animate-on-scroll">Our Achievements</h2>
+        
+        <div class="stats-grid">
+            {% for stat in stats %}
+            <div class="stat-item animate-on-scroll">
+                <span class="stat-number">{{ stat.number }}</span>
+                <span class="stat-label">{{ stat.label }}</span>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Gallery Modal -->
+<div class="gallery-modal" id="galleryModal">
+    <div class="modal-content">
+        <span class="modal-close" id="modalClose">×</span>
+        <span class="modal-nav modal-prev" id="modalPrev">❮</span>
+        <span class="modal-nav modal-next" id="modalNext">❯</span>
+        <img class="modal-image" id="modalImage" src="" alt="">
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Filter functionality
+        const filterTabs = document.querySelectorAll('.filter-tab');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        const categoryLinks = document.querySelectorAll('.category-link');
+        
+        // Filter tab click handler
+        filterTabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                const filter = this.getAttribute('data-filter');
+                
+                // Update active tab
+                filterTabs.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Filter gallery items
+                filterGallery(filter);
+            });
+        });
+        
+        // Category link click handler
+        categoryLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const filter = this.getAttribute('data-filter');
+                
+                // Update active tab
+                filterTabs.forEach(t => t.classList.remove('active'));
+                const targetTab = document.querySelector(`[data-filter="${filter}"]`);
+                if (targetTab) {
+                    targetTab.classList.add('active');
+                }
+                
+                // Filter gallery items
+                filterGallery(filter);
+                
+                // Scroll to gallery
+                document.querySelector('.gallery-main').scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        function filterGallery(filter) {
+            galleryItems.forEach(item => {
+                if (filter === 'all' || item.getAttribute('data-category') === filter) {
+                    item.style.display = 'block';
+                    setTimeout(() => {
+                        item.style.opacity = '1';
+                        item.style.transform = 'translateY(0)';
+                    }, 100);
+                } else {
+                    item.style.opacity = '0';
+                    item.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        item.style.display = 'none';
+                    }, 300);
+                }
+            });
+        }
+        
+        // Modal functionality
+        const modal = document.getElementById('galleryModal');
+        const modalImage = document.getElementById('modalImage');
+        const modalClose = document.getElementById('modalClose');
+        const modalPrev = document.getElementById('modalPrev');
+        const modalNext = document.getElementById('modalNext');
+        
+        let currentImageIndex = 0;
+        let visibleImages = [];
+        
+        // Open modal when gallery item is clicked
+        galleryItems.forEach((item, index) => {
+            item.addEventListener('click', function() {
+                // Get all visible images
+                visibleImages = Array.from(galleryItems).filter(item => 
+                    item.style.display !== 'none'
+                );
+                currentImageIndex = visibleImages.indexOf(this);
+                
+                // Set modal image
+                const imgElement = this.querySelector('.gallery-img');
+                modalImage.src = imgElement.src;
+                modalImage.alt = imgElement.alt;
+                
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+        
+        // Close modal
+        modalClose.addEventListener('click', closeModal);
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+        
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Navigation
+        modalPrev.addEventListener('click', function() {
+            currentImageIndex = (currentImageIndex - 1 + visibleImages.length) % visibleImages.length;
+            updateModalImage();
+        });
+        
+        modalNext.addEventListener('click', function() {
+            currentImageIndex = (currentImageIndex + 1) % visibleImages.length;
+            updateModalImage();
+        });
+        
+        function updateModalImage() {
+            const currentItem = visibleImages[currentImageIndex];
+            const imgElement = currentItem.querySelector('.gallery-img');
+            modalImage.src = imgElement.src;
+            modalImage.alt = imgElement.alt;
+        }
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (modal.classList.contains('active')) {
+                if (e.key === 'Escape') {
+                    closeModal();
+                } else if (e.key === 'ArrowLeft') {
+                    modalPrev.click();
+                } else if (e.key === 'ArrowRight') {
+                    modalNext.click();
+                }
+            }
+        });
+        
+        // Animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationDelay = '0.2s';
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all elements with animate-on-scroll class
+        const animatedElements = document.querySelectorAll('.animate-on-scroll');
+        animatedElements.forEach(el => observer.observe(el));
+    });
+</script>
+{% endblock %}

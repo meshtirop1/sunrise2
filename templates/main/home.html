@@ -1,0 +1,239 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Sunrise Drilling Ltd - Expert Drilling Services in Kenya{% endblock %}
+
+{% block description %}Sunrise Drilling Ltd provides expert drilling services, dam construction, water surveys, and general supplies in Kenya since 2019. Contact us for reliable water solutions.{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/main.css' %}">
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <!-- Floating Elements -->
+    <div class="hero-floating drill-1">
+        <i class="fas fa-drill"></i>
+    </div>
+    <div class="hero-floating drill-2">
+        <i class="fas fa-hammer"></i>
+    </div>
+    <div class="hero-floating water-1">
+        <i class="fas fa-tint"></i>
+    </div>
+    
+    <div class="container">
+        <div class="hero-content">
+            <h1 class="hero-title">Sunrise Drilling</h1>
+            <p class="hero-subtitle">Expert Drilling Services</p>
+            <p class="hero-location">In Kenya</p>
+            <div class="hero-cta">
+                <a href="{% url 'main:contact' %}" class="hero-btn">
+                    <i class="fas fa-phone"></i> CONTACT US
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Quick Links Section -->
+<section class="quick-links">
+    <div class="container">
+        <div class="quick-links-container">
+            <a href="{% url 'main:about' %}" class="quick-link-item animate-on-scroll">
+                <div class="quick-link-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3 class="quick-link-title">Who we are</h3>
+                <p class="quick-link-desc">Learn about our company</p>
+            </a>
+            
+            <a href="{% url 'main:services' %}" class="quick-link-item animate-on-scroll">
+                <div class="quick-link-icon">
+                    <i class="fas fa-cogs"></i>
+                </div>
+                <h3 class="quick-link-title">Services</h3>
+                <p class="quick-link-desc">Explore our offerings</p>
+            </a>
+            
+            <a href="{% url 'main:gallery' %}" class="quick-link-item animate-on-scroll">
+                <div class="quick-link-icon">
+                    <i class="fas fa-images"></i>
+                </div>
+                <h3 class="quick-link-title">Gallery</h3>
+                <p class="quick-link-desc">View our projects</p>
+            </a>
+            
+            <a href="{% url 'main:contact' %}" class="quick-link-item animate-on-scroll">
+                <div class="quick-link-icon">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <h3 class="quick-link-title">Reach us</h3>
+                <p class="quick-link-desc">Get in touch today</p>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Services Preview Section -->
+<section class="services-preview">
+    <div class="container">
+        <h2 class="section-title animate-on-scroll">Our Services</h2>
+        <p class="section-subtitle animate-on-scroll">The areas we are working on are:</p>
+        
+        <div class="services-grid">
+            <div class="service-card animate-on-scroll">
+                <div class="service-image">
+                    <i class="fas fa-water"></i>
+                </div>
+                <div class="service-content">
+                    <h3 class="service-title">Construction of Dams</h3>
+                    <p class="service-description">We specialize in constructing durable dams to store and manage water resources, ensuring long-term sustainability for communities and industries.</p>
+                    <a href="{% url 'main:services' %}" class="service-link">
+                        Learn More <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="service-card animate-on-scroll">
+                <div class="service-image">
+                    <i class="fas fa-drill"></i>
+                </div>
+                <div class="service-content">
+                    <h3 class="service-title">Drilling of Boreholes</h3>
+                    <p class="service-description">Our borehole drilling services provide reliable access to clean groundwater, helping households, businesses, and agricultural projects meet their water needs.</p>
+                    <a href="{% url 'main:services' %}" class="service-link">
+                        Learn More <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="service-card animate-on-scroll">
+                <div class="service-image">
+                    <i class="fas fa-tint"></i>
+                </div>
+                <div class="service-content">
+                    <h3 class="service-title">Construction of Water Pans</h3>
+                    <p class="service-description">We build high-quality water pans to collect and store rainwater, supporting irrigation, livestock, and domestic water supply.</p>
+                    <a href="{% url 'main:services' %}" class="service-link">
+                        Learn More <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="service-card animate-on-scroll">
+                <div class="service-image">
+                    <i class="fas fa-truck"></i>
+                </div>
+                <div class="service-content">
+                    <h3 class="service-title">Transport and Logistics</h3>
+                    <p class="service-description">Our transport and logistics services ensure the efficient movement of goods and materials, providing seamless supply chain solutions.</p>
+                    <a href="{% url 'main:services' %}" class="service-link">
+                        Learn More <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="service-card animate-on-scroll">
+                <div class="service-image">
+                    <i class="fas fa-boxes"></i>
+                </div>
+                <div class="service-content">
+                    <h3 class="service-title">General Supplies</h3>
+                    <p class="service-description">We supply high-quality construction materials, equipment, and essential goods, ensuring businesses and projects have what they need to succeed.</p>
+                    <a href="{% url 'main:services' %}" class="service-link">
+                        Learn More <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="service-card animate-on-scroll">
+                <div class="service-image">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="service-content">
+                    <h3 class="service-title">Water Surveys & Consultancy</h3>
+                    <p class="service-description">Our consultancy services offer expert water surveys and assessments, helping clients make informed decisions about water resource management.</p>
+                    <a href="{% url 'main:services' %}" class="service-link">
+                        Learn More <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact CTA Section -->
+<section class="contact-cta">
+    <div class="container">
+        <div class="contact-cta-content">
+            <h2 class="contact-cta-title animate-on-scroll">Ready to Start Your Project?</h2>
+            <p class="contact-cta-subtitle animate-on-scroll">Get in touch with us today for expert drilling services and water solutions</p>
+            
+            <div class="contact-info">
+                <div class="contact-item animate-on-scroll">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="contact-text">sunrisedrillingltd@gmail.com</div>
+                </div>
+                
+                <div class="contact-item animate-on-scroll">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <div class="contact-text">Make a call</div>
+                </div>
+                
+                <div class="contact-item animate-on-scroll">
+                    <div class="contact-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="contact-text">G737+69Q, Rivatex road, Ndovu lane, Pioneer, Eldoret, Kenya</div>
+                </div>
+                
+                <div class="contact-item animate-on-scroll">
+                    <div class="contact-icon">
+                        <i class="fas fa-mail-bulk"></i>
+                    </div>
+                    <div class="contact-text">P.O. BOX 9630-30100, ELDORET</div>
+                </div>
+            </div>
+            
+            <div class="animate-on-scroll">
+                <a href="{% url 'main:contact' %}" class="btn btn-secondary btn-lg">
+                    <i class="fas fa-paper-plane"></i> Contact Us Today
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Add smooth scrolling animation on scroll
+    document.addEventListener('DOMContentLoaded', function() {
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationDelay = '0.2s';
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all elements with animate-on-scroll class
+        const animatedElements = document.querySelectorAll('.animate-on-scroll');
+        animatedElements.forEach(el => observer.observe(el));
+    });
+</script>
+{% endblock %}
+
