@@ -2,7 +2,7 @@
 
 /* Services Header */
 .services-header {
-    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-orange) 100%);
+    background: var(--brand-navy);
     padding: 6rem 0 4rem;
     text-align: center;
     color: var(--white);
@@ -17,7 +17,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'%3E%3Cpath d='m0 40l40-40h-40z'/%3E%3Cpath d='m0 40l40-40h-40z' transform='matrix(-1 0 0 1 40 0)'/%3E%3C/g%3E%3C/svg%3E");
+    background: none;
     animation: slide 15s linear infinite;
 }
 
@@ -81,12 +81,12 @@
     left: 0;
     right: 0;
     height: 6px;
-    background: linear-gradient(90deg, var(--primary-blue) 0%, var(--primary-orange) 100%);
+    background: var(--primary-orange);
 }
 
 .service-image {
     height: 250px;
-    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-orange) 100%);
+    background: var(--primary-blue);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -103,7 +103,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='m36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30v-2h-4v2h4zm0 60v-2h-4v2h4z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    background: none;
     opacity: 0.3;
 }
 
@@ -218,7 +218,7 @@
 .process-number {
     width: 80px;
     height: 80px;
-    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-orange) 100%);
+    background: var(--primary-blue);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -251,7 +251,7 @@
     left: 10%;
     right: 10%;
     height: 2px;
-    background: linear-gradient(90deg, var(--primary-blue) 0%, var(--primary-orange) 100%);
+    background: var(--primary-orange);
     z-index: 1;
 }
 
@@ -285,7 +285,7 @@
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(90deg, var(--primary-blue) 0%, var(--primary-orange) 100%);
+    background: var(--primary-orange);
 }
 
 .why-choose-item:hover {
@@ -296,7 +296,7 @@
 .why-choose-icon {
     width: 70px;
     height: 70px;
-    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-orange) 100%);
+    background: var(--primary-blue);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -320,7 +320,7 @@
 
 /* CTA Section */
 .services-cta {
-    background: linear-gradient(135deg, var(--brand-navy) 0%, var(--brand-blue-deep) 100%);
+    background: var(--brand-navy);
     padding: 4rem 0;
     text-align: center;
     color: var(--white);
@@ -335,7 +335,7 @@
     left: -50%;
     width: 200%;
     height: 200%;
-    background: radial-gradient(circle, rgba(45, 173, 247, 0.1) 0%, transparent 70%);
+    background: none;
     animation: rotate 25s linear infinite;
 }
 
@@ -444,7 +444,7 @@
 
 /* Fallback gradient for when no image is present */
 .service-image:not(:has(.service-img)) {
-    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-orange) 100%);
+    background: var(--primary-blue);
     display: flex;
     align-items: center;
     justify-content: center;

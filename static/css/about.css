@@ -2,7 +2,7 @@
 
 /* Page Header */
 .page-header {
-    background: linear-gradient(135deg, var(--brand-navy) 0%, var(--brand-blue-deep) 100%);
+    background: var(--brand-navy);
     padding: 6rem 0 4rem;
     text-align: center;
     color: var(--white);
@@ -17,7 +17,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    background: none;
     animation: float 20s ease-in-out infinite;
 }
 
@@ -73,7 +73,7 @@
     top: 0;
     bottom: 0;
     width: 4px;
-    background: linear-gradient(180deg, var(--primary-blue) 0%, var(--primary-orange) 100%);
+    background: var(--primary-blue);
     transform: translateX(-50%);
 }
 
@@ -134,7 +134,7 @@
     transform: translateX(-50%);
     width: 60px;
     height: 60px;
-    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-orange) 100%);
+    background: var(--primary-blue);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -194,7 +194,7 @@
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(90deg, var(--primary-blue) 0%, var(--primary-orange) 100%);
+    background: var(--primary-orange);
 }
 
 .value-card:hover {
@@ -205,7 +205,7 @@
 .value-icon {
     width: 80px;
     height: 80px;
-    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-orange) 100%);
+    background: var(--primary-blue);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -229,7 +229,7 @@
 
 /* Mission & Vision Section */
 .mission-vision {
-    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-orange) 100%);
+    background: var(--primary-blue);
     padding: 5rem 0;
     color: var(--white);
     position: relative;
@@ -243,7 +243,7 @@
     right: -50%;
     width: 200%;
     height: 200%;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+    background: none;
     animation: rotate 30s linear infinite;
 }
 
@@ -315,7 +315,7 @@
 
 .team-photo {
     height: 250px;
-    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-orange) 100%);
+    background: var(--primary-blue);
     display: flex;
     align-items: center;
     justify-content: center;
