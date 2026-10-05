@@ -1,10 +1,58 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load static %}
 
-</body>
-</html>
+{% block title %}Our Team - Sunrise Drilling Ltd{% endblock %}
+{% block description %}Meet the leadership team of Sunrise Drilling Limited – Kenya's trusted borehole drilling and water solutions company.{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/team.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header team-header">
+    <div class="container">
+        <h1 class="page-title">Our Team</h1>
+        <p class="page-subtitle">The people behind Kenya's trusted water solutions</p>
+    </div>
+</section>
+
+<!-- Team Grid -->
+<section class="team-section">
+    <div class="container">
+        <div class="team-grid">
+            {% for member in team_members %}
+            <div class="team-card animate-on-scroll">
+                {% if member.photo %}
+                <img class="team-photo" src="{{ member.photo.url }}" alt="{{ member.name }}">
+                {% else %}
+                <div class="team-avatar">{{ member.initials }}</div>
+                {% endif %}
+                <h3 class="team-name">{{ member.name }}</h3>
+                <p class="team-role">{{ member.role }}</p>
+                {% if member.bio %}<p class="team-bio">{{ member.bio }}</p>{% endif %}
+                <div class="team-contacts">
+                    {% if member.phone %}
+                    <a href="tel:{{ member.phone|cut:" " }}"><i class="fas fa-phone"></i> {{ member.phone }}</a>
+                    {% endif %}
+                    {% if member.email %}
+                    <a href="mailto:{{ member.email }}"><i class="fas fa-envelope"></i> {{ member.email }}</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% empty %}
+            <p class="team-empty">Team information coming soon.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="team-cta">
+    <div class="container">
+        <h2>Want to work with us?</h2>
+        <p>Talk to our team about your water project today.</p>
+        <a href="{% url 'main:contact' %}" class="btn btn-primary">Contact Us</a>
+    </div>
+</section>
+{% endblock %}

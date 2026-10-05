@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import (ProcessStep, WhyChooseItem, ServicesCTA, Service, GalleryItem, GalleryCategory, GalleryStat,
+from .models import (ProcessStep, WhyChooseItem, ServicesCTA, Service, GalleryItem, GalleryCategory, GalleryStat, TeamMember,
                      ContactPageContent, ContactSubmission)
 # Register your models here.
 #Admin configuration
@@ -56,3 +56,36 @@ class ContactSubmissionAdmin(admin.ModelAdmin):
     list_filter = ('is_processed', 'inquiry_type')
     search_fields = ('name', 'email', 'message')
     list_editable = ('is_processed',)
+
+
+# "Convert enquiry to client" action: creates a business.Client from a
+# contact submission so staff can immediately write them a proposal.
+def create_client_from_enquiry(modeladmin, request, queryset):
+    from business.models import Client
+    created, existing = 0, 0
+    for sub in queryset:
+        _, was_created = Client.objects.get_or_create(
+            email=sub.email,
+            defaults={'name': sub.name, 'phone': sub.phone,
+                      'notes': f"Created from website enquiry of {sub.submitted_at:%d %b %Y}:\n{sub.message}"},
+        )
+        created += was_created
+        existing += (not was_created)
+        if not sub.is_processed:
+            sub.is_processed = True
+            sub.save(update_fields=['is_processed'])
+    msg = f"{created} client(s) created."
+    if existing:
+        msg += f" {existing} already existed (matched by email)."
+    modeladmin.message_user(request, msg + " Enquiries marked as processed.")
+
+
+create_client_from_enquiry.short_description = "Create client from enquiry (and mark processed)"
+ContactSubmissionAdmin.actions = [create_client_from_enquiry]
+
+
+@admin.register(TeamMember)
+class TeamMemberAdmin(admin.ModelAdmin):
+    list_display = ('name', 'role', 'phone', 'email', 'order')
+    list_editable = ('order',)
+    search_fields = ('name', 'role')

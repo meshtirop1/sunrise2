@@ -1,0 +1,58 @@
+{% extends 'business/pdf_base.html' %}
+{% load humanize %}
+
+{% block content %}
+<h1>OFFICIAL RECEIPT</h1>
+
+<table class="ref-table">
+    <tr>
+        <td class="label">Receipt No:</td><td><b>{{ payment.receipt_number }}</b></td>
+        <td class="label">Date:</td><td><b>{{ payment.received_on|date:"d M Y" }}</b></td>
+    </tr>
+    <tr>
+        <td class="label">Received from:</td>
+        <td colspan="3"><b>{{ invoice.client.name }}{% if invoice.client.company %}, {{ invoice.client.company }}{% endif %}</b></td>
+    </tr>
+</table>
+
+<h2>Payment Details</h2>
+<table class="items">
+    <tr>
+        <th width="40%">Against Invoice</th>
+        <th width="20%">Method</th>
+        <th width="20%">Transaction Ref</th>
+        <th width="20%" class="num">Amount (KES)</th>
+    </tr>
+    <tr>
+        <td>{{ invoice.reference }} – {{ invoice.title }}</td>
+        <td>{{ payment.get_method_display }}</td>
+        <td>{{ payment.transaction_ref|default:"–" }}</td>
+        <td class="num">{{ payment.amount|floatformat:2|intcomma }}</td>
+    </tr>
+    <tr class="total-row">
+        <td colspan="3">AMOUNT RECEIVED</td>
+        <td class="num">KES {{ payment.amount|floatformat:2|intcomma }}</td>
+    </tr>
+    <tr class="muted-row">
+        <td colspan="3">Invoice total</td>
+        <td class="num">KES {{ invoice.total|floatformat:2|intcomma }}</td>
+    </tr>
+    <tr class="muted-row">
+        <td colspan="3">Total paid to date</td>
+        <td class="num">KES {{ invoice.amount_paid|floatformat:2|intcomma }}</td>
+    </tr>
+    <tr class="balance-row">
+        <td colspan="3">OUTSTANDING BALANCE</td>
+        <td class="num">KES {{ invoice.balance|floatformat:2|intcomma }}</td>
+    </tr>
+</table>
+
+{% if invoice.balance <= 0 %}
+<div class="paid-banner">Invoice {{ invoice.reference }} is now PAID IN FULL. Thank you!</div>
+{% endif %}
+
+<p style="margin-top: 20pt;">
+    With thanks,<br>
+    <b>{{ company.name }}</b>
+</p>
+{% endblock %}

@@ -145,3 +145,25 @@ class ContactSubmission(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.email} ({self.submitted_at})"
+
+# Model for team members shown on the Team page (seeded from the company profile)
+class TeamMember(models.Model):
+    name = models.CharField(max_length=200)
+    role = models.CharField(max_length=200)
+    phone = models.CharField(max_length=30, blank=True)
+    email = models.EmailField(blank=True)
+    photo = models.ImageField(upload_to='team/', blank=True, null=True)
+    bio = models.TextField(blank=True)
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        verbose_name = "Team Member"
+        verbose_name_plural = "Team Members"
+        ordering = ['order']
+
+    def __str__(self):
+        return f"{self.name} – {self.role}"
+
+    def initials(self):
+        parts = [p for p in self.name.split() if p and p[0].isalpha()]
+        return ''.join(p[0].upper() for p in parts[:2])

@@ -5,7 +5,7 @@ from django.http import HttpResponse
 
 from .forms import ContactForm
 from .models import Service, ProcessStep, WhyChooseItem, ServicesCTA, GalleryCategory, GalleryItem, GalleryStat, \
-    ContactPageContent, ContactSubmission
+    ContactPageContent, ContactSubmission, TeamMember
 
 
 def home(request):
@@ -18,8 +18,8 @@ def about(request):
 
 
 def team(request):
-    """About page view"""
-    return render(request, 'main/team.html')
+    """Team page view"""
+    return render(request, 'main/team.html', {'team_members': TeamMember.objects.all()})
 def services(request):
     """Services page view"""
     services = Service.objects.all()
@@ -49,53 +49,56 @@ def gallery(request):
 
 
 def contact(request):
-    """Contact page view"""
+    """Contact page view: saves the enquiry, notifies the company inbox and
+    sends the visitor a branded auto-reply."""
     content = ContactPageContent.objects.first() or ContactPageContent.objects.create()
     form = ContactForm()
 
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
-            # Save submission to database
-            submission = ContactSubmission.objects.create(
-                name=form.cleaned_data['name'],
-                email=form.cleaned_data['email'],
-                phone=form.cleaned_data['phone'],
-                inquiry_type=form.cleaned_data['inquiry_type'],
-                message=form.cleaned_data['message']
+            data = form.cleaned_data
+            ContactSubmission.objects.create(
+                name=data['name'], email=data['email'], phone=data['phone'],
+                inquiry_type=data['inquiry_type'], message=data['message'],
             )
 
-            # Send email to admin
-            subject = f"New Contact Form Submission from {form.cleaned_data['name']}"
-            email_message = f"""
-            New contact form submission:
-            Name: {form.cleaned_data['name']}
-            Email: {form.cleaned_data['email']}
-            Phone: {form.cleaned_data['phone']}
-            Inquiry Type: {form.cleaned_data['inquiry_type']}
-            Message: {form.cleaned_data['message']}
-            """
+            company = settings.COMPANY_INFO
+            # Notify the company inbox. Email failures are logged but never
+            # shown to the visitor - the enquiry is already saved above.
             try:
                 send_mail(
-                    subject,
-                    email_message,
+                    f"New website enquiry from {data['name']} ({data['inquiry_type'] or 'General'})",
+                    (f"Name: {data['name']}\nEmail: {data['email']}\nPhone: {data['phone']}\n"
+                     f"Inquiry Type: {data['inquiry_type']}\n\nMessage:\n{data['message']}\n\n"
+                     f"Reply directly to this email to answer the client."),
                     settings.DEFAULT_FROM_EMAIL,
                     [settings.DEFAULT_FROM_EMAIL],
-                    fail_silently=False,
+                    fail_silently=True,
                 )
-            except Exception as e:
-                return render(request, 'main/contact.html', {
-                    'content': content,
-                    'form': form,
-                    'success': False,
-                    'message': f"Error sending email: {str(e)}"
-                })
+                # Auto-reply to the visitor.
+                send_mail(
+                    f"We received your enquiry – {company['name']}",
+                    (f"Dear {data['name']},\n\n"
+                     f"Thank you for contacting {company['name']}. We have received your "
+                     f"enquiry and one of our team "
+                     f"will get back to you within one business day.\n\n"
+                     f"In the meantime, you can reach us directly on "
+                     f"{' or '.join(company['phones'])}.\n\n"
+                     f"Kind regards,\n{company['name']}\n{company['address']}\n{company['website']}"),
+                    settings.DEFAULT_FROM_EMAIL,
+                    [data['email']],
+                    fail_silently=True,
+                )
+            except Exception:
+                pass
 
             return render(request, 'main/contact.html', {
                 'content': content,
-                'form': form,
+                'form': ContactForm(),
                 'success': True,
-                'message': 'Thank you for your inquiry. We will get back to you soon!'
+                'message': 'Thank you for your enquiry. A confirmation email has been sent to you '
+                           'and our team will get back to you shortly!',
             })
 
     return render(request, 'main/contact.html', {'content': content, 'form': form})

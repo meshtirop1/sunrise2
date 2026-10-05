@@ -6,17 +6,47 @@ A modern, responsive Django website for Sunrise Drilling Ltd, featuring the comp
 
 - **Modern Design**: Clean, professional design with custom color scheme
 - **Responsive Layout**: Works perfectly on desktop, tablet, and mobile devices
-- **Custom Color Scheme**: Uses specified colors #2DADF7 (blue) and #F7852D (orange)
+- **Custom Color Scheme**: Uses specified colors #009FE3 (blue) and #F39200 (orange)
 - **Individual CSS Files**: Each page has its own CSS file as requested
 - **Professional Navigation**: Smooth navigation between pages
 - **Contact Form**: Functional contact form for customer inquiries
 - **SEO Optimized**: Proper meta tags and structured content
 
+
+## Business Suite (new)
+
+Everything below lives in the Django admin (`/admin/`) and the staff
+dashboard (`/dashboard/`, staff login required):
+
+- **Clients** – customer records; can be created in one click from a website
+  enquiry (admin action on Contact Submissions).
+- **Proposals & Quotations** – written in the admin with scope, pricing line
+  items and terms; auto-numbered (`SDL-P-2026-001` / `SDL-Q-2026-001`);
+  rendered to a branded PDF and emailed to the client with one action.
+  Every send is recorded in the Email log.
+- **Invoices** – auto-numbered (`SDL-I-...`), branded PDF, emailed to the
+  client; tracks sent/partially paid/paid and overdue state.
+- **Payments & Receipts** – record a payment (M-Pesa, bank, cheque, cash)
+  against an invoice; a numbered receipt (`SDL-R-...`) PDF can be emailed
+  to the client. Invoice status updates automatically.
+- **Projects** – job tracking: site, status, crew lead, dates and progress notes.
+- **Staff dashboard** – `/dashboard/`: outstanding invoice totals, proposals
+  awaiting reply, active projects, new enquiries, with one-click email send.
+- **Contact auto-reply** – the website contact form now emails the visitor a
+  branded confirmation and notifies the company inbox.
+- **Team page** – `/team/`, seeded with the directors from the company profile.
+
+### Email setup
+
+Copy `.env.example` values into the server environment. Emails are sent via
+SMTP when `EMAIL_HOST_PASSWORD` is set (use a Gmail App Password); otherwise
+they are printed to the console (safe for development).
+
 ## Color Scheme
 
-- **Primary Blue**: #2DADF7
-- **Primary Orange**: #F7852D
-- **Supporting Colors**: Various shades of green for headers and accents
+- **Primary Blue**: #009FE3
+- **Primary Orange**: #F39200
+- **Supporting Colors**: Navy #2C374D and deep blue #0077B6 for headers and accents
 
 ## Project Structure
 
@@ -153,8 +183,8 @@ Contains global styles, variables, and common components used across all pages.
 - Optimized images and layouts
 
 ### Color Implementation
-- **#2DADF7 (Blue)**: Used for primary buttons, links, and accents
-- **#F7852D (Orange)**: Used for call-to-action buttons and highlights
+- **#009FE3 (Blue)**: Used for primary buttons, links, and accents
+- **#F39200 (Orange)**: Used for call-to-action buttons and highlights
 - **Gradients**: Beautiful gradient combinations using both colors
 - **Green tones**: Used for headers and natural/environmental themes
 
@@ -192,8 +222,8 @@ Contains global styles, variables, and common components used across all pages.
 Update the CSS custom properties in `main.css`:
 ```css
 :root {
-    --primary-blue: #2DADF7;
-    --primary-orange: #F7852D;
+    --primary-blue: #009FE3;
+    --primary-orange: #F39200;
     /* Add other color variables */
 }
 ```
@@ -223,7 +253,7 @@ For production deployment:
 
 ## Support
 
-This Django website is fully functional and ready for use. All pages are responsive, the navigation works perfectly, and the design implements the requested color scheme (#2DADF7 and #F7852D) throughout the site.
+This Django website is fully functional and ready for use. All pages are responsive, the navigation works perfectly, and the design implements the requested color scheme (#009FE3 and #F39200) throughout the site.
 
 The website successfully recreates the original Sunrise Drilling Ltd website with modern Django architecture, improved design, and the specified color palette.
 

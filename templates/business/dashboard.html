@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+{% load static humanize %}
+
+{% block title %}Staff Dashboard - Sunrise Drilling Ltd{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="dash">
+    <div class="container">
+        <div class="dash-head">
+            <h1>Staff Dashboard</h1>
+            <div class="dash-links">
+                <a href="/admin/" class="btn-admin"><i class="fas fa-cog"></i> Open Admin</a>
+                <a href="/admin/business/proposal/add/" class="btn-admin"><i class="fas fa-file-signature"></i> New Proposal</a>
+                <a href="/admin/business/invoice/add/" class="btn-admin"><i class="fas fa-file-invoice-dollar"></i> New Invoice</a>
+                <a href="/admin/business/project/add/" class="btn-admin"><i class="fas fa-hard-hat"></i> New Project</a>
+            </div>
+        </div>
+
+        {% if messages %}
+        <div class="dash-messages">
+            {% for message in messages %}
+            <div class="dash-message {{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="stat-grid">
+            <div class="stat-card">
+                <div class="stat-number">{{ stats.sent_proposals }}</div>
+                <div class="stat-label">Proposals awaiting reply</div>
+                <div class="stat-sub">{{ stats.draft_proposals }} draft · {{ stats.accepted_proposals }} accepted</div>
+            </div>
+            <div class="stat-card orange">
+                <div class="stat-number">KES {{ stats.outstanding|floatformat:0|intcomma }}</div>
+                <div class="stat-label">Outstanding invoices</div>
+                <div class="stat-sub">{{ stats.overdue_count }} overdue</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{{ stats.active_projects }}</div>
+                <div class="stat-label">Projects in progress</div>
+                <div class="stat-sub">{{ stats.clients }} clients on record</div>
+            </div>
+            <div class="stat-card orange">
+                <div class="stat-number">{{ stats.new_enquiries }}</div>
+                <div class="stat-label">New enquiries</div>
+                <div class="stat-sub"><a href="/admin/main/contactsubmission/?is_processed__exact=0">Review now →</a></div>
+            </div>
+        </div>
+
+        <div class="panel-grid">
+            <div class="panel">
+                <h2><i class="fas fa-file-signature"></i> Recent Proposals &amp; Quotations</h2>
+                <table>
+                    <tr><th>Ref</th><th>Client</th><th>Title</th><th>KES</th><th>Status</th><th></th></tr>
+                    {% for p in recent_proposals %}
+                    <tr>
+                        <td><a href="/admin/business/proposal/{{ p.pk }}/change/">{{ p.reference }}</a></td>
+                        <td>{{ p.client.name }}</td>
+                        <td class="truncate">{{ p.title }}</td>
+                        <td class="num">{{ p.total|floatformat:0|intcomma }}</td>
+                        <td><span class="badge badge-{{ p.status }}">{{ p.get_status_display }}</span></td>
+                        <td>
+                            <form method="post" action="{% url 'business:send_proposal' p.pk %}"
+                                  onsubmit="return confirm('Email {{ p.reference }} to {{ p.client.email }}?');">
+                                {% csrf_token %}
+                                <button type="submit" class="btn-mini" title="Email PDF to client">
+                                    <i class="fas fa-paper-plane"></i></button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="6" class="empty">No proposals yet — <a href="/admin/business/proposal/add/">write the first one</a>.</td></tr>
+                    {% endfor %}
+                </table>
+            </div>
+
+            <div class="panel">
+                <h2><i class="fas fa-file-invoice-dollar"></i> Open Invoices</h2>
+                <table>
+                    <tr><th>Ref</th><th>Client</th><th>Balance (KES)</th><th>Due</th><th></th></tr>
+                    {% for i in open_invoices %}
+                    <tr {% if i.is_overdue %}class="overdue"{% endif %}>
+                        <td><a href="/admin/business/invoice/{{ i.pk }}/change/">{{ i.reference }}</a></td>
+                        <td>{{ i.client.name }}</td>
+                        <td class="num">{{ i.balance|floatformat:0|intcomma }}</td>
+                        <td>{{ i.due_date|date:"d M"|default:"–" }}{% if i.is_overdue %} ⚠{% endif %}</td>
+                        <td>
+                            <form method="post" action="{% url 'business:send_invoice' i.pk %}"
+                                  onsubmit="return confirm('Email {{ i.reference }} to {{ i.client.email }}?');">
+                                {% csrf_token %}
+                                <button type="submit" class="btn-mini" title="Email PDF to client">
+                                    <i class="fas fa-paper-plane"></i></button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="5" class="empty">Nothing outstanding. 🎉</td></tr>
+                    {% endfor %}
+                </table>
+            </div>
+
+            <div class="panel">
+                <h2><i class="fas fa-hard-hat"></i> Projects</h2>
+                <table>
+                    <tr><th>Project</th><th>Client</th><th>Site</th><th>Status</th><th>Crew lead</th></tr>
+                    {% for pr in active_projects %}
+                    <tr>
+                        <td><a href="/admin/business/project/{{ pr.pk }}/change/">{{ pr.name }}</a></td>
+                        <td>{{ pr.client.name }}</td>
+                        <td>{{ pr.site_location|default:"–" }}</td>
+                        <td><span class="badge badge-{{ pr.status }}">{{ pr.get_status_display }}</span></td>
+                        <td>{{ pr.crew_lead|default:"–" }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="5" class="empty">No active projects — <a href="/admin/business/project/add/">start one</a>.</td></tr>
+                    {% endfor %}
+                </table>
+            </div>
+
+            <div class="panel">
+                <h2><i class="fas fa-envelope-open-text"></i> New Enquiries</h2>
+                <table>
+                    <tr><th>Name</th><th>Type</th><th>Received</th><th></th></tr>
+                    {% for e in recent_enquiries %}
+                    <tr>
+                        <td><a href="/admin/main/contactsubmission/{{ e.pk }}/change/">{{ e.name }}</a></td>
+                        <td>{{ e.inquiry_type|default:"General" }}</td>
+                        <td>{{ e.submitted_at|date:"d M H:i" }}</td>
+                        <td><a class="btn-mini" href="mailto:{{ e.email }}" title="Reply by email"><i class="fas fa-reply"></i></a></td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="4" class="empty">Inbox zero. 🎉</td></tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

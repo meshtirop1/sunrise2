@@ -1,0 +1,74 @@
+{% extends 'business/pdf_base.html' %}
+{% load humanize %}
+
+{% block content %}
+<h1>INVOICE: {{ invoice.title }}</h1>
+
+<table class="ref-table">
+    <tr>
+        <td class="label">Invoice No:</td><td><b>{{ invoice.reference }}</b></td>
+        <td class="label">Date:</td><td><b>{{ today|date:"d M Y" }}</b></td>
+        {% if invoice.due_date %}<td class="label">Due:</td><td><b>{{ invoice.due_date|date:"d M Y" }}</b></td>{% endif %}
+    </tr>
+    <tr>
+        <td class="label">Bill to:</td>
+        <td colspan="5"><b>{{ invoice.client.name }}{% if invoice.client.company %}, {{ invoice.client.company }}{% endif %}</b>
+            {% if invoice.client.address %} – {{ invoice.client.address }}{% endif %}</td>
+    </tr>
+    {% if invoice.proposal %}
+    <tr>
+        <td class="label">Re:</td>
+        <td colspan="5">{{ invoice.proposal.get_kind_display }} {{ invoice.proposal.reference }}</td>
+    </tr>
+    {% endif %}
+</table>
+
+<h2>Charges</h2>
+<table class="items">
+    <tr>
+        <th width="46%">Description</th>
+        <th width="12%" class="num">Qty</th>
+        <th width="12%">Unit</th>
+        <th width="15%" class="num">Unit Price (KES)</th>
+        <th width="15%" class="num">Amount (KES)</th>
+    </tr>
+    {% for item in invoice.items.all %}
+    <tr>
+        <td>{{ item.description }}</td>
+        <td class="num">{{ item.quantity|floatformat:"-2" }}</td>
+        <td>{{ item.unit }}</td>
+        <td class="num">{{ item.unit_price|floatformat:2|intcomma }}</td>
+        <td class="num">{{ item.line_total|floatformat:2|intcomma }}</td>
+    </tr>
+    {% endfor %}
+    <tr class="total-row">
+        <td colspan="4">TOTAL</td>
+        <td class="num">KES {{ invoice.total|floatformat:2|intcomma }}</td>
+    </tr>
+    {% if invoice.amount_paid > 0 %}
+    <tr class="muted-row">
+        <td colspan="4">Paid to date</td>
+        <td class="num">KES {{ invoice.amount_paid|floatformat:2|intcomma }}</td>
+    </tr>
+    <tr class="balance-row">
+        <td colspan="4">BALANCE DUE</td>
+        <td class="num">KES {{ invoice.balance|floatformat:2|intcomma }}</td>
+    </tr>
+    {% endif %}
+</table>
+
+{% if invoice.balance <= 0 and invoice.amount_paid > 0 %}
+<div class="paid-banner">PAID IN FULL — thank you for your business.</div>
+{% endif %}
+
+{% if invoice.notes %}
+<h2>Notes</h2>
+<p>{{ invoice.notes|linebreaksbr }}</p>
+{% endif %}
+
+<p style="margin-top: 20pt;">
+    Please quote invoice number <b>{{ invoice.reference }}</b> on all payments.<br><br>
+    Yours faithfully,<br>
+    <b>{{ company.name }}</b>
+</p>
+{% endblock %}

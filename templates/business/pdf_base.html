@@ -1,0 +1,67 @@
+{% load static humanize %}
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+    @page {
+        size: A4;
+        margin: 2.2cm 1.8cm 2.6cm 1.8cm;
+        @frame footer_frame {
+            -pdf-frame-content: footer_content;
+            left: 50pt; width: 495pt; top: 780pt; height: 40pt;
+        }
+    }
+    body { font-family: Helvetica, Arial, sans-serif; font-size: 10.5pt; color: #2C374D; }
+    .brandbar { border-bottom: 3pt solid #F39200; padding-bottom: 8pt; }
+    .company-name { font-size: 20pt; font-weight: bold; color: #F39200; }
+    .company-sub { font-size: 11pt; color: #009FE3; letter-spacing: 2pt; }
+    .company-meta { font-size: 8.5pt; color: #2C374D; }
+    h1 { font-size: 15pt; color: #009FE3; margin: 18pt 0 4pt 0; }
+    h2 { font-size: 11.5pt; color: #FFFFFF; background-color: #009FE3; padding: 4pt 8pt; margin: 16pt 0 6pt 0; }
+    .ref-table td { font-size: 9.5pt; padding: 2pt 10pt 2pt 0; }
+    .label { color: #666666; }
+    table.items { width: 100%; border-collapse: collapse; margin-top: 4pt; }
+    table.items th { background-color: #2C374D; color: #ffffff; font-size: 9.5pt; padding: 5pt 6pt; text-align: left; }
+    table.items td { border-bottom: 0.6pt solid #dddddd; padding: 5pt 6pt; font-size: 9.5pt; }
+    table.items .num { text-align: right; }
+    .total-row td { border-top: 1.4pt solid #F39200; font-weight: bold; font-size: 10.5pt; }
+    .muted-row td { color: #666666; }
+    .balance-row td { border-top: 1.4pt solid #2C374D; font-weight: bold; font-size: 10.5pt; color: #F39200; }
+    .paid-banner { background-color: #e6f7ee; color: #1c7c45; border: 1pt solid #1c7c45;
+                   padding: 6pt 10pt; font-size: 12pt; font-weight: bold; margin-top: 10pt; }
+    ul { margin: 4pt 0 4pt 14pt; padding: 0; }
+    li { margin-bottom: 3pt; }
+    .footer { font-size: 8pt; color: #666666; text-align: center; border-top: 0.8pt solid #009FE3; padding-top: 4pt; }
+</style>
+</head>
+<body>
+
+<table class="brandbar" width="100%">
+    <tr>
+        <td width="70">
+            <img src="{% static 'images/logo-drop-sm.png' %}" style="height: 55pt;">
+        </td>
+        <td>
+            <div class="company-name">SUNRISE</div>
+            <div class="company-sub">DRILLING LIMITED</div>
+        </td>
+        <td align="right" class="company-meta">
+            {{ company.address }}<br>
+            {% for phone in company.phones %}{{ phone }}{% if not forloop.last %} | {% endif %}{% endfor %}<br>
+            {{ company.email }}<br>
+            {{ company.website }}
+        </td>
+    </tr>
+</table>
+
+{% block content %}{% endblock %}
+
+<div id="footer_content" class="footer">
+    {{ company.name }} | {{ company.address }} |
+    {% for phone in company.phones %}{{ phone }}{% if not forloop.last %} / {% endif %}{% endfor %} |
+    {{ company.email }} | {{ company.website }}
+</div>
+
+</body>
+</html>
