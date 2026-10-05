@@ -81,10 +81,12 @@ WSGI_APPLICATION = 'sunrise_drilling_django.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+# In production set DJANGO_DB_PATH to a path OUTSIDE the repo
+# (e.g. /srv/sunrise/data/db.sqlite3) so deployments never touch the live DB.
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': os.environ.get('DJANGO_DB_PATH', BASE_DIR / 'db.sqlite3'),
     }
 }
 
@@ -131,7 +133,8 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Media files
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+# In production set DJANGO_MEDIA_ROOT outside the repo so uploads survive deploys.
+MEDIA_ROOT = os.environ.get('DJANGO_MEDIA_ROOT', BASE_DIR / 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -161,3 +164,14 @@ COMPANY_INFO = {
     'email': 'sunrisedrillingltd@gmail.com',
     'website': 'www.sunrisedrillingltd.com',
 }
+
+# Production security hardening (active when DJANGO_DEBUG=False).
+# Nginx terminates TLS and forwards the scheme in X-Forwarded-Proto.
+if not DEBUG:
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_SSL_REDIRECT = os.environ.get('DJANGO_SSL_REDIRECT', 'True').lower() in ('1', 'true', 'yes')
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_HSTS_SECONDS = 60 * 60 * 24 * 30  # 30 days; raise once HTTPS is stable
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True

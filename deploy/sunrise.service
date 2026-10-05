@@ -1,0 +1,24 @@
+# systemd unit for the Sunrise Drilling Django app (gunicorn).
+# Install: sudo cp deploy/sunrise.service /etc/systemd/system/sunrise.service
+#          sudo systemctl daemon-reload && sudo systemctl enable --now sunrise
+[Unit]
+Description=Sunrise Drilling Django (gunicorn)
+After=network.target
+
+[Service]
+User=deploy
+Group=www-data
+WorkingDirectory=/srv/sunrise/app
+EnvironmentFile=/srv/sunrise/.env
+ExecStart=/srv/sunrise/venv/bin/gunicorn \
+    --workers 3 \
+    --bind unix:/srv/sunrise/gunicorn.sock \
+    --access-logfile /srv/sunrise/logs/access.log \
+    --error-logfile /srv/sunrise/logs/error.log \
+    sunrise_drilling_django.wsgi:application
+ExecReload=/bin/kill -s HUP $MAINPID
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
