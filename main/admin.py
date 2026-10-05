@@ -1,6 +1,9 @@
 from django.contrib import admin
 from .models import (ProcessStep, WhyChooseItem, ServicesCTA, Service, GalleryItem, GalleryCategory, GalleryStat, TeamMember,
-                     ContactPageContent, ContactSubmission)
+                     ContactPageContent, ContactSubmission,
+                     SiteSettings, HomePageContent, QuickLink, HomeServiceCard,
+                     AboutPageContent, TimelineEvent, ValueCard, ServicesPageContent,
+                     GalleryPageContent, TeamPageContent, InquiryType, FAQ)
 # Register your models here.
 #Admin configuration
 @admin.register(Service)
@@ -89,3 +92,95 @@ class TeamMemberAdmin(admin.ModelAdmin):
     list_display = ('name', 'role', 'phone', 'email', 'order')
     list_editable = ('order',)
     search_fields = ('name', 'role')
+
+
+# --- Editable page content -------------------------------------------------
+
+class SingletonAdmin(admin.ModelAdmin):
+    """One-row content models: no add/delete, jump straight to the edit form."""
+    def has_add_permission(self, request):
+        return not self.model.objects.exists()
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def changelist_view(self, request, extra_context=None):
+        from django.shortcuts import redirect
+        obj = self.model.load()
+        return redirect(f'./{obj.pk}/change/')
+
+
+@admin.register(SiteSettings)
+class SiteSettingsAdmin(SingletonAdmin):
+    fieldsets = (
+        ('Contact details', {'fields': ('email', 'phone_primary', 'phone_secondary',
+                                        'physical_address', 'postal_address', 'website')}),
+        ('Business hours', {'fields': ('business_hours',)}),
+        ('Map', {'fields': ('map_embed_url', 'map_title', 'map_address')}),
+        ('Social media', {'fields': ('facebook_url', 'instagram_url', 'twitter_url', 'tiktok_url')}),
+        ('Footer', {'fields': ('copyright_text',)}),
+    )
+
+
+@admin.register(HomePageContent)
+class HomePageContentAdmin(SingletonAdmin):
+    pass
+
+
+@admin.register(AboutPageContent)
+class AboutPageContentAdmin(SingletonAdmin):
+    pass
+
+
+@admin.register(ServicesPageContent)
+class ServicesPageContentAdmin(SingletonAdmin):
+    pass
+
+
+@admin.register(GalleryPageContent)
+class GalleryPageContentAdmin(SingletonAdmin):
+    pass
+
+
+@admin.register(TeamPageContent)
+class TeamPageContentAdmin(SingletonAdmin):
+    pass
+
+
+@admin.register(QuickLink)
+class QuickLinkAdmin(admin.ModelAdmin):
+    list_display = ('title', 'description', 'page', 'icon', 'order')
+    list_editable = ('order',)
+
+
+@admin.register(HomeServiceCard)
+class HomeServiceCardAdmin(admin.ModelAdmin):
+    list_display = ('title', 'icon', 'order')
+    list_editable = ('order',)
+    search_fields = ('title', 'description')
+
+
+@admin.register(TimelineEvent)
+class TimelineEventAdmin(admin.ModelAdmin):
+    list_display = ('year', 'title', 'order')
+    list_editable = ('order',)
+
+
+@admin.register(ValueCard)
+class ValueCardAdmin(admin.ModelAdmin):
+    list_display = ('title', 'section', 'icon', 'order')
+    list_filter = ('section',)
+    list_editable = ('order',)
+
+
+@admin.register(InquiryType)
+class InquiryTypeAdmin(admin.ModelAdmin):
+    list_display = ('name', 'order')
+    list_editable = ('order',)
+
+
+@admin.register(FAQ)
+class FAQAdmin(admin.ModelAdmin):
+    list_display = ('question', 'order')
+    list_editable = ('order',)
+    search_fields = ('question', 'answer')

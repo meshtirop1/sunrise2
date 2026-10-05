@@ -4,22 +4,36 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 from .forms import ContactForm
-from .models import Service, ProcessStep, WhyChooseItem, ServicesCTA, GalleryCategory, GalleryItem, GalleryStat, \
-    ContactPageContent, ContactSubmission, TeamMember
+from .models import (Service, ProcessStep, WhyChooseItem, ServicesCTA, GalleryCategory,
+    GalleryItem, GalleryStat, ContactPageContent, ContactSubmission, TeamMember,
+    HomePageContent, QuickLink, HomeServiceCard, AboutPageContent, TimelineEvent,
+    ValueCard, ServicesPageContent, GalleryPageContent, TeamPageContent, InquiryType, FAQ)
 
 
 def home(request):
     """Home page view"""
-    return render(request, 'main/home.html')
+    return render(request, 'main/home.html', {
+        'content': HomePageContent.load(),
+        'quick_links': QuickLink.objects.all(),
+        'service_cards': HomeServiceCard.objects.all(),
+    })
 
 def about(request):
     """About page view"""
-    return render(request, 'main/about.html')
+    return render(request, 'main/about.html', {
+        'content': AboutPageContent.load(),
+        'timeline_events': TimelineEvent.objects.all(),
+        'values': ValueCard.objects.filter(section='value'),
+        'certifications': ValueCard.objects.filter(section='certification'),
+    })
 
 
 def team(request):
     """Team page view"""
-    return render(request, 'main/team.html', {'team_members': TeamMember.objects.all()})
+    return render(request, 'main/team.html', {
+        'content': TeamPageContent.load(),
+        'team_members': TeamMember.objects.all(),
+    })
 def services(request):
     """Services page view"""
     services = Service.objects.all()
@@ -28,6 +42,7 @@ def services(request):
     cta = ServicesCTA.objects.first() or ServicesCTA.objects.create()
 
     context = {
+        'content': ServicesPageContent.load(),
         'services': services,
         'process_steps': process_steps,
         'why_choose_items': why_choose_items,
@@ -41,6 +56,7 @@ def gallery(request):
     stats = GalleryStat.objects.all()
 
     context = {
+        'content': GalleryPageContent.load(),
         'categories': categories,
         'gallery_items': gallery_items,
         'stats': stats,
@@ -53,6 +69,10 @@ def contact(request):
     sends the visitor a branded auto-reply."""
     content = ContactPageContent.objects.first() or ContactPageContent.objects.create()
     form = ContactForm()
+    extra = {
+        'inquiry_types': InquiryType.objects.all(),
+        'faqs': FAQ.objects.all(),
+    }
 
     if request.method == 'POST':
         form = ContactForm(request.POST)
@@ -99,6 +119,7 @@ def contact(request):
                 'success': True,
                 'message': 'Thank you for your enquiry. A confirmation email has been sent to you '
                            'and our team will get back to you shortly!',
+                **extra,
             })
 
-    return render(request, 'main/contact.html', {'content': content, 'form': form})
+    return render(request, 'main/contact.html', {'content': content, 'form': form, **extra})

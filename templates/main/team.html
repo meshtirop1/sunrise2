@@ -12,8 +12,8 @@
 <!-- Page Header -->
 <section class="page-header team-header">
     <div class="container">
-        <h1 class="page-title">Our Team</h1>
-        <p class="page-subtitle">The people behind Kenya's trusted water solutions</p>
+        <h1 class="page-title">{{ content.header_title }}</h1>
+        <p class="page-subtitle">{{ content.header_subtitle }}</p>
     </div>
 </section>
 
@@ -50,8 +50,8 @@
 <!-- CTA -->
 <section class="team-cta">
     <div class="container">
-        <h2>Want to work with us?</h2>
-        <p>Talk to our team about your water project today.</p>
+        <h2>{{ content.cta_title }}</h2>
+        <p>{{ content.cta_subtitle }}</p>
         <a href="{% url 'main:contact' %}" class="btn btn-primary">Contact Us</a>
     </div>
 </section>

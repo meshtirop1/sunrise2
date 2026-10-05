@@ -307,7 +307,7 @@
 {#<!-- Gallery Stats -->#}
 {#<section class="gallery-stats">#}
 {#    <div class="container">#}
-{#        <h2 class="section-title animate-on-scroll">Our Achievements</h2>#}
+{#        <h2 class="section-title animate-on-scroll">{{ content.achievements_title }}</h2>#}
 {#        #}
 {#        <div class="stats-grid">#}
 {#            <div class="stat-item animate-on-scroll">#}
@@ -519,8 +519,8 @@
 <!-- Gallery Header -->
 <section class="gallery-header">
     <div class="container">
-        <h1 class="gallery-title">Our Gallery</h1>
-        <p class="gallery-subtitle">Explore our portfolio of successful projects and see the quality of our work</p>
+        <h1 class="gallery-title">{{ content.header_title }}</h1>
+        <p class="gallery-subtitle">{{ content.header_subtitle }}</p>
     </div>
 </section>
 
@@ -564,8 +564,8 @@
 <!-- Project Categories -->
 <section class="project-categories">
     <div class="container">
-        <h2 class="section-title animate-on-scroll">Project Categories</h2>
-        <p class="section-subtitle animate-on-scroll">Explore our diverse range of water solution projects</p>
+        <h2 class="section-title animate-on-scroll">{{ content.categories_title }}</h2>
+        <p class="section-subtitle animate-on-scroll">{{ content.categories_subtitle }}</p>
         
         <div class="categories-grid">
             {% for category in categories %}
@@ -591,7 +591,7 @@
 <!-- Gallery Stats -->
 <section class="gallery-stats">
     <div class="container">
-        <h2 class="section-title animate-on-scroll">Our Achievements</h2>
+        <h2 class="section-title animate-on-scroll">{{ content.achievements_title }}</h2>
         
         <div class="stats-grid">
             {% for stat in stats %}

@@ -378,15 +378,15 @@
 <!-- Services Header -->
 <section class="services-header">
     <div class="container">
-        <h1 class="services-title">Our Services</h1>
-        <p class="services-subtitle">Comprehensive solutions for all your drilling, construction, and supply needs</p>
+        <h1 class="services-title">{{ content.header_title }}</h1>
+        <p class="services-subtitle">{{ content.header_subtitle }}</p>
     </div>
 </section>
 
 <!-- Services Main -->
 <section class="services-main">
     <div class="container">
-        <h2 class="section-title animate-on-scroll">The areas we are working on are:</h2>
+        <h2 class="section-title animate-on-scroll">{{ content.intro_title }}</h2>
         
         <div class="services-grid">
             {% for service in services %}
@@ -424,8 +424,8 @@
 <!-- Process Section -->
 <section class="process-section">
     <div class="container">
-        <h2 class="section-title animate-on-scroll">Our Process</h2>
-        <p class="section-subtitle animate-on-scroll">How we deliver exceptional results for every project</p>
+        <h2 class="section-title animate-on-scroll">{{ content.process_title }}</h2>
+        <p class="section-subtitle animate-on-scroll">{{ content.process_subtitle }}</p>
         
         <div class="process-steps">
             {% for step in process_steps %}
@@ -444,8 +444,8 @@
 <!-- Why Choose Us Section -->
 <section class="why-choose">
     <div class="container">
-        <h2 class="section-title animate-on-scroll">Why Choose Sunrise Drilling?</h2>
-        <p class="section-subtitle animate-on-scroll">What sets us apart in the industry</p>
+        <h2 class="section-title animate-on-scroll">{{ content.why_title }}</h2>
+        <p class="section-subtitle animate-on-scroll">{{ content.why_subtitle }}</p>
         
         <div class="why-choose-grid">
             {% for item in why_choose_items %}

@@ -356,24 +356,22 @@
                 
                 <div class="footer-section">
                     <h3>Contact Info</h3>
-                    <p><i class="fas fa-envelope"></i> sunrisedrillingltd@gmail.com</p>
-                    <p><i class="fas fa-phone"></i> Make a call</p>
-                    <p><i class="fas fa-map-marker-alt"></i> G737+69Q, Rivatex road, Ndovu lane, Pioneer, Eldoret, Kenya</p>
-                    <p><i class="fas fa-mail-bulk"></i> P.O. BOX 9630-30100, ELDORET</p>
+                    <p><i class="fas fa-envelope"></i> {{ site_settings.email }}</p>
+                    <p><i class="fas fa-phone"></i> {{ site_settings.phone_primary }}{% if site_settings.phone_secondary %} / {{ site_settings.phone_secondary }}{% endif %}</p>
+                    <p><i class="fas fa-map-marker-alt"></i> {{ site_settings.physical_address }}</p>
+                    <p><i class="fas fa-mail-bulk"></i> {{ site_settings.postal_address }}</p>
                 </div>
                 
                 <div class="footer-section">
                     <h3>Our Services</h3>
-                    <p>Construction of Dams</p>
-                    <p>Drilling of Boreholes</p>
-                    <p>Water Surveys & Consultancy</p>
-                    <p>Transport & Logistics</p>
-                    <p>General Supplies</p>
+                    {% for service in footer_services %}
+                    <p>{{ service.title }}</p>
+                    {% endfor %}
                 </div>
             </div>
             
             <div class="footer-bottom">
-                <p>&copy; 2025 Sunrise Drilling. All rights reserved</p>
+                <p>&copy; {% now "Y" %} {{ site_settings.copyright_text }}</p>
             </div>
         </div>
     </footer>
