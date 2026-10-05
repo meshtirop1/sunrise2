@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+# One-time (idempotent) server preparation for sunrise.mtirop.com.
+# Run on the VPS as root:  bash deploy/server-setup.sh
+#
+# This lives in a script file on purpose: the CI "Server setup" workflow runs it
+# as a single `bash` command. Inline multi-line if/else blocks in an ssh-action
+# `script:` block are unreliable under drone-ssh `script_stop`, which can abort on
+# a negated test (e.g. `if [ ! -f x ]`) when it takes the else branch. A real
+# bash script has none of that ambiguity.
+set -euo pipefail
+
+APP=/home/deploy/sites/sunrise
+DATA=/home/deploy/sites/sunrise-data
+DOMAIN=sunrise.mtirop.com
+EMAIL=sunrisedrillingltd@gmail.com
+
+echo "=== 1. Sync code ==="
+cd "$APP"
+git config --global --add safe.directory "$APP" 2>/dev/null || true
+git update-index --no-skip-worktree db.sqlite3 2>/dev/null || true
+git checkout -- db.sqlite3 2>/dev/null || true
+git fetch origin main
+git reset --hard origin/main
+
+echo "=== 2. Move live data outside the repo (first run only) ==="
+mkdir -p "$DATA/media"
+if [ ! -f "$DATA/db.sqlite3" ]; then
+    systemctl stop sunrise || true
+    cp "$APP/db.sqlite3" "$DATA/db.sqlite3"
+    cp -rn "$APP/media/." "$DATA/media/" 2>/dev/null || true
+    echo "Seeded $DATA from repository copies"
+else
+    echo "$DATA/db.sqlite3 already exists - leaving live data untouched"
+fi
+
+echo "=== 3. Ensure env file points at external data ==="
+grep -q '^DJANGO_DB_PATH=' "$APP/env" || echo "DJANGO_DB_PATH=$DATA/db.sqlite3" >> "$APP/env"
+grep -q '^DJANGO_MEDIA_ROOT=' "$APP/env" || echo "DJANGO_MEDIA_ROOT=$DATA/media" >> "$APP/env"
+chmod 600 "$APP/env"
+
+echo "=== 4. HTTPS certificate ==="
+if [ ! -d "/etc/letsencrypt/live/$DOMAIN" ]; then
+    command -v certbot >/dev/null || { apt-get update -qq && apt-get install -y -qq certbot python3-certbot-nginx; }
+    if certbot --nginx -d "$DOMAIN" --non-interactive --agree-tos -m "$EMAIL" --redirect; then
+        echo "Certificate obtained"
+        sed -i '/^DJANGO_SSL_REDIRECT=False$/d' "$APP/env"
+    else
+        echo "WARNING: certbot failed - keeping the site on HTTP for now"
+        grep -q '^DJANGO_SSL_REDIRECT=' "$APP/env" || echo "DJANGO_SSL_REDIRECT=False" >> "$APP/env"
+    fi
+else
+    echo "Certificate already present"
+    sed -i '/^DJANGO_SSL_REDIRECT=False$/d' "$APP/env"
+fi
+
+echo "=== 5. Nginx: serve media from the external data dir ==="
+sed -i "s#alias $APP/media/#alias $DATA/media/#g" /etc/nginx/sites-available/sunrise
+nginx -t && systemctl reload nginx
+
+echo "=== 6. Dependencies, migrate, collectstatic, ownership, restart ==="
+bash "$APP/deploy/deploy.sh"
+
+echo "=== 7. Health report ==="
+systemctl --no-pager --lines=0 status sunrise || true
+echo "App direct:   $(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:8110/ -H "Host: $DOMAIN")"
+echo "HTTPS:        $(curl -sk -o /dev/null -w '%{http_code}' https://127.0.0.1/ -H "Host: $DOMAIN" || echo n/a)"
+echo "=== Server setup complete ==="
