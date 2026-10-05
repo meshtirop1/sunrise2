@@ -2,7 +2,7 @@
 
 /* Hero Section */
 .hero {
-    background: linear-gradient(135deg, rgba(45, 90, 61, 0.9) 0%, rgba(74, 124, 89, 0.8) 100%), 
+    background: linear-gradient(135deg, rgba(44, 55, 77, 0.9) 0%, rgba(0, 119, 182, 0.8) 100%), 
                 url('/static/images/heros.jpeg') center/cover no-repeat;
     min-height: 100vh;
     display: flex;
@@ -52,7 +52,7 @@
 .hero-location {
     font-size: 1.8rem;
     font-weight: 600;
-    color: var(--primary-blue);
+    color: var(--primary-orange);
     margin-bottom: 2rem;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
     animation: fadeInUp 1s ease-out 0.6s both;
@@ -253,7 +253,7 @@
 
 /* Contact CTA Section */
 .contact-cta {
-    background: linear-gradient(135deg, var(--dark-green) 0%, var(--light-green) 100%);
+    background: linear-gradient(135deg, var(--brand-navy) 0%, var(--brand-blue-deep) 100%);
     padding: 4rem 0;
     text-align: center;
     color: var(--white);

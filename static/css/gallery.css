@@ -345,7 +345,7 @@
 
 /* Stats Section */
 .gallery-stats {
-    background: linear-gradient(135deg, var(--dark-green) 0%, var(--light-green) 100%);
+    background: linear-gradient(135deg, var(--brand-navy) 0%, var(--brand-blue-deep) 100%);
     padding: 4rem 0;
     color: var(--white);
     text-align: center;

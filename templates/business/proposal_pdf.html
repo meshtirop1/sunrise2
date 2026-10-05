@@ -1,0 +1,127 @@
+{% load static humanize %}
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+    @page {
+        size: A4;
+        margin: 2.2cm 1.8cm 2.6cm 1.8cm;
+        @frame footer_frame {
+            -pdf-frame-content: footer_content;
+            left: 50pt; width: 495pt; top: 780pt; height: 40pt;
+        }
+    }
+    body { font-family: Helvetica, Arial, sans-serif; font-size: 10.5pt; color: #2C374D; }
+    .brandbar { border-bottom: 3pt solid #F39200; padding-bottom: 8pt; }
+    .company-name { font-size: 20pt; font-weight: bold; color: #F39200; }
+    .company-sub { font-size: 11pt; color: #009FE3; letter-spacing: 2pt; }
+    .company-meta { font-size: 8.5pt; color: #2C374D; }
+    h1 { font-size: 15pt; color: #009FE3; margin: 18pt 0 4pt 0; }
+    h2 { font-size: 11.5pt; color: #FFFFFF; background-color: #009FE3; padding: 4pt 8pt; margin: 16pt 0 6pt 0; }
+    .ref-table td { font-size: 9.5pt; padding: 2pt 10pt 2pt 0; }
+    .label { color: #666666; }
+    table.items { width: 100%; border-collapse: collapse; margin-top: 4pt; }
+    table.items th { background-color: #2C374D; color: #ffffff; font-size: 9.5pt; padding: 5pt 6pt; text-align: left; }
+    table.items td { border-bottom: 0.6pt solid #dddddd; padding: 5pt 6pt; font-size: 9.5pt; }
+    table.items .num { text-align: right; }
+    .total-row td { border-top: 1.4pt solid #F39200; font-weight: bold; font-size: 10.5pt; }
+    ul { margin: 4pt 0 4pt 14pt; padding: 0; }
+    li { margin-bottom: 3pt; }
+    .footer { font-size: 8pt; color: #666666; text-align: center; border-top: 0.8pt solid #009FE3; padding-top: 4pt; }
+</style>
+</head>
+<body>
+
+<table class="brandbar" width="100%">
+    <tr>
+        <td width="70">
+            <img src="{% static 'images/logo-drop-sm.png' %}" style="height: 55pt;">
+        </td>
+        <td>
+            <div class="company-name">SUNRISE</div>
+            <div class="company-sub">DRILLING LIMITED</div>
+        </td>
+        <td align="right" class="company-meta">
+            {{ company.address }}<br>
+            {% for phone in company.phones %}{{ phone }}{% if not forloop.last %} | {% endif %}{% endfor %}<br>
+            {{ company.email }}<br>
+            {{ company.website }}
+        </td>
+    </tr>
+</table>
+
+<h1>{{ proposal.get_kind_display|upper }}: {{ proposal.title }}</h1>
+
+<table class="ref-table">
+    <tr>
+        <td class="label">Reference:</td><td><b>{{ proposal.reference }}</b></td>
+        <td class="label">Date:</td><td><b>{{ today|date:"d M Y" }}</b></td>
+        <td class="label">Valid for:</td><td><b>{{ proposal.validity_days }} days</b></td>
+    </tr>
+    <tr>
+        <td class="label">To:</td>
+        <td colspan="5"><b>{{ proposal.client.name }}{% if proposal.client.company %}, {{ proposal.client.company }}{% endif %}</b>
+            {% if proposal.client.address %} – {{ proposal.client.address }}{% endif %}</td>
+    </tr>
+</table>
+
+{% if proposal.introduction %}
+<h2>Introduction</h2>
+{% for para in proposal.intro_paragraphs %}<p>{{ para }}</p>{% endfor %}
+{% endif %}
+
+{% if proposal.scope_of_work %}
+<h2>Scope of Work</h2>
+<ul>
+    {% for line in proposal.scope_lines %}<li>{{ line }}</li>{% endfor %}
+</ul>
+{% endif %}
+
+{% if proposal.show_prices and proposal.items.all %}
+<h2>Pricing</h2>
+<table class="items">
+    <tr>
+        <th width="46%">Description</th>
+        <th width="12%" class="num">Qty</th>
+        <th width="12%">Unit</th>
+        <th width="15%" class="num">Unit Price (KES)</th>
+        <th width="15%" class="num">Amount (KES)</th>
+    </tr>
+    {% for item in proposal.items.all %}
+    <tr>
+        <td>{{ item.description }}</td>
+        <td class="num">{{ item.quantity|floatformat:"-2" }}</td>
+        <td>{{ item.unit }}</td>
+        <td class="num">{{ item.unit_price|floatformat:2|intcomma }}</td>
+        <td class="num">{{ item.line_total|floatformat:2|intcomma }}</td>
+    </tr>
+    {% endfor %}
+    <tr class="total-row">
+        <td colspan="4">TOTAL</td>
+        <td class="num">KES {{ proposal.total|floatformat:2|intcomma }}</td>
+    </tr>
+</table>
+{% endif %}
+
+{% if proposal.terms %}
+<h2>Terms &amp; Conditions</h2>
+<ul>
+    {% for line in proposal.terms_lines %}<li>{{ line }}</li>{% endfor %}
+</ul>
+{% endif %}
+
+<p style="margin-top: 20pt;">
+    We look forward to working with you.<br><br>
+    Yours faithfully,<br>
+    <b>{{ company.name }}</b>
+</p>
+
+<div id="footer_content" class="footer">
+    {{ company.name }} | {{ company.address }} |
+    {% for phone in company.phones %}{{ phone }}{% if not forloop.last %} / {% endif %}{% endfor %} |
+    {{ company.email }} | {{ company.website }}
+</div>
+
+</body>
+</html>
