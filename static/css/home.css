@@ -161,9 +161,16 @@
 }
 
 .quick-link-icon {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-    color: var(--white);
+    width: 52px;
+    height: 52px;
+    background: #E8F6FE;
+    color: var(--primary-blue);
+    font-size: 1.25rem;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
 }
 
 .quick-link-title {
@@ -215,13 +222,16 @@
 }
 
 .service-image {
-    height: 200px;
-    background: var(--primary-blue);
+    width: 56px;
+    height: 56px;
+    background: #E8F6FE;
+    color: var(--primary-blue);
+    font-size: 1.4rem;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--white);
-    font-size: 3rem;
+    margin: 2rem 2rem 0;
 }
 
 .service-content {
@@ -321,8 +331,16 @@
 }
 
 .contact-icon {
-    font-size: 1.5rem;
+    width: 46px;
+    height: 46px;
+    background: rgba(255, 255, 255, 0.14);
     color: var(--primary-orange);
+    font-size: 1.1rem;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 0.8rem;
 }
 
 .contact-text {

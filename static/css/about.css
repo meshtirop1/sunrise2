@@ -130,12 +130,9 @@
 .timeline-icon {
     position: absolute;
     left: 50%;
-    top: 20px;
+    top: 28px;
     transform: translateX(-50%);
-    width: 60px;
-    height: 60px;
-    background: var(--primary-blue);
-    border-radius: 50%;
+    display: none;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -203,10 +200,12 @@
 }
 
 .value-icon {
-    width: 80px;
-    height: 80px;
-    background: var(--primary-blue);
-    border-radius: 50%;
+    width: 52px;
+    height: 52px;
+    background: #E8F6FE;
+    color: var(--primary-blue);
+    font-size: 1.25rem;
+    border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -267,9 +266,16 @@
 
 .mission-icon,
 .vision-icon {
-    font-size: 3rem;
-    margin-bottom: 1.5rem;
+    width: 52px;
+    height: 52px;
+    background: rgba(255, 255, 255, 0.14);
     color: var(--white);
+    font-size: 1.25rem;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.2rem;
 }
 
 .mission-title,

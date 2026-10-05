@@ -13,7 +13,7 @@ HOME_CARDS = [
     ("fa-water", "Construction of Dams",
      "We specialize in constructing durable dams to store and manage water resources, "
      "ensuring long-term sustainability for communities and industries."),
-    ("fa-drill", "Drilling of Boreholes",
+    ("fa-oil-well", "Drilling of Boreholes",
      "Our borehole drilling services provide reliable access to clean groundwater, helping "
      "households, businesses, and agricultural projects meet their water needs."),
     ("fa-tint", "Construction of Water Pans",
