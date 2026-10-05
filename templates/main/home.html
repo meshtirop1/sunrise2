@@ -55,9 +55,26 @@
     </div>
 </section>
 
+<!-- Stats Strip -->
+{% if stats %}
+<section class="stats-strip">
+    <div class="container">
+        <div class="stats-grid">
+            {% for stat in stats %}
+            <div class="stat-item animate-on-scroll">
+                <div class="stat-value">{{ stat.number }}</div>
+                <div class="stat-name">{{ stat.label }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
 <!-- Services Preview Section -->
 <section class="services-preview">
     <div class="container">
+        <p class="eyebrow animate-on-scroll">What we do</p>
         <h2 class="section-title animate-on-scroll">{{ content.services_title }}</h2>
         <p class="section-subtitle animate-on-scroll">{{ content.services_subtitle }}</p>
         
@@ -84,6 +101,7 @@
 <section class="contact-cta">
     <div class="container">
         <div class="contact-cta-content">
+            <p class="eyebrow eyebrow-light animate-on-scroll">Get in touch</p>
             <h2 class="contact-cta-title animate-on-scroll">{{ content.cta_title }}</h2>
             <p class="contact-cta-subtitle animate-on-scroll">{{ content.cta_subtitle }}</p>
             

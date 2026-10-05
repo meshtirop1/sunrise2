@@ -16,6 +16,7 @@ def home(request):
         'content': HomePageContent.load(),
         'quick_links': QuickLink.objects.all(),
         'service_cards': HomeServiceCard.objects.all(),
+        'stats': GalleryStat.objects.all(),
     })
 
 def about(request):
