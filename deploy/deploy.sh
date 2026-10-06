@@ -57,6 +57,9 @@ echo "==> Running migrations"
 echo "==> Collecting static files"
 "$VENV/bin/python" manage.py collectstatic --noinput
 
+echo "==> Optimizing media images"
+"$VENV/bin/python" manage.py optimize_images || echo "image optimization skipped"
+
 # Keep ownership correct for the service user (uploads + sqlite writes),
 # in case this script was run as root (e.g. from CI).
 if [ "$(id -u)" -eq 0 ]; then
