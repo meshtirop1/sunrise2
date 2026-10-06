@@ -19,7 +19,8 @@
                 {% if proposal.sent_at %}<span>· emailed to {{ proposal.sent_to }} on {{ proposal.sent_at|date:"d M Y" }}</span>{% endif %}
             </div>
             <div class="row-actions">
-                <a href="{% url 'business:proposal_pdf' proposal.pk %}" class="btn-admin"><i class="fas fa-file-pdf"></i> View PDF</a>
+                <a href="{% url 'business:proposal_pdf' proposal.pk %}" target="_blank" class="btn-admin"><i class="fas fa-file-pdf"></i> View PDF</a>
+                <a href="{% url 'business:proposal_pdf' proposal.pk %}?dl=1" class="btn-admin"><i class="fas fa-download"></i> Download PDF</a>
                 <a href="{% url 'business:proposal_edit' proposal.pk %}" class="btn-admin"><i class="fas fa-pen"></i> Edit</a>
                 <form method="post" action="{% url 'business:send_proposal' proposal.pk %}"
                       onsubmit="return confirm('Email {{ proposal.reference }} to {{ proposal.client.email }}?');">
@@ -88,6 +89,10 @@
                         <tr><td colspan="3" class="empty">Not emailed yet.</td></tr>
                         {% endfor %}
                     </table>
+                    {% if proposal.pdf_file %}
+                    <p class="saved-pdf"><i class="fas fa-paperclip"></i>
+                        Saved copy as sent: <a href="{{ proposal.pdf_file.url }}" target="_blank">{{ proposal.reference }}.pdf</a></p>
+                    {% endif %}
                 </div>
             </div>
         </div>

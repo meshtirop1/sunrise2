@@ -3,6 +3,7 @@ import io
 import os
 
 from django.conf import settings
+from django.core.files.base import ContentFile
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 from django.utils import timezone
@@ -21,6 +22,13 @@ def _link_callback(uri, rel):
     else:
         return uri
     return path
+
+
+def archive_pdf(obj, pdf_bytes, reference):
+    """Keep a copy of the exact PDF that was emailed, replacing any older copy."""
+    if obj.pdf_file:
+        obj.pdf_file.delete(save=False)
+    obj.pdf_file.save(f"{reference}.pdf", ContentFile(pdf_bytes), save=True)
 
 
 def render_proposal_pdf(proposal):
@@ -84,6 +92,7 @@ def send_proposal_email(proposal, request_user=None):
     proposal.sent_at = timezone.now()
     proposal.sent_to = proposal.client.email
     proposal.save(update_fields=['status', 'sent_at', 'sent_to'])
+    archive_pdf(proposal, pdf_bytes, proposal.reference)
     return True, f"{kind_label} {proposal.reference} emailed to {proposal.client.email}"
 
 
@@ -150,9 +159,9 @@ def send_invoice_email(invoice):
         f"{company['phones'][0]}.\n\n" + _signature()
     )
     try:
+        pdf_bytes = render_invoice_pdf(invoice)
         _send_pdf_email(to_email=invoice.client.email, subject=subject, body=body,
-                        filename=f"{invoice.reference}.pdf",
-                        pdf_bytes=render_invoice_pdf(invoice))
+                        filename=f"{invoice.reference}.pdf", pdf_bytes=pdf_bytes)
     except Exception as exc:  # noqa: BLE001
         return False, f"Sending failed: {exc}"
 
@@ -161,6 +170,7 @@ def send_invoice_email(invoice):
     invoice.sent_at = timezone.now()
     invoice.sent_to = invoice.client.email
     invoice.save(update_fields=['status', 'sent_at', 'sent_to'])
+    archive_pdf(invoice, pdf_bytes, invoice.reference)
     invoice.refresh_payment_status()
     return True, f"Invoice {invoice.reference} emailed to {invoice.client.email}"
 
@@ -181,12 +191,13 @@ def send_receipt_email(payment):
         f"Your receipt is attached.\n\n{closing}\n\n" + _signature()
     )
     try:
+        pdf_bytes = render_receipt_pdf(payment)
         _send_pdf_email(to_email=invoice.client.email, subject=subject, body=body,
-                        filename=f"{payment.receipt_number}.pdf",
-                        pdf_bytes=render_receipt_pdf(payment))
+                        filename=f"{payment.receipt_number}.pdf", pdf_bytes=pdf_bytes)
     except Exception as exc:  # noqa: BLE001
         return False, f"Sending failed: {exc}"
 
     payment.receipt_sent_at = timezone.now()
     payment.save(update_fields=['receipt_sent_at'])
+    archive_pdf(payment, pdf_bytes, payment.receipt_number)
     return True, f"Receipt {payment.receipt_number} emailed to {invoice.client.email}"

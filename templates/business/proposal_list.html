@@ -39,7 +39,8 @@
                     <td><span class="badge badge-{{ p.status }}">{{ p.get_status_display }}</span></td>
                     <td>{{ p.created_at|date:"d M Y" }}</td>
                     <td class="row-actions">
-                        <a class="btn-mini" href="{% url 'business:proposal_pdf' p.pk %}" title="View PDF"><i class="fas fa-file-pdf"></i></a>
+                        <a class="btn-mini" href="{% url 'business:proposal_pdf' p.pk %}" target="_blank" title="View PDF"><i class="fas fa-file-pdf"></i></a>
+                        <a class="btn-mini" href="{% url 'business:proposal_pdf' p.pk %}?dl=1" title="Download PDF"><i class="fas fa-download"></i></a>
                         <a class="btn-mini" href="{% url 'business:proposal_edit' p.pk %}" title="Edit"><i class="fas fa-pen"></i></a>
                     </td>
                 </tr>

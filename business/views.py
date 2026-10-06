@@ -196,8 +196,9 @@ def proposal_set_status(request, pk):
 @staff_member_required(login_url='business:login')
 def proposal_pdf(request, pk):
     proposal = get_object_or_404(Proposal, pk=pk)
+    disposition = 'attachment' if request.GET.get('dl') else 'inline'
     response = HttpResponse(render_proposal_pdf(proposal), content_type='application/pdf')
-    response['Content-Disposition'] = f'inline; filename="{proposal.reference}.pdf"'
+    response['Content-Disposition'] = f'{disposition}; filename="{proposal.reference}.pdf"'
     return response
 
 
@@ -273,8 +274,9 @@ def invoice_edit(request, pk):
 @staff_member_required(login_url='business:login')
 def invoice_pdf(request, pk):
     invoice = get_object_or_404(Invoice, pk=pk)
+    disposition = 'attachment' if request.GET.get('dl') else 'inline'
     response = HttpResponse(render_invoice_pdf(invoice), content_type='application/pdf')
-    response['Content-Disposition'] = f'inline; filename="{invoice.reference}.pdf"'
+    response['Content-Disposition'] = f'{disposition}; filename="{invoice.reference}.pdf"'
     return response
 
 
@@ -315,8 +317,9 @@ def payment_send_receipt(request, pk):
 @staff_member_required(login_url='business:login')
 def receipt_pdf(request, pk):
     payment = get_object_or_404(Payment, pk=pk)
+    disposition = 'attachment' if request.GET.get('dl') else 'inline'
     response = HttpResponse(render_receipt_pdf(payment), content_type='application/pdf')
-    response['Content-Disposition'] = f'inline; filename="{payment.receipt_number}.pdf"'
+    response['Content-Disposition'] = f'{disposition}; filename="{payment.receipt_number}.pdf"'
     return response
 
 

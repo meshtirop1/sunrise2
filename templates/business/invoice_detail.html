@@ -19,7 +19,8 @@
                 {% if invoice.is_overdue %}<span class="badge badge-rejected">Overdue</span>{% endif %}
             </div>
             <div class="row-actions">
-                <a href="{% url 'business:invoice_pdf' invoice.pk %}" class="btn-admin"><i class="fas fa-file-pdf"></i> View PDF</a>
+                <a href="{% url 'business:invoice_pdf' invoice.pk %}" target="_blank" class="btn-admin"><i class="fas fa-file-pdf"></i> View PDF</a>
+                <a href="{% url 'business:invoice_pdf' invoice.pk %}?dl=1" class="btn-admin"><i class="fas fa-download"></i> Download PDF</a>
                 <a href="{% url 'business:invoice_edit' invoice.pk %}" class="btn-admin"><i class="fas fa-pen"></i> Edit</a>
                 <form method="post" action="{% url 'business:send_invoice' invoice.pk %}"
                       onsubmit="return confirm('Email {{ invoice.reference }} to {{ invoice.client.email }}?');">
@@ -80,7 +81,8 @@
                             <td class="num">{{ payment.amount|floatformat:0|intcomma }}</td>
                             <td>{{ payment.received_on|date:"d M Y" }}</td>
                             <td class="row-actions">
-                                <a class="btn-mini" href="{% url 'business:receipt_pdf' payment.pk %}" title="View receipt PDF"><i class="fas fa-file-pdf"></i></a>
+                                <a class="btn-mini" href="{% url 'business:receipt_pdf' payment.pk %}" target="_blank" title="View receipt PDF"><i class="fas fa-file-pdf"></i></a>
+                                <a class="btn-mini" href="{% url 'business:receipt_pdf' payment.pk %}?dl=1" title="Download receipt PDF"><i class="fas fa-download"></i></a>
                                 <form method="post" action="{% url 'business:payment_send_receipt' payment.pk %}"
                                       onsubmit="return confirm('Email receipt {{ payment.receipt_number }} to {{ invoice.client.email }}?');">
                                     {% csrf_token %}
@@ -92,6 +94,10 @@
                         <tr><td colspan="4" class="empty">No payments recorded yet.</td></tr>
                         {% endfor %}
                     </table>
+                    {% if invoice.pdf_file %}
+                    <p class="saved-pdf"><i class="fas fa-paperclip"></i>
+                        Saved copy as sent: <a href="{{ invoice.pdf_file.url }}" target="_blank">{{ invoice.reference }}.pdf</a></p>
+                    {% endif %}
                 </div>
             </div>
         </div>

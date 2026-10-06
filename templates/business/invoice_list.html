@@ -39,7 +39,8 @@
                     <td>{{ i.due_date|date:"d M Y"|default:"–" }}{% if i.is_overdue %} ⚠{% endif %}</td>
                     <td><span class="badge badge-{{ i.status }}">{{ i.get_status_display }}</span></td>
                     <td class="row-actions">
-                        <a class="btn-mini" href="{% url 'business:invoice_pdf' i.pk %}" title="View PDF"><i class="fas fa-file-pdf"></i></a>
+                        <a class="btn-mini" href="{% url 'business:invoice_pdf' i.pk %}" target="_blank" title="View PDF"><i class="fas fa-file-pdf"></i></a>
+                        <a class="btn-mini" href="{% url 'business:invoice_pdf' i.pk %}?dl=1" title="Download PDF"><i class="fas fa-download"></i></a>
                         <a class="btn-mini" href="{% url 'business:invoice_edit' i.pk %}" title="Edit"><i class="fas fa-pen"></i></a>
                     </td>
                 </tr>

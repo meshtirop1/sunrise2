@@ -1,6 +1,20 @@
+import uuid
+
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
+
+
+def proposal_pdf_path(instance, filename):
+    return f"documents/proposals/{instance.reference}-{uuid.uuid4().hex[:8]}.pdf"
+
+
+def invoice_pdf_path(instance, filename):
+    return f"documents/invoices/{instance.reference}-{uuid.uuid4().hex[:8]}.pdf"
+
+
+def receipt_pdf_path(instance, filename):
+    return f"documents/receipts/{instance.receipt_number}-{uuid.uuid4().hex[:8]}.pdf"
 
 
 class Client(models.Model):
@@ -69,6 +83,8 @@ class Proposal(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     sent_at = models.DateTimeField(null=True, blank=True)
     sent_to = models.EmailField(blank=True, help_text="Filled automatically when the email is sent")
+    pdf_file = models.FileField(upload_to=proposal_pdf_path, blank=True,
+                                help_text="Saved copy of the last PDF emailed to the client")
 
     class Meta:
         ordering = ['-created_at']
@@ -180,6 +196,8 @@ class Invoice(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     sent_at = models.DateTimeField(null=True, blank=True)
     sent_to = models.EmailField(blank=True)
+    pdf_file = models.FileField(upload_to=invoice_pdf_path, blank=True,
+                                help_text="Saved copy of the last PDF emailed to the client")
 
     class Meta:
         ordering = ['-created_at']
@@ -268,6 +286,8 @@ class Payment(models.Model):
     received_on = models.DateField(default=timezone.localdate)
     recorded_at = models.DateTimeField(auto_now_add=True)
     receipt_sent_at = models.DateTimeField(null=True, blank=True)
+    pdf_file = models.FileField(upload_to=receipt_pdf_path, blank=True,
+                                help_text="Saved copy of the last receipt PDF emailed to the client")
 
     class Meta:
         ordering = ['-received_on', '-recorded_at']

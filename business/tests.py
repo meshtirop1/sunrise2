@@ -1,8 +1,11 @@
+import tempfile
 from datetime import date
 
 from django.contrib.auth.models import User
 from django.core import mail
-from django.test import TestCase
+from django.test import TestCase, override_settings
+
+TEST_MEDIA = tempfile.mkdtemp(prefix='sunrise-test-media-')
 
 from .models import Client, Invoice, InvoiceItem, Payment, Proposal, ProposalItem
 from .services import (render_invoice_pdf, render_proposal_pdf, render_receipt_pdf,
@@ -14,6 +17,7 @@ def make_client():
                                  email='client@example.com')
 
 
+@override_settings(MEDIA_ROOT=TEST_MEDIA)
 class ProposalTest(TestCase):
     def setUp(self):
         self.client_obj = make_client()
@@ -48,6 +52,10 @@ class ProposalTest(TestCase):
         self.assertTrue(ok)
         p.refresh_from_db()
         self.assertEqual(p.status, Proposal.STATUS_SENT)
+        self.assertTrue(p.pdf_file)
+        with p.pdf_file.open('rb') as fh:
+            self.assertTrue(fh.read(4).startswith(b'%PDF'))
+        p.pdf_file.delete(save=False)
         self.assertEqual(p.sent_to, 'client@example.com')
         self.assertEqual(p.email_logs.filter(success=True).count(), 1)
         self.assertEqual(len(mail.outbox), 1)
@@ -55,6 +63,7 @@ class ProposalTest(TestCase):
         self.assertTrue(mail.outbox[0].attachments)
 
 
+@override_settings(MEDIA_ROOT=TEST_MEDIA)
 class InvoicePaymentTest(TestCase):
     def setUp(self):
         self.client_obj = make_client()
@@ -125,6 +134,7 @@ class DashboardTest(TestCase):
         self.assertNotContains(response, '/admin/')
 
 
+@override_settings(MEDIA_ROOT=TEST_MEDIA)
 class DashboardCrudTest(TestCase):
     def setUp(self):
         self.staff = User.objects.create_user('staff', password='x', is_staff=True)
@@ -171,6 +181,9 @@ class DashboardCrudTest(TestCase):
                          'application/pdf')
         self.assertEqual(self.client.get(f'/dashboard/payments/{payment.pk}/receipt/')['Content-Type'],
                          'application/pdf')
+        download = self.client.get(f'/dashboard/invoices/{invoice.pk}/pdf/?dl=1')
+        self.assertIn('attachment', download['Content-Disposition'])
+        self.assertIn(invoice.reference, download['Content-Disposition'])
 
     def test_list_pages_render(self):
         for path in ('/dashboard/proposals/', '/dashboard/invoices/',

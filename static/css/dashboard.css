@@ -626,6 +626,17 @@ textarea.dash-input {
     font-size: 0.92rem;
 }
 
+.saved-pdf {
+    margin-top: 0.8rem;
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+.saved-pdf i {
+    color: var(--primary-orange);
+    margin-right: 0.3rem;
+}
+
 /* Enquiry cards */
 .enquiry-card {
     margin-bottom: 1rem;
