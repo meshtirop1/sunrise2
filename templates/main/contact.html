@@ -1,9 +1,29 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Contact Us - Sunrise Drilling Ltd{% endblock %}
+{% block title %}Contact Us | Free Borehole Drilling Quote - Sunrise Drilling Kenya{% endblock %}
 
-{% block description %}Get in touch with Sunrise Drilling Ltd for expert drilling services, water solutions, and construction projects. Contact us today for a free consultation.{% endblock %}
+{% block description %}Contact Sunrise Drilling Ltd in Eldoret for a free quote on borehole drilling, dams, water pans and surveys. Call +254 720 997 769 or send us a message today.{% endblock %}
+
+{% block structured_data %}
+{% if faqs %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {% for faq in faqs %}
+    {
+      "@type": "Question",
+      "name": "{{ faq.question|escapejs }}",
+      "acceptedAnswer": {"@type": "Answer", "text": "{{ faq.answer|escapejs }}"}
+    }{% if not forloop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+</script>
+{% endif %}
+{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/main.css' %}">

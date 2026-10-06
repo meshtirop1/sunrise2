@@ -10,5 +10,7 @@ urlpatterns = [
     path('services/', views.services, name='services'),
     path('gallery/', views.gallery, name='gallery'),
     path('contact/', views.contact, name='contact'),
+    path('robots.txt', views.robots_txt, name='robots'),
+    path('sitemap.xml', views.sitemap_xml, name='sitemap'),
 ]
 

@@ -36,6 +36,35 @@
     padding: 2rem 0;
 }
 
+.hero-eyebrow {
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--primary-orange);
+    margin-bottom: 1rem;
+}
+
+.hero-trust {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.4rem;
+    padding: 0;
+    margin: 2rem 0 0;
+}
+
+.hero-trust li {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.hero-trust i {
+    color: var(--primary-orange);
+    margin-right: 0.4rem;
+}
+
 .hero-title {
     font-size: 4rem;
     font-weight: 800;
@@ -62,6 +91,9 @@
 }
 
 .hero-cta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
     animation: fadeInUp 1s ease-out 0.9s both;
 }
 
@@ -221,17 +253,20 @@
     background: var(--primary-orange);
 }
 
-.service-image {
-    width: 56px;
-    height: 56px;
-    background: #E8F6FE;
-    color: var(--primary-blue);
-    font-size: 1.4rem;
-    border-radius: 12px;
+.service-photo {
+    width: 100%;
+    height: 210px;
+    object-fit: cover;
+    display: block;
+}
+
+.service-photo-empty {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 2rem 2rem 0;
+    background: #E8F6FE;
+    color: var(--primary-blue);
+    font-size: 2rem;
 }
 
 .service-content {
@@ -433,4 +468,93 @@
     .stat-value {
         font-size: 2rem;
     }
+}
+
+
+/* Service cards as links */
+a.service-card {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    overflow: hidden;
+}
+
+/* About teaser */
+.home-about {
+    padding: 80px 0;
+    background: var(--white);
+}
+
+.home-about-grid {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.home-about-photo img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 16px;
+    display: block;
+}
+
+.home-about-heading {
+    font-size: 2.1rem;
+    font-weight: 800;
+    color: var(--brand-navy);
+    line-height: 1.25;
+    margin: 0.8rem 0 1.1rem;
+}
+
+.home-about-lead {
+    color: var(--text-light);
+    line-height: 1.8;
+    margin-bottom: 1.6rem;
+}
+
+.btn-outline {
+    display: inline-block;
+    border: 2px solid var(--primary-blue);
+    color: var(--primary-blue);
+    font-weight: 600;
+    padding: 0.7rem 1.6rem;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.25s ease;
+}
+
+.btn-outline:hover {
+    background: var(--primary-blue);
+    color: var(--white);
+}
+
+.btn-outline i {
+    margin-left: 0.4rem;
+}
+
+@media (max-width: 900px) {
+    .home-about-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .home-about-photo img {
+        height: 260px;
+    }
+}
+
+
+/* Ghost hero button (kept last so it overrides .hero-btn) */
+.hero-btn.hero-btn-ghost {
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    color: var(--white);
+    box-shadow: none;
+}
+
+.hero-btn.hero-btn-ghost:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: var(--white);
 }

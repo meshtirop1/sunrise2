@@ -4,13 +4,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Sunrise Drilling Ltd - Expert Drilling Services in Kenya{% endblock %}</title>
-    <meta name="description" content="{% block description %}Sunrise Drilling Ltd provides expert drilling services, dam construction, water surveys, and general supplies in Kenya since 2019.{% endblock %}">
-    
+    <title>{% block title %}Sunrise Drilling Ltd | Borehole Drilling &amp; Water Solutions in Eldoret, Kenya{% endblock %}</title>
+    <meta name="description" content="{% block description %}Sunrise Drilling Ltd provides expert borehole drilling, dam construction, water pans, water surveys and general supplies across Kenya and East Africa, from Eldoret, since 2019.{% endblock %}">
+
+    <!-- SEO -->
+    <link rel="canonical" href="{{ request.build_absolute_uri }}">
+    <meta name="robots" content="{% block robots %}index, follow{% endblock %}">
+    <meta name="theme-color" content="#2C374D">
+    <meta name="geo.region" content="KE">
+    <meta name="geo.placename" content="Eldoret, Kenya">
+
+    <!-- Open Graph -->
+    <meta property="og:site_name" content="Sunrise Drilling Limited">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{% block og_title %}Sunrise Drilling Ltd | Borehole Drilling &amp; Water Solutions in Kenya{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Expert borehole drilling, dam construction, water surveys and water solutions across Kenya and East Africa.{% endblock %}">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'images/heros.jpeg' %}">
+    <meta property="og:locale" content="en_KE">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{% block tw_title %}Sunrise Drilling Ltd | Water Solutions in Kenya{% endblock %}">
+    <meta name="twitter:description" content="{% block tw_description %}Borehole drilling, dams, water pans and surveys across Kenya and East Africa.{% endblock %}">
+    <meta name="twitter:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'images/heros.jpeg' %}">
+
+    <!-- Structured data: LocalBusiness -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "@id": "{{ request.scheme }}://{{ request.get_host }}/#business",
+      "name": "Sunrise Drilling Limited",
+      "description": "Borehole drilling, dam construction, water pans, water surveys and general supplies in Kenya and East Africa.",
+      "url": "{{ request.scheme }}://{{ request.get_host }}/",
+      "logo": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo-drop.png' %}",
+      "image": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/heros.jpeg' %}",
+      "email": "{{ site_settings.email }}",
+      "telephone": "{{ site_settings.phone_primary }}",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Rivatex Road, Ndovu Lane, Pioneer",
+        "addressLocality": "Eldoret",
+        "addressRegion": "Uasin Gishu",
+        "postalCode": "30100",
+        "addressCountry": "KE"
+      },
+      "areaServed": ["Kenya", "East Africa"],
+      "foundingDate": "2019",
+      "priceRange": "$$"{% if site_settings.facebook_url or site_settings.instagram_url or site_settings.twitter_url %},
+      "sameAs": [{% if site_settings.facebook_url %}"{{ site_settings.facebook_url }}"{% endif %}{% if site_settings.instagram_url %}{% if site_settings.facebook_url %},{% endif %}"{{ site_settings.instagram_url }}"{% endif %}{% if site_settings.twitter_url %}{% if site_settings.facebook_url or site_settings.instagram_url %},{% endif %}"{{ site_settings.twitter_url }}"{% endif %}]{% endif %}
+    }
+    </script>
+
+    {% block structured_data %}{% endblock %}
+
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
     
     <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <!-- Font Awesome for icons -->

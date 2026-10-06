@@ -14,8 +14,8 @@ def home(request):
     """Home page view"""
     return render(request, 'main/home.html', {
         'content': HomePageContent.load(),
-        'quick_links': QuickLink.objects.all(),
-        'service_cards': HomeServiceCard.objects.all(),
+        'about': AboutPageContent.load(),
+        'services': Service.objects.exclude(image='')[:6],
         'stats': GalleryStat.objects.all(),
     })
 
@@ -124,3 +124,41 @@ def contact(request):
             })
 
     return render(request, 'main/contact.html', {'content': content, 'form': form, **extra})
+
+
+def robots_txt(request):
+    """robots.txt pointing crawlers at the sitemap."""
+    sitemap_url = request.build_absolute_uri('/sitemap.xml')
+    lines = [
+        "User-agent: *",
+        "Disallow: /admin/",
+        "Disallow: /dashboard/",
+        "Allow: /",
+        "",
+        f"Sitemap: {sitemap_url}",
+    ]
+    return HttpResponse("\n".join(lines), content_type="text/plain")
+
+
+def sitemap_xml(request):
+    """Simple XML sitemap of the public pages."""
+    from django.urls import reverse
+    pages = [
+        ('main:home', '1.0', 'weekly'),
+        ('main:services', '0.9', 'monthly'),
+        ('main:about', '0.8', 'monthly'),
+        ('main:gallery', '0.8', 'monthly'),
+        ('main:team', '0.6', 'monthly'),
+        ('main:contact', '0.9', 'monthly'),
+    ]
+    items = []
+    for name, priority, freq in pages:
+        loc = request.build_absolute_uri(reverse(name))
+        items.append(
+            f"<url><loc>{loc}</loc><changefreq>{freq}</changefreq>"
+            f"<priority>{priority}</priority></url>"
+        )
+    xml = ('<?xml version="1.0" encoding="UTF-8"?>'
+           '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+           + "".join(items) + '</urlset>')
+    return HttpResponse(xml, content_type="application/xml")

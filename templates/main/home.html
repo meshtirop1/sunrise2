@@ -1,9 +1,23 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Sunrise Drilling Ltd - Expert Drilling Services in Kenya{% endblock %}
+{% block title %}Sunrise Drilling Ltd | Borehole Drilling &amp; Water Solutions in Eldoret, Kenya{% endblock %}
 
-{% block description %}Sunrise Drilling Ltd provides expert drilling services, dam construction, water surveys, and general supplies in Kenya since 2019. Contact us for reliable water solutions.{% endblock %}
+{% block description %}Sunrise Drilling Ltd offers professional borehole drilling, dam construction, water pans, geological surveys, transport and general supplies in Eldoret and across Kenya. Get a free quote today.{% endblock %}
+
+{% block og_title %}Sunrise Drilling Ltd | Borehole Drilling &amp; Water Solutions in Kenya{% endblock %}
+{% block og_description %}Professional borehole drilling, dam construction and water solutions from Eldoret, serving all of Kenya and East Africa since 2019.{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Sunrise Drilling Limited",
+  "url": "{{ request.scheme }}://{{ request.get_host }}/"
+}
+</script>
+{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/main.css' %}">
@@ -13,19 +27,9 @@
 {% block content %}
 <!-- Hero Section -->
 <section class="hero">
-    <!-- Floating Elements -->
-    <div class="hero-floating drill-1">
-        <i class="fas fa-oil-well"></i>
-    </div>
-    <div class="hero-floating drill-2">
-        <i class="fas fa-hammer"></i>
-    </div>
-    <div class="hero-floating water-1">
-        <i class="fas fa-tint"></i>
-    </div>
-    
     <div class="container">
         <div class="hero-content">
+            <p class="hero-eyebrow">Water solutions &middot; Eldoret, Kenya</p>
             <h1 class="hero-title">{{ content.hero_title }}</h1>
             <p class="hero-subtitle">{{ content.hero_subtitle }}</p>
             <p class="hero-location">{{ content.hero_location }}</p>
@@ -33,24 +37,15 @@
                 <a href="{% url 'main:contact' %}" class="hero-btn">
                     <i class="fas fa-phone"></i> {{ content.hero_button_text }}
                 </a>
+                <a href="{% url 'main:services' %}" class="hero-btn hero-btn-ghost">
+                    Our Services <i class="fas fa-arrow-right"></i>
+                </a>
             </div>
-        </div>
-    </div>
-</section>
-
-<!-- Quick Links Section -->
-<section class="quick-links">
-    <div class="container">
-        <div class="quick-links-container">
-            {% for link in quick_links %}
-            <a href="{% url link.page %}" class="quick-link-item animate-on-scroll">
-                <div class="quick-link-icon">
-                    <i class="fas {{ link.icon }}"></i>
-                </div>
-                <h3 class="quick-link-title">{{ link.title }}</h3>
-                <p class="quick-link-desc">{{ link.description }}</p>
-            </a>
-            {% endfor %}
+            <ul class="hero-trust">
+                <li><i class="fas fa-check"></i> ISO certified</li>
+                <li><i class="fas fa-check"></i> KEBS compliant</li>
+                <li><i class="fas fa-check"></i> Serving Kenya since 2019</li>
+            </ul>
         </div>
     </div>
 </section>
@@ -71,28 +66,47 @@
 </section>
 {% endif %}
 
-<!-- Services Preview Section -->
+<!-- Services Preview (real photos from the Services admin) -->
 <section class="services-preview">
     <div class="container">
         <p class="eyebrow animate-on-scroll">What we do</p>
         <h2 class="section-title animate-on-scroll">{{ content.services_title }}</h2>
         <p class="section-subtitle animate-on-scroll">{{ content.services_subtitle }}</p>
-        
+
         <div class="services-grid">
-            {% for card in service_cards %}
-            <div class="service-card animate-on-scroll">
-                <div class="service-image">
-                    <i class="fas {{ card.icon }}"></i>
-                </div>
+            {% for service in services %}
+            <a href="{% url 'main:services' %}" class="service-card animate-on-scroll">
+                {% if service.image %}
+                <img class="service-photo" src="{{ service.image.url }}" alt="{{ service.title }} - Sunrise Drilling" loading="lazy">
+                {% else %}
+                <div class="service-photo service-photo-empty"><i class="fas fa-tint"></i></div>
+                {% endif %}
                 <div class="service-content">
-                    <h3 class="service-title">{{ card.title }}</h3>
-                    <p class="service-description">{{ card.description }}</p>
-                    <a href="{% url 'main:services' %}" class="service-link">
-                        Learn More <i class="fas fa-arrow-right"></i>
-                    </a>
+                    <h3 class="service-title">{{ service.title }}</h3>
+                    <p class="service-description">{{ service.description|truncatewords:18 }}</p>
+                    <span class="service-link">Learn More <i class="fas fa-arrow-right"></i></span>
                 </div>
-            </div>
+            </a>
             {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- About teaser -->
+<section class="home-about">
+    <div class="container">
+        <div class="home-about-grid">
+            <div class="home-about-photo animate-on-scroll">
+                <img src="{% static 'images/services/eqps.jpg' %}" alt="Sunrise Drilling equipment fleet" loading="lazy">
+            </div>
+            <div class="home-about-text animate-on-scroll">
+                <p class="eyebrow eyebrow-left">Who we are</p>
+                <h2 class="home-about-heading">Built in Eldoret. Trusted across East Africa.</h2>
+                <p class="home-about-lead">{{ about.intro|truncatewords:45 }}</p>
+                <a href="{% url 'main:about' %}" class="btn-outline">
+                    More about us <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
         </div>
     </div>
 </section>
@@ -104,37 +118,26 @@
             <p class="eyebrow eyebrow-light animate-on-scroll">Get in touch</p>
             <h2 class="contact-cta-title animate-on-scroll">{{ content.cta_title }}</h2>
             <p class="contact-cta-subtitle animate-on-scroll">{{ content.cta_subtitle }}</p>
-            
+
             <div class="contact-info">
                 <div class="contact-item animate-on-scroll">
-                    <div class="contact-icon">
-                        <i class="fas fa-envelope"></i>
-                    </div>
+                    <div class="contact-icon"><i class="fas fa-envelope"></i></div>
                     <div class="contact-text">{{ site_settings.email }}</div>
                 </div>
-                
                 <div class="contact-item animate-on-scroll">
-                    <div class="contact-icon">
-                        <i class="fas fa-phone"></i>
-                    </div>
+                    <div class="contact-icon"><i class="fas fa-phone"></i></div>
                     <div class="contact-text">{{ site_settings.phone_primary }}{% if site_settings.phone_secondary %} / {{ site_settings.phone_secondary }}{% endif %}</div>
                 </div>
-                
                 <div class="contact-item animate-on-scroll">
-                    <div class="contact-icon">
-                        <i class="fas fa-map-marker-alt"></i>
-                    </div>
+                    <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
                     <div class="contact-text">{{ site_settings.physical_address }}</div>
                 </div>
-                
                 <div class="contact-item animate-on-scroll">
-                    <div class="contact-icon">
-                        <i class="fas fa-mail-bulk"></i>
-                    </div>
+                    <div class="contact-icon"><i class="fas fa-mail-bulk"></i></div>
                     <div class="contact-text">{{ site_settings.postal_address }}</div>
                 </div>
             </div>
-            
+
             <div class="animate-on-scroll">
                 <a href="{% url 'main:contact' %}" class="btn btn-secondary btn-lg">
                     <i class="fas fa-paper-plane"></i> {{ content.cta_button_text }}
@@ -147,26 +150,15 @@
 
 {% block extra_js %}
 <script>
-    // Add smooth scrolling animation on scroll
     document.addEventListener('DOMContentLoaded', function() {
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
         const observer = new IntersectionObserver(function(entries) {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.style.animationDelay = '0.2s';
                     entry.target.classList.add('fade-in');
                 }
             });
-        }, observerOptions);
-
-        // Observe all elements with animate-on-scroll class
-        const animatedElements = document.querySelectorAll('.animate-on-scroll');
-        animatedElements.forEach(el => observer.observe(el));
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+        document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
     });
 </script>
 {% endblock %}
-
