@@ -206,3 +206,116 @@
         grid-template-columns: 1fr;
     }
 }
+
+/* Staff login */
+.staff-login {
+    min-height: 100vh;
+    background: var(--light-gray);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 120px 20px 60px;
+}
+
+.login-card {
+    background: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    padding: 2.6rem 2.6rem 2.2rem;
+    width: 100%;
+    max-width: 420px;
+    text-align: center;
+}
+
+.login-card img {
+    height: 56px;
+    margin-bottom: 0.8rem;
+}
+
+.login-card h1 {
+    color: var(--brand-navy);
+    font-size: 1.6rem;
+    margin-bottom: 0.3rem;
+}
+
+.login-sub {
+    color: var(--text-light);
+    margin-bottom: 1.6rem;
+    font-size: 0.95rem;
+}
+
+.login-card form {
+    text-align: left;
+}
+
+.login-card label {
+    display: block;
+    font-weight: 600;
+    color: var(--brand-navy);
+    font-size: 0.9rem;
+    margin: 0.9rem 0 0.3rem;
+}
+
+.login-card input[type=text],
+.login-card input[type=password] {
+    width: 100%;
+    padding: 0.7rem 0.9rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+.login-card input:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+}
+
+.login-card button {
+    width: 100%;
+    margin-top: 1.4rem;
+    background: var(--primary-orange);
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    padding: 0.85rem;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.login-card button:hover {
+    background: var(--primary-blue);
+}
+
+.login-error {
+    background: #fdecea;
+    color: #b3261e;
+    border: 1px solid #b3261e;
+    border-radius: 8px;
+    padding: 0.6rem 0.9rem;
+    font-size: 0.9rem;
+    margin-bottom: 0.4rem;
+}
+
+.login-note {
+    margin-top: 1.2rem;
+    color: var(--text-light);
+    font-size: 0.85rem;
+}
+
+.btn-logout {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-light);
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
+.btn-logout:hover {
+    border-color: #b3261e;
+    color: #b3261e;
+}

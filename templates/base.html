@@ -412,6 +412,9 @@
                         <li><a href="{% url 'main:services' %}">Services</a></li>
                         <li><a href="{% url 'main:gallery' %}">Gallery</a></li>
                         <li><a href="{% url 'main:contact' %}">Contact</a></li>
+                        {% if user.is_staff %}
+                        <li><a href="{% url 'business:dashboard' %}" style="color: var(--primary-orange); font-weight: 700;">Dashboard</a></li>
+                        {% endif %}
                     </ul>
                     
                     <button class="mobile-menu-toggle" id="mobileMenuToggle">

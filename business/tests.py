@@ -94,7 +94,20 @@ class InvoicePaymentTest(TestCase):
 class DashboardTest(TestCase):
     def test_requires_staff_login(self):
         response = self.client.get('/dashboard/')
-        self.assertEqual(response.status_code, 302)  # redirected to login
+        self.assertEqual(response.status_code, 302)
+        self.assertIn('/dashboard/login/', response.url)
+
+    def test_branded_login_page(self):
+        response = self.client.get('/dashboard/login/')
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Staff Login')
+
+    def test_login_flow_reaches_dashboard(self):
+        User.objects.create_user('staff2', password='pw12345', is_staff=True)
+        response = self.client.post('/dashboard/login/',
+                                    {'username': 'staff2', 'password': 'pw12345'},
+                                    follow=True)
+        self.assertContains(response, 'Staff Dashboard')
 
     def test_staff_can_view(self):
         staff = User.objects.create_user('staff', password='x', is_staff=True)

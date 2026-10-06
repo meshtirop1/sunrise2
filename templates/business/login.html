@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Staff Login - Sunrise Drilling Ltd{% endblock %}
+{% block robots %}noindex, nofollow{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="staff-login">
+    <div class="login-card">
+        <img src="{% static 'images/logo-drop-sm.png' %}" alt="Sunrise Drilling logo">
+        <h1>Staff Login</h1>
+        <p class="login-sub">Sign in to the Sunrise Drilling dashboard</p>
+
+        {% if messages %}
+            {% for message in messages %}
+            <div class="login-error">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+        {% if form.errors %}
+        <div class="login-error">Wrong username or password. Please try again.</div>
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+            <label for="id_username">Username</label>
+            <input type="text" name="username" id="id_username" autofocus autocomplete="username" required>
+            <label for="id_password">Password</label>
+            <input type="password" name="password" id="id_password" autocomplete="current-password" required>
+            <input type="hidden" name="next" value="{{ next }}">
+            <button type="submit"><i class="fas fa-sign-in-alt"></i> Sign in</button>
+        </form>
+        <p class="login-note">Forgot your password? Ask the administrator to reset it.</p>
+    </div>
+</section>
+{% endblock %}

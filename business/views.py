@@ -1,6 +1,8 @@
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth import views as auth_views
 from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse_lazy
 from django.views.decorators.http import require_POST
 
 from main.models import ContactSubmission
@@ -9,7 +11,7 @@ from .models import Client, Invoice, Project, Proposal
 from .services import send_invoice_email, send_proposal_email
 
 
-@staff_member_required
+@staff_member_required(login_url='business:login')
 def dashboard(request):
     """Staff overview: proposals, invoices, projects and enquiries at a glance."""
     proposals = Proposal.objects.select_related('client')
@@ -40,7 +42,7 @@ def dashboard(request):
     return render(request, 'business/dashboard.html', context)
 
 
-@staff_member_required
+@staff_member_required(login_url='business:login')
 @require_POST
 def dashboard_send_proposal(request, pk):
     proposal = get_object_or_404(Proposal, pk=pk)
@@ -49,10 +51,31 @@ def dashboard_send_proposal(request, pk):
     return redirect('business:dashboard')
 
 
-@staff_member_required
+@staff_member_required(login_url='business:login')
 @require_POST
 def dashboard_send_invoice(request, pk):
     invoice = get_object_or_404(Invoice, pk=pk)
     ok, msg = send_invoice_email(invoice)
     messages.success(request, msg) if ok else messages.error(request, msg)
     return redirect('business:dashboard')
+
+
+class DashboardLoginView(auth_views.LoginView):
+    """Branded staff login for /dashboard/."""
+    template_name = 'business/login.html'
+
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            if request.user.is_staff:
+                return redirect('business:dashboard')
+            messages.error(request,
+                           "Your account does not have staff access. "
+                           "Ask an administrator to enable it.")
+        return super().get(request, *args, **kwargs)
+
+    def get_success_url(self):
+        return self.get_redirect_url() or reverse_lazy('business:dashboard')
+
+
+class DashboardLogoutView(auth_views.LogoutView):
+    next_page = reverse_lazy('main:home')

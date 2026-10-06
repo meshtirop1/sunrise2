@@ -17,6 +17,10 @@
                 <a href="/admin/business/proposal/add/" class="btn-admin"><i class="fas fa-file-signature"></i> New Proposal</a>
                 <a href="/admin/business/invoice/add/" class="btn-admin"><i class="fas fa-file-invoice-dollar"></i> New Invoice</a>
                 <a href="/admin/business/project/add/" class="btn-admin"><i class="fas fa-hard-hat"></i> New Project</a>
+                <form method="post" action="{% url 'business:logout' %}" style="display:inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Logout</button>
+                </form>
             </div>
         </div>
 
