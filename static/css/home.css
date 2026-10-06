@@ -66,7 +66,7 @@
 }
 
 .hero-title {
-    font-size: 4rem;
+    font-size: 2.7rem;
     font-weight: 800;
     margin-bottom: 1rem;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
@@ -82,7 +82,7 @@
 }
 
 .hero-location {
-    font-size: 1.8rem;
+    font-size: 1.45rem;
     font-weight: 600;
     color: var(--primary-orange);
     margin-bottom: 2rem;
@@ -129,21 +129,21 @@
 .hero-floating.drill-1 {
     top: 20%;
     left: 10%;
-    font-size: 3rem;
+    font-size: 2.2rem;
     animation-delay: 0s;
 }
 
 .hero-floating.drill-2 {
     top: 60%;
     right: 15%;
-    font-size: 2rem;
+    font-size: 1.6rem;
     animation-delay: 2s;
 }
 
 .hero-floating.water-1 {
     top: 30%;
     right: 20%;
-    font-size: 2.5rem;
+    font-size: 1.9rem;
     animation-delay: 4s;
 }
 
@@ -266,7 +266,7 @@
     justify-content: center;
     background: #E8F6FE;
     color: var(--primary-blue);
-    font-size: 2rem;
+    font-size: 1.6rem;
 }
 
 .service-content {
@@ -336,7 +336,7 @@
 }
 
 .contact-cta-title {
-    font-size: 2.5rem;
+    font-size: 1.9rem;
     font-weight: 700;
     margin-bottom: 1rem;
 }
@@ -385,7 +385,7 @@
 /* Responsive Design for Home Page */
 @media (max-width: 768px) {
     .hero-title {
-        font-size: 2.5rem;
+        font-size: 1.9rem;
     }
     
     .hero-subtitle {
@@ -406,7 +406,7 @@
     }
     
     .contact-cta-title {
-        font-size: 2rem;
+        font-size: 1.6rem;
     }
     
     .contact-info {
@@ -420,7 +420,7 @@
     }
     
     .hero-title {
-        font-size: 2rem;
+        font-size: 1.6rem;
     }
     
     .hero-subtitle {
@@ -453,7 +453,7 @@
 
 .stat-value {
     color: var(--primary-orange);
-    font-size: 2.8rem;
+    font-size: 2.1rem;
     font-weight: 800;
     line-height: 1.1;
 }
@@ -466,7 +466,7 @@
 
 @media (max-width: 768px) {
     .stat-value {
-        font-size: 2rem;
+        font-size: 1.6rem;
     }
 }
 
@@ -501,7 +501,7 @@ a.service-card {
 }
 
 .home-about-heading {
-    font-size: 2.1rem;
+    font-size: 1.7rem;
     font-weight: 800;
     color: var(--brand-navy);
     line-height: 1.25;

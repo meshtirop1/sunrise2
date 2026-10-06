@@ -7,7 +7,7 @@
 }
 
 .team-header .page-title {
-    font-size: 2.6rem;
+    font-size: 2.0rem;
     font-weight: 800;
 }
 
@@ -64,7 +64,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2.2rem;
+    font-size: 1.75rem;
     font-weight: 800;
     color: var(--white);
     background: var(--primary-blue);
@@ -132,7 +132,7 @@
 }
 
 .team-cta h2 {
-    font-size: 1.8rem;
+    font-size: 1.45rem;
     margin-bottom: 0.5rem;
 }
 
@@ -161,6 +161,6 @@
     }
 
     .team-header .page-title {
-        font-size: 2rem;
+        font-size: 1.6rem;
     }
 }
