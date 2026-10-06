@@ -19,27 +19,43 @@
     </div>
 </section>
 
-<!-- About Content -->
-<section class="about-content">
+<!-- Intro: text + photo -->
+<section class="about-intro-section">
     <div class="container">
-        <div class="about-intro animate-on-scroll">
-            <p>{{ content.intro|linebreaksbr }}</p>
+        <div class="about-intro-grid">
+            <div class="about-intro-text animate-on-scroll">
+                <p class="eyebrow eyebrow-left">Our story</p>
+                <h2 class="about-heading">Built in Eldoret.<br>Trusted across East Africa.</h2>
+                <p class="about-lead">{{ content.intro|linebreaksbr }}</p>
+                <ul class="about-badges">
+                    {% for card in certifications %}
+                    <li><i class="fas fa-check"></i> {{ card.title }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="about-intro-photo animate-on-scroll">
+                <img src="{% static 'images/services/eqp_drilling.jpg' %}" alt="Sunrise Drilling rig on site">
+                <div class="photo-tag">
+                    <span class="photo-tag-label">Serving Kenya since</span>
+                    <span class="photo-tag-number">2019</span>
+                </div>
+            </div>
         </div>
     </div>
 </section>
 
-<!-- Timeline Section -->
+<!-- Timeline -->
 <section class="timeline-section">
     <div class="container">
+        <p class="eyebrow animate-on-scroll">Milestones</p>
         <h2 class="section-title animate-on-scroll">{{ content.journey_title }}</h2>
         <p class="section-subtitle animate-on-scroll">{{ content.journey_subtitle }}</p>
 
         <div class="timeline">
             {% for event in timeline_events %}
             <div class="timeline-item animate-on-scroll">
-                <div class="timeline-icon"></div>
-                <div class="timeline-content">
-                    <div class="timeline-year">{{ event.year }}</div>
+                <div class="timeline-year">{{ event.year }}</div>
+                <div class="timeline-body">
                     <h3 class="timeline-title">{{ event.title }}</h3>
                     <p class="timeline-description">{{ event.description }}</p>
                 </div>
@@ -49,67 +65,58 @@
     </div>
 </section>
 
-<!-- Values Section -->
+<!-- Values -->
 <section class="values-section">
     <div class="container">
+        <p class="eyebrow animate-on-scroll">What guides us</p>
         <h2 class="section-title animate-on-scroll">{{ content.values_title }}</h2>
         <p class="section-subtitle animate-on-scroll">{{ content.values_subtitle }}</p>
 
         <div class="values-grid">
             {% for card in values %}
             <div class="value-card animate-on-scroll">
-                <div class="value-icon">
-                    <i class="fas {{ card.icon }}"></i>
+                <div class="value-icon"><i class="fas {{ card.icon }}"></i></div>
+                <div class="value-body">
+                    <h3 class="value-title">{{ card.title }}</h3>
+                    <p class="value-description">{{ card.description }}</p>
                 </div>
-                <h3 class="value-title">{{ card.title }}</h3>
-                <p class="value-description">{{ card.description }}</p>
             </div>
             {% endfor %}
         </div>
     </div>
 </section>
 
-<!-- Mission & Vision Section -->
+<!-- Mission & Vision -->
 <section class="mission-vision">
     <div class="container">
         <div class="mission-vision-content">
-            <div class="mission-card animate-on-scroll">
-                <div class="mission-icon">
-                    <i class="fas fa-bullseye"></i>
-                </div>
-                <h3 class="mission-title">Our Mission</h3>
-                <p class="mission-text">{{ content.mission_text|linebreaksbr }}</p>
+            <div class="mv-card animate-on-scroll">
+                <p class="mv-kicker">Our Mission</p>
+                <p class="mv-text">{{ content.mission_text|linebreaksbr }}</p>
             </div>
-
-            <div class="vision-card animate-on-scroll">
-                <div class="vision-icon">
-                    <i class="fas fa-eye"></i>
-                </div>
-                <h3 class="vision-title">Our Vision</h3>
-                <p class="vision-text">{{ content.vision_text|linebreaksbr }}</p>
+            <div class="mv-card mv-card-accent animate-on-scroll">
+                <p class="mv-kicker">Our Vision</p>
+                <p class="mv-text">{{ content.vision_text|linebreaksbr }}</p>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Certifications Section -->
-<section class="values-section">
+<!-- Certifications -->
+<section class="cert-section">
     <div class="container">
+        <p class="eyebrow animate-on-scroll">Standards</p>
         <h2 class="section-title animate-on-scroll">{{ content.cert_title }}</h2>
         <p class="section-subtitle animate-on-scroll">{{ content.cert_subtitle }}</p>
 
         {% if content.cert_intro %}
-        <div class="about-intro animate-on-scroll">
-            <p>{{ content.cert_intro|linebreaksbr }}</p>
-        </div>
+        <p class="cert-intro animate-on-scroll">{{ content.cert_intro|linebreaksbr }}</p>
         {% endif %}
 
-        <div class="values-grid">
+        <div class="cert-grid">
             {% for card in certifications %}
-            <div class="value-card animate-on-scroll">
-                <div class="value-icon">
-                    <i class="fas {{ card.icon }}"></i>
-                </div>
+            <div class="cert-card animate-on-scroll">
+                <div class="value-icon"><i class="fas {{ card.icon }}"></i></div>
                 <h3 class="value-title">{{ card.title }}</h3>
                 <p class="value-description">{{ card.description }}</p>
             </div>
@@ -121,24 +128,15 @@
 
 {% block extra_js %}
 <script>
-    // Add smooth scrolling animation on scroll
     document.addEventListener('DOMContentLoaded', function() {
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
         const observer = new IntersectionObserver(function(entries) {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.style.animationDelay = '0.2s';
                     entry.target.classList.add('fade-in');
                 }
             });
-        }, observerOptions);
-
-        const animatedElements = document.querySelectorAll('.animate-on-scroll');
-        animatedElements.forEach(el => observer.observe(el));
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+        document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
     });
 </script>
 {% endblock %}
