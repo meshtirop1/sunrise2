@@ -19,6 +19,12 @@ jobs:
           grep -o '<section class="[^"]*"' page.html
           echo "===== HEADINGS ====="
           grep -oE '<h[12][^>]*>[^<]*' page.html
+          echo "===== STYLESHEETS ====="
+          grep -o 'href="/static/[^"]*\.css"' page.html | sed 's/href="//;s/"//' | while read c; do
+            code=$(curl -sk -o /tmp/c.css -w "%{http_code} %{size_download}b" "https://sunrise.mtirop.com$c")
+            marks=$(grep -c "stats-strip\|svc-card\|gallery-card\|about-intro-grid" /tmp/c.css || true)
+            echo "$code  $c  (new-design rules: $marks)"
+          done
           echo "===== IMAGE CHECKS ====="
           grep -o 'src="[^"]*"' page.html | sed 's/src="//;s/"//' | sort -u | while read u; do
             case "$u" in

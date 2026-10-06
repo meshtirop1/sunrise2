@@ -126,6 +126,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+
+# In production, serve cache-busted (content-hashed) static files so browsers
+# can cache for 30 days yet never see a stale stylesheet after a deploy.
+if not DEBUG:
+    STORAGES = {
+        'default': {'BACKEND': 'django.core.files.storage.FileSystemStorage'},
+        'staticfiles': {'BACKEND': 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'},
+    }
+
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]

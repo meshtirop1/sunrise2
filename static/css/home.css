@@ -3,7 +3,7 @@
 /* Hero Section */
 .hero {
     background: linear-gradient(rgba(29, 42, 62, 0.82), rgba(29, 42, 62, 0.82)),
-                url('/static/images/heros.jpeg') center/cover no-repeat;
+                url('../images/heros.jpeg') center/cover no-repeat;
     min-height: 88vh;
     display: flex;
     align-items: center;
