@@ -2,26 +2,32 @@ name: Inspect live page
 
 on:
   workflow_dispatch:
+    inputs:
+      path:
+        description: "Page path to inspect (e.g. /services/)"
+        default: "/"
 
 jobs:
   inspect:
     runs-on: ubuntu-latest
     steps:
-      - name: Dump Our Services section and test images
+      - name: Dump page structure and test images
         run: |
-          curl -sk https://sunrise.mtirop.com/ -o home.html
-          echo "===== SERVICES SECTION HTML ====="
-          sed -n '/services-preview/,/home-about/p' home.html
-          echo "===== IMAGE URL CHECKS ====="
-          grep -o 'src="[^"]*"' home.html | sed 's/src="//;s/"//' | sort -u | while read u; do
+          P="${{ github.event.inputs.path }}"
+          curl -sk "https://sunrise.mtirop.com$P" -o page.html
+          echo "===== SECTIONS ====="
+          grep -o '<section class="[^"]*"' page.html
+          echo "===== HEADINGS ====="
+          grep -oE '<h[12][^>]*>[^<]*' page.html
+          echo "===== IMAGE CHECKS ====="
+          grep -o 'src="[^"]*"' page.html | sed 's/src="//;s/"//' | sort -u | while read u; do
             case "$u" in
               /*) full="https://sunrise.mtirop.com$u";;
               http*) full="$u";;
               *) full="https://sunrise.mtirop.com/$u";;
             esac
-            code=$(curl -sk -o /dev/null -w "%{http_code} %{size_download}b %{content_type}" --max-time 15 "$full")
+            code=$(curl -sk -o /dev/null -w "%{http_code} %{size_download}b" --max-time 15 "$full")
             echo "$code  $u"
           done
-          echo "===== STATS + ABOUT SECTIONS PRESENT? ====="
-          grep -c "stats-strip" home.html || true
-          grep -c "home-about" home.html || true
+          echo "===== PAGE SIZE ====="
+          wc -c page.html
