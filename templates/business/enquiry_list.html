@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Enquiries - Staff Dashboard{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="dash">
+    <div class="container">
+        {% include 'business/_dashnav.html' with page_title="Website Enquiries" %}
+
+        <div class="dash-toolbar">
+            <div class="dash-filter">
+                <a href="{% url 'business:enquiry_list' %}?show=new" class="btn-admin {% if show == 'new' %}btn-new{% endif %}">New</a>
+                <a href="{% url 'business:enquiry_list' %}?show=all" class="btn-admin {% if show == 'all' %}btn-new{% endif %}">All</a>
+            </div>
+        </div>
+
+        {% for e in enquiries %}
+        <div class="panel enquiry-card">
+            <div class="enquiry-head">
+                <div>
+                    <strong>{{ e.name }}</strong> · <a href="mailto:{{ e.email }}">{{ e.email }}</a>
+                    {% if e.phone %} · <a href="tel:{{ e.phone }}">{{ e.phone }}</a>{% endif %}
+                    <span class="badge {% if e.is_processed %}badge-accepted{% else %}badge-sent{% endif %}">
+                        {% if e.is_processed %}Handled{% else %}New{% endif %}</span>
+                </div>
+                <small>{{ e.inquiry_type|default:"General" }} · {{ e.submitted_at|date:"d M Y H:i" }}</small>
+            </div>
+            <p class="enquiry-msg">{{ e.message|linebreaksbr }}</p>
+            <div class="row-actions">
+                <a class="btn-admin" href="mailto:{{ e.email }}?subject=Re: your enquiry to Sunrise Drilling"><i class="fas fa-reply"></i> Reply by email</a>
+                <form method="post" action="{% url 'business:enquiry_to_client' e.pk %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-admin btn-ok"><i class="fas fa-user-plus"></i> Make client</button>
+                </form>
+                {% if not e.is_processed %}
+                <form method="post" action="{% url 'business:enquiry_done' e.pk %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-logout"><i class="fas fa-check"></i> Mark handled</button>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+        {% empty %}
+        <div class="panel"><p class="empty">{% if show == 'new' %}No new enquiries. 🎉{% else %}No enquiries on record yet.{% endif %}</p></div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

@@ -10,27 +10,14 @@
 {% block content %}
 <section class="dash">
     <div class="container">
-        <div class="dash-head">
-            <h1>Staff Dashboard</h1>
-            <div class="dash-links">
-                <a href="/admin/" class="btn-admin"><i class="fas fa-cog"></i> Open Admin</a>
-                <a href="/admin/business/proposal/add/" class="btn-admin"><i class="fas fa-file-signature"></i> New Proposal</a>
-                <a href="/admin/business/invoice/add/" class="btn-admin"><i class="fas fa-file-invoice-dollar"></i> New Invoice</a>
-                <a href="/admin/business/project/add/" class="btn-admin"><i class="fas fa-hard-hat"></i> New Project</a>
-                <form method="post" action="{% url 'business:logout' %}" style="display:inline">
-                    {% csrf_token %}
-                    <button type="submit" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Logout</button>
-                </form>
-            </div>
-        </div>
+        {% include 'business/_dashnav.html' %}
 
-        {% if messages %}
-        <div class="dash-messages">
-            {% for message in messages %}
-            <div class="dash-message {{ message.tags }}">{{ message }}</div>
-            {% endfor %}
+        <div class="dash-actions">
+            <a href="{% url 'business:proposal_create' %}" class="btn-admin"><i class="fas fa-plus"></i> New Proposal</a>
+            <a href="{% url 'business:invoice_create' %}" class="btn-admin"><i class="fas fa-plus"></i> New Invoice</a>
+            <a href="{% url 'business:project_create' %}" class="btn-admin"><i class="fas fa-plus"></i> New Project</a>
+            <a href="{% url 'business:client_create' %}" class="btn-admin"><i class="fas fa-plus"></i> New Client</a>
         </div>
-        {% endif %}
 
         <div class="stat-grid">
             <div class="stat-card">
@@ -44,14 +31,33 @@
                 <div class="stat-sub">{{ stats.overdue_count }} overdue</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number">{{ stats.active_projects }}</div>
-                <div class="stat-label">Projects in progress</div>
+                <div class="stat-number">KES {{ stats.collected_this_year|floatformat:0|intcomma }}</div>
+                <div class="stat-label">Collected this year</div>
                 <div class="stat-sub">{{ stats.clients }} clients on record</div>
             </div>
             <div class="stat-card orange">
                 <div class="stat-number">{{ stats.new_enquiries }}</div>
                 <div class="stat-label">New enquiries</div>
-                <div class="stat-sub"><a href="/admin/main/contactsubmission/?is_processed__exact=0">Review now →</a></div>
+                <div class="stat-sub"><a href="{% url 'business:enquiry_list' %}">Review now →</a></div>
+            </div>
+        </div>
+
+        <div class="chart-grid">
+            <div class="panel chart-panel chart-wide">
+                <h2><i class="fas fa-chart-column"></i> Invoiced vs collected (KES, last 12 months)</h2>
+                <div class="chart-box"><canvas id="moneyChart"></canvas></div>
+            </div>
+            <div class="panel chart-panel">
+                <h2><i class="fas fa-chart-pie"></i> Proposals by status</h2>
+                <div class="chart-box chart-box-sm"><canvas id="proposalChart"></canvas></div>
+            </div>
+            <div class="panel chart-panel">
+                <h2><i class="fas fa-chart-pie"></i> Projects by status</h2>
+                <div class="chart-box chart-box-sm"><canvas id="projectChart"></canvas></div>
+            </div>
+            <div class="panel chart-panel chart-wide">
+                <h2><i class="fas fa-chart-area"></i> Website enquiries (last 12 months)</h2>
+                <div class="chart-box"><canvas id="enquiryChart"></canvas></div>
             </div>
         </div>
 
@@ -62,7 +68,7 @@
                     <tr><th>Ref</th><th>Client</th><th>Title</th><th>KES</th><th>Status</th><th></th></tr>
                     {% for p in recent_proposals %}
                     <tr>
-                        <td><a href="/admin/business/proposal/{{ p.pk }}/change/">{{ p.reference }}</a></td>
+                        <td><a href="{% url 'business:proposal_detail' p.pk %}">{{ p.reference }}</a></td>
                         <td>{{ p.client.name }}</td>
                         <td class="truncate">{{ p.title }}</td>
                         <td class="num">{{ p.total|floatformat:0|intcomma }}</td>
@@ -77,7 +83,7 @@
                         </td>
                     </tr>
                     {% empty %}
-                    <tr><td colspan="6" class="empty">No proposals yet — <a href="/admin/business/proposal/add/">write the first one</a>.</td></tr>
+                    <tr><td colspan="6" class="empty">No proposals yet — <a href="{% url 'business:proposal_create' %}">write the first one</a>.</td></tr>
                     {% endfor %}
                 </table>
             </div>
@@ -88,7 +94,7 @@
                     <tr><th>Ref</th><th>Client</th><th>Balance (KES)</th><th>Due</th><th></th></tr>
                     {% for i in open_invoices %}
                     <tr {% if i.is_overdue %}class="overdue"{% endif %}>
-                        <td><a href="/admin/business/invoice/{{ i.pk }}/change/">{{ i.reference }}</a></td>
+                        <td><a href="{% url 'business:invoice_detail' i.pk %}">{{ i.reference }}</a></td>
                         <td>{{ i.client.name }}</td>
                         <td class="num">{{ i.balance|floatformat:0|intcomma }}</td>
                         <td>{{ i.due_date|date:"d M"|default:"–" }}{% if i.is_overdue %} ⚠{% endif %}</td>
@@ -113,14 +119,14 @@
                     <tr><th>Project</th><th>Client</th><th>Site</th><th>Status</th><th>Crew lead</th></tr>
                     {% for pr in active_projects %}
                     <tr>
-                        <td><a href="/admin/business/project/{{ pr.pk }}/change/">{{ pr.name }}</a></td>
+                        <td><a href="{% url 'business:project_detail' pr.pk %}">{{ pr.name }}</a></td>
                         <td>{{ pr.client.name }}</td>
                         <td>{{ pr.site_location|default:"–" }}</td>
                         <td><span class="badge badge-{{ pr.status }}">{{ pr.get_status_display }}</span></td>
                         <td>{{ pr.crew_lead|default:"–" }}</td>
                     </tr>
                     {% empty %}
-                    <tr><td colspan="5" class="empty">No active projects — <a href="/admin/business/project/add/">start one</a>.</td></tr>
+                    <tr><td colspan="5" class="empty">No active projects — <a href="{% url 'business:project_create' %}">start one</a>.</td></tr>
                     {% endfor %}
                 </table>
             </div>
@@ -131,7 +137,7 @@
                     <tr><th>Name</th><th>Type</th><th>Received</th><th></th></tr>
                     {% for e in recent_enquiries %}
                     <tr>
-                        <td><a href="/admin/main/contactsubmission/{{ e.pk }}/change/">{{ e.name }}</a></td>
+                        <td><a href="{% url 'business:enquiry_list' %}">{{ e.name }}</a></td>
                         <td>{{ e.inquiry_type|default:"General" }}</td>
                         <td>{{ e.submitted_at|date:"d M H:i" }}</td>
                         <td><a class="btn-mini" href="mailto:{{ e.email }}" title="Reply by email"><i class="fas fa-reply"></i></a></td>
@@ -144,4 +150,64 @@
         </div>
     </div>
 </section>
+
+{{ chart_data|json_script:"chart-data" }}
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/chart.umd.js' %}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        if (typeof Chart === 'undefined') return;
+        const data = JSON.parse(JSON.parse(document.getElementById('chart-data').textContent));
+        const navy = '#2C374D', blue = '#009FE3', orange = '#F39200';
+        Chart.defaults.font.family = getComputedStyle(document.body).fontFamily;
+        Chart.defaults.color = '#5a6472';
+
+        const kes = v => 'KES ' + Number(v).toLocaleString();
+
+        new Chart(document.getElementById('moneyChart'), {
+            type: 'bar',
+            data: {
+                labels: data.labels,
+                datasets: [
+                    { label: 'Invoiced', data: data.invoiced, backgroundColor: blue, borderRadius: 4 },
+                    { label: 'Collected', data: data.collected, backgroundColor: orange, borderRadius: 4 }
+                ]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: { tooltip: { callbacks: { label: c => c.dataset.label + ': ' + kes(c.raw) } } },
+                scales: { y: { beginAtZero: true, ticks: { callback: v => v >= 1000000 ? (v / 1000000) + 'M' : v >= 1000 ? (v / 1000) + 'K' : v } } }
+            }
+        });
+
+        const doughnut = (id, slice) => new Chart(document.getElementById(id), {
+            type: 'doughnut',
+            data: {
+                labels: slice.labels,
+                datasets: [{ data: slice.counts,
+                             backgroundColor: ['#8a94a6', blue, '#2e9e5b', '#d64540'],
+                             borderWidth: 2, borderColor: '#fff' }]
+            },
+            options: { responsive: true, maintainAspectRatio: false, cutout: '62%',
+                       plugins: { legend: { position: 'bottom' } } }
+        });
+        doughnut('proposalChart', data.proposal_status);
+        doughnut('projectChart', data.project_status);
+
+        new Chart(document.getElementById('enquiryChart'), {
+            type: 'line',
+            data: {
+                labels: data.labels,
+                datasets: [{ label: 'Enquiries', data: data.enquiries, borderColor: navy,
+                             backgroundColor: 'rgba(0, 159, 227, 0.12)', fill: true,
+                             tension: 0.35, pointBackgroundColor: orange, pointRadius: 4 }]
+            },
+            options: { responsive: true, maintainAspectRatio: false,
+                       plugins: { legend: { display: false } },
+                       scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
+        });
+    });
+</script>
 {% endblock %}

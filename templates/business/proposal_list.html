@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static humanize %}
+
+{% block title %}Proposals - Staff Dashboard{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="dash">
+    <div class="container">
+        {% include 'business/_dashnav.html' with page_title="Proposals & Quotations" %}
+
+        <div class="dash-toolbar">
+            <form method="get" class="dash-filter">
+                <input type="text" name="q" value="{{ q }}" class="dash-input" placeholder="Search ref, title or client…">
+                <select name="status" class="dash-input">
+                    <option value="">All statuses</option>
+                    {% for value, label in status_choices %}
+                    <option value="{{ value }}" {% if status == value %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="btn-admin"><i class="fas fa-search"></i> Filter</button>
+            </form>
+            <a href="{% url 'business:proposal_create' %}" class="btn-admin btn-new"><i class="fas fa-plus"></i> New Proposal</a>
+        </div>
+
+        <div class="panel">
+            <table>
+                <tr><th>Ref</th><th>Kind</th><th>Client</th><th>Title</th><th>KES</th><th>Status</th><th>Created</th><th></th></tr>
+                {% for p in proposals %}
+                <tr>
+                    <td><a href="{% url 'business:proposal_detail' p.pk %}">{{ p.reference }}</a></td>
+                    <td>{{ p.get_kind_display }}</td>
+                    <td>{{ p.client.name }}</td>
+                    <td class="truncate">{{ p.title }}</td>
+                    <td class="num">{{ p.total|floatformat:0|intcomma }}</td>
+                    <td><span class="badge badge-{{ p.status }}">{{ p.get_status_display }}</span></td>
+                    <td>{{ p.created_at|date:"d M Y" }}</td>
+                    <td class="row-actions">
+                        <a class="btn-mini" href="{% url 'business:proposal_pdf' p.pk %}" title="View PDF"><i class="fas fa-file-pdf"></i></a>
+                        <a class="btn-mini" href="{% url 'business:proposal_edit' p.pk %}" title="Edit"><i class="fas fa-pen"></i></a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="8" class="empty">No proposals match — <a href="{% url 'business:proposal_create' %}">write one</a>.</td></tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</section>
+{% endblock %}

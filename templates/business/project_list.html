@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Projects - Staff Dashboard{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="dash">
+    <div class="container">
+        {% include 'business/_dashnav.html' with page_title="Projects" %}
+
+        <div class="dash-toolbar">
+            <form method="get" class="dash-filter">
+                <select name="status" class="dash-input">
+                    <option value="">All statuses</option>
+                    {% for value, label in status_choices %}
+                    <option value="{{ value }}" {% if status == value %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="btn-admin"><i class="fas fa-search"></i> Filter</button>
+            </form>
+            <a href="{% url 'business:project_create' %}" class="btn-admin btn-new"><i class="fas fa-plus"></i> New Project</a>
+        </div>
+
+        <div class="panel">
+            <table>
+                <tr><th>Project</th><th>Client</th><th>Site</th><th>Status</th><th>Crew lead</th><th>Start</th><th>Target end</th><th></th></tr>
+                {% for pr in projects %}
+                <tr>
+                    <td><a href="{% url 'business:project_detail' pr.pk %}">{{ pr.name }}</a></td>
+                    <td>{{ pr.client.name }}</td>
+                    <td>{{ pr.site_location|default:"–" }}</td>
+                    <td><span class="badge badge-{{ pr.status }}">{{ pr.get_status_display }}</span></td>
+                    <td>{{ pr.crew_lead|default:"–" }}</td>
+                    <td>{{ pr.start_date|date:"d M Y"|default:"–" }}</td>
+                    <td>{{ pr.target_end_date|date:"d M Y"|default:"–" }}</td>
+                    <td class="row-actions"><a class="btn-mini" href="{% url 'business:project_edit' pr.pk %}" title="Edit"><i class="fas fa-pen"></i></a></td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="8" class="empty">No projects match — <a href="{% url 'business:project_create' %}">start one</a>.</td></tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</section>
+{% endblock %}

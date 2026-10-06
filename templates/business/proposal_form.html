@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{% if proposal %}Edit {{ proposal.reference }}{% else %}New Proposal{% endif %} - Staff Dashboard{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="dash">
+    <div class="container">
+        {% if proposal %}
+        {% include 'business/_dashnav.html' with page_title=proposal.reference %}
+        {% else %}
+        {% include 'business/_dashnav.html' with page_title="New Proposal / Quotation" %}
+        {% endif %}
+
+        <form method="post" class="panel form-panel">
+            {% csrf_token %}
+            {% include 'business/_form_fields.html' %}
+            {% include 'business/_items_formset.html' %}
+            <div class="form-actions">
+                <button type="submit" class="btn-admin btn-new"><i class="fas fa-save"></i> Save {% if proposal %}changes{% else %}proposal{% endif %}</button>
+                <a href="{% if proposal %}{% url 'business:proposal_detail' proposal.pk %}{% else %}{% url 'business:proposal_list' %}{% endif %}" class="btn-logout">Cancel</a>
+            </div>
+        </form>
+        <p class="form-hint">No client in the list? <a href="{% url 'business:client_create' %}">Add the client first</a>, then come back.</p>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static humanize %}
+
+{% block title %}Invoices - Staff Dashboard{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="dash">
+    <div class="container">
+        {% include 'business/_dashnav.html' with page_title="Invoices" %}
+
+        <div class="dash-toolbar">
+            <form method="get" class="dash-filter">
+                <input type="text" name="q" value="{{ q }}" class="dash-input" placeholder="Search ref, title or client…">
+                <select name="status" class="dash-input">
+                    <option value="">All statuses</option>
+                    {% for value, label in status_choices %}
+                    <option value="{{ value }}" {% if status == value %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="btn-admin"><i class="fas fa-search"></i> Filter</button>
+            </form>
+            <a href="{% url 'business:invoice_create' %}" class="btn-admin btn-new"><i class="fas fa-plus"></i> New Invoice</a>
+        </div>
+
+        <div class="panel">
+            <table>
+                <tr><th>Ref</th><th>Client</th><th>Title</th><th class="num">Total</th><th class="num">Balance</th><th>Due</th><th>Status</th><th></th></tr>
+                {% for i in invoices %}
+                <tr {% if i.is_overdue %}class="overdue"{% endif %}>
+                    <td><a href="{% url 'business:invoice_detail' i.pk %}">{{ i.reference }}</a></td>
+                    <td>{{ i.client.name }}</td>
+                    <td class="truncate">{{ i.title }}</td>
+                    <td class="num">{{ i.total|floatformat:0|intcomma }}</td>
+                    <td class="num">{{ i.balance|floatformat:0|intcomma }}</td>
+                    <td>{{ i.due_date|date:"d M Y"|default:"–" }}{% if i.is_overdue %} ⚠{% endif %}</td>
+                    <td><span class="badge badge-{{ i.status }}">{{ i.get_status_display }}</span></td>
+                    <td class="row-actions">
+                        <a class="btn-mini" href="{% url 'business:invoice_pdf' i.pk %}" title="View PDF"><i class="fas fa-file-pdf"></i></a>
+                        <a class="btn-mini" href="{% url 'business:invoice_edit' i.pk %}" title="Edit"><i class="fas fa-pen"></i></a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="8" class="empty">No invoices match — <a href="{% url 'business:invoice_create' %}">raise one</a>.</td></tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</section>
+{% endblock %}

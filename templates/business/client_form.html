@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{% if client_obj %}Edit {{ client_obj.name }}{% else %}New Client{% endif %} - Staff Dashboard{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="dash">
+    <div class="container">
+        {% if client_obj %}
+        {% include 'business/_dashnav.html' with page_title=client_obj.name %}
+        {% else %}
+        {% include 'business/_dashnav.html' with page_title="New Client" %}
+        {% endif %}
+
+        <form method="post" class="panel form-panel">
+            {% csrf_token %}
+            {% include 'business/_form_fields.html' %}
+            <div class="form-actions">
+                <button type="submit" class="btn-admin btn-new"><i class="fas fa-save"></i> Save client</button>
+                <a href="{% url 'business:client_list' %}" class="btn-logout">Cancel</a>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}

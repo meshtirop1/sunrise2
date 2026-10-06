@@ -1,0 +1,44 @@
+<h2><i class="fas fa-list"></i> Line items (prices in KES)</h2>
+{{ formset.management_form }}
+{% if formset.non_form_errors %}
+<div class="dash-message error">{{ formset.non_form_errors }}</div>
+{% endif %}
+<div id="item-rows">
+    {% for f in formset %}
+    <div class="item-row">
+        {{ f.id }}
+        {{ f.description }}
+        {{ f.quantity }}
+        {{ f.unit }}
+        {{ f.unit_price }}
+        {% if f.instance.pk %}<label class="item-delete">{{ f.DELETE }} remove</label>
+        {% else %}<span class="item-delete-hidden">{{ f.DELETE }}</span>{% endif %}
+        {% if f.errors %}<div class="field-error">{{ f.errors|striptags }}</div>{% endif %}
+    </div>
+    {% endfor %}
+</div>
+<template id="empty-row">
+    <div class="item-row">
+        {{ formset.empty_form.id }}
+        {{ formset.empty_form.description }}
+        {{ formset.empty_form.quantity }}
+        {{ formset.empty_form.unit }}
+        {{ formset.empty_form.unit_price }}
+        <span class="item-delete-hidden">{{ formset.empty_form.DELETE }}</span>
+    </div>
+</template>
+<button type="button" class="btn-logout" id="add-row"><i class="fas fa-plus"></i> Add line</button>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const addBtn = document.getElementById('add-row');
+        const rows = document.getElementById('item-rows');
+        const totalInput = document.querySelector('input[name="{{ formset.prefix }}-TOTAL_FORMS"]');
+        addBtn.addEventListener('click', function () {
+            const index = parseInt(totalInput.value, 10);
+            const html = document.getElementById('empty-row').innerHTML.replaceAll('__prefix__', index);
+            rows.insertAdjacentHTML('beforeend', html);
+            totalInput.value = index + 1;
+        });
+    });
+</script>

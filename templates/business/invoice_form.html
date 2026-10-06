@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{% if invoice %}Edit {{ invoice.reference }}{% else %}New Invoice{% endif %} - Staff Dashboard{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="dash">
+    <div class="container">
+        {% if invoice %}
+        {% include 'business/_dashnav.html' with page_title=invoice.reference %}
+        {% else %}
+        {% include 'business/_dashnav.html' with page_title="New Invoice" %}
+        {% endif %}
+
+        <form method="post" class="panel form-panel">
+            {% csrf_token %}
+            {% include 'business/_form_fields.html' %}
+            {% include 'business/_items_formset.html' %}
+            <div class="form-actions">
+                <button type="submit" class="btn-admin btn-new"><i class="fas fa-save"></i> Save {% if invoice %}changes{% else %}invoice{% endif %}</button>
+                <a href="{% if invoice %}{% url 'business:invoice_detail' invoice.pk %}{% else %}{% url 'business:invoice_list' %}{% endif %}" class="btn-logout">Cancel</a>
+            </div>
+        </form>
+        <p class="form-hint">No client in the list? <a href="{% url 'business:client_create' %}">Add the client first</a>, then come back.</p>
+    </div>
+</section>
+{% endblock %}

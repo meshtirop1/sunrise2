@@ -115,3 +115,73 @@ class DashboardTest(TestCase):
         response = self.client.get('/dashboard/')
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Staff Dashboard')
+
+    def test_dashboard_has_charts_and_no_admin_links(self):
+        staff = User.objects.create_user('staff', password='x', is_staff=True)
+        self.client.force_login(staff)
+        response = self.client.get('/dashboard/')
+        self.assertContains(response, 'chart-data')
+        self.assertContains(response, 'moneyChart')
+        self.assertNotContains(response, '/admin/')
+
+
+class DashboardCrudTest(TestCase):
+    def setUp(self):
+        self.staff = User.objects.create_user('staff', password='x', is_staff=True)
+        self.client.force_login(self.staff)
+        self.client_obj = make_client()
+
+    def test_client_create(self):
+        response = self.client.post('/dashboard/clients/new/', {
+            'name': 'New Person', 'company': '', 'email': 'new@example.com',
+            'phone': '', 'address': '', 'notes': '',
+        }, follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(Client.objects.filter(email='new@example.com').exists())
+
+    def test_proposal_create_with_items(self):
+        data = {
+            'kind': 'proposal', 'client': self.client_obj.pk, 'title': 'Dash proposal',
+            'introduction': '', 'scope_of_work': '', 'terms': '', 'validity_days': 30,
+            'show_prices': 'on',
+            'items-TOTAL_FORMS': '1', 'items-INITIAL_FORMS': '0',
+            'items-MIN_NUM_FORMS': '0', 'items-MAX_NUM_FORMS': '1000',
+            'items-0-description': 'Drilling', 'items-0-quantity': '100',
+            'items-0-unit': 'm', 'items-0-unit_price': '6500',
+        }
+        response = self.client.post('/dashboard/proposals/new/', data, follow=True)
+        proposal = Proposal.objects.get(title='Dash proposal')
+        self.assertEqual(proposal.total, 650000)
+        self.assertContains(response, proposal.reference)
+
+    def test_invoice_payment_and_pdfs(self):
+        invoice = Invoice.objects.create(client=self.client_obj, title='Job',
+                                         status=Invoice.STATUS_SENT)
+        InvoiceItem.objects.create(invoice=invoice, description='Work',
+                                   quantity=1, unit='lot', unit_price=500000)
+        response = self.client.post(f'/dashboard/invoices/{invoice.pk}/payments/add/', {
+            'amount': '200000', 'method': 'mpesa', 'transaction_ref': 'ABC123',
+            'received_on': date.today().isoformat(),
+        }, follow=True)
+        invoice.refresh_from_db()
+        self.assertEqual(invoice.status, Invoice.STATUS_PARTIAL)
+        payment = invoice.payments.first()
+        self.assertContains(response, payment.receipt_number)
+        self.assertEqual(self.client.get(f'/dashboard/invoices/{invoice.pk}/pdf/')['Content-Type'],
+                         'application/pdf')
+        self.assertEqual(self.client.get(f'/dashboard/payments/{payment.pk}/receipt/')['Content-Type'],
+                         'application/pdf')
+
+    def test_list_pages_render(self):
+        for path in ('/dashboard/proposals/', '/dashboard/invoices/',
+                     '/dashboard/projects/', '/dashboard/clients/',
+                     '/dashboard/enquiries/'):
+            response = self.client.get(path)
+            self.assertEqual(response.status_code, 200, path)
+            self.assertNotContains(response, '/admin/')
+
+    def test_lists_require_staff(self):
+        self.client.logout()
+        response = self.client.get('/dashboard/invoices/')
+        self.assertEqual(response.status_code, 302)
+        self.assertIn('/dashboard/login/', response.url)

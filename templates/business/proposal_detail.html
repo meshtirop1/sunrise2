@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% load static humanize %}
+
+{% block title %}{{ proposal.reference }} - Staff Dashboard{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="dash">
+    <div class="container">
+        {% include 'business/_dashnav.html' with page_title=proposal.reference %}
+
+        <div class="dash-toolbar">
+            <div class="detail-meta">
+                <span class="badge badge-{{ proposal.status }}">{{ proposal.get_status_display }}</span>
+                <span>{{ proposal.get_kind_display }} · created {{ proposal.created_at|date:"d M Y" }}</span>
+                {% if proposal.sent_at %}<span>· emailed to {{ proposal.sent_to }} on {{ proposal.sent_at|date:"d M Y" }}</span>{% endif %}
+            </div>
+            <div class="row-actions">
+                <a href="{% url 'business:proposal_pdf' proposal.pk %}" class="btn-admin"><i class="fas fa-file-pdf"></i> View PDF</a>
+                <a href="{% url 'business:proposal_edit' proposal.pk %}" class="btn-admin"><i class="fas fa-pen"></i> Edit</a>
+                <form method="post" action="{% url 'business:send_proposal' proposal.pk %}"
+                      onsubmit="return confirm('Email {{ proposal.reference }} to {{ proposal.client.email }}?');">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{% url 'business:proposal_detail' proposal.pk %}">
+                    <button type="submit" class="btn-admin btn-new"><i class="fas fa-paper-plane"></i> Email to client</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="detail-grid">
+            <div class="panel">
+                <h2><i class="fas fa-file-signature"></i> {{ proposal.title }}</h2>
+                <p class="detail-client">
+                    <strong>{{ proposal.client.name }}</strong>{% if proposal.client.company %} — {{ proposal.client.company }}{% endif %}<br>
+                    {{ proposal.client.email }}{% if proposal.client.phone %} · {{ proposal.client.phone }}{% endif %}
+                </p>
+                <table>
+                    <tr><th>Description</th><th>Qty</th><th>Unit</th><th class="num">Unit price</th><th class="num">Total (KES)</th></tr>
+                    {% for item in proposal.items.all %}
+                    <tr>
+                        <td>{{ item.description }}</td>
+                        <td>{{ item.quantity|floatformat:"-2" }}</td>
+                        <td>{{ item.unit }}</td>
+                        <td class="num">{{ item.unit_price|floatformat:0|intcomma }}</td>
+                        <td class="num">{{ item.line_total|floatformat:0|intcomma }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="5" class="empty">No line items yet — <a href="{% url 'business:proposal_edit' proposal.pk %}">add some</a>.</td></tr>
+                    {% endfor %}
+                    {% if proposal.items.all %}
+                    <tr class="total-row"><td colspan="4"><strong>Grand total</strong></td>
+                        <td class="num"><strong>{{ proposal.total|floatformat:0|intcomma }}</strong></td></tr>
+                    {% endif %}
+                </table>
+            </div>
+
+            <div class="detail-side">
+                <div class="panel">
+                    <h2><i class="fas fa-flag"></i> Status</h2>
+                    <form method="post" action="{% url 'business:proposal_set_status' proposal.pk %}" class="status-form">
+                        {% csrf_token %}
+                        {% if proposal.status != 'accepted' %}
+                        <button name="status" value="accepted" class="btn-admin btn-ok"><i class="fas fa-check"></i> Mark accepted</button>
+                        {% endif %}
+                        {% if proposal.status != 'rejected' %}
+                        <button name="status" value="rejected" class="btn-logout"><i class="fas fa-times"></i> Mark rejected</button>
+                        {% endif %}
+                        {% if proposal.status != 'draft' %}
+                        <button name="status" value="draft" class="btn-logout">Back to draft</button>
+                        {% endif %}
+                    </form>
+                </div>
+
+                <div class="panel">
+                    <h2><i class="fas fa-envelope"></i> Email history</h2>
+                    <table>
+                        <tr><th>To</th><th>When</th><th></th></tr>
+                        {% for log in proposal.email_logs.all %}
+                        <tr>
+                            <td class="truncate">{{ log.to_email }}</td>
+                            <td>{{ log.sent_at|date:"d M H:i" }}</td>
+                            <td>{% if log.success %}<span class="badge badge-accepted">Sent</span>{% else %}<span class="badge badge-rejected" title="{{ log.error }}">Failed</span>{% endif %}</td>
+                        </tr>
+                        {% empty %}
+                        <tr><td colspan="3" class="empty">Not emailed yet.</td></tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% if form.non_field_errors %}
+<div class="dash-message error">{{ form.non_field_errors }}</div>
+{% endif %}
+<div class="form-grid">
+    {% for field in form %}
+    <div class="form-field {% if field.field.widget.input_type == 'checkbox' %}form-field-check{% endif %}{% if field.name == 'introduction' or field.name == 'scope_of_work' or field.name == 'terms' or field.name == 'notes' or field.name == 'description' or field.name == 'address' or field.name == 'title' or field.name == 'name' %} form-field-wide{% endif %}">
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field }}
+        {% if field.help_text %}<small>{{ field.help_text }}</small>{% endif %}
+        {% if field.errors %}<div class="field-error">{{ field.errors|striptags }}</div>{% endif %}
+    </div>
+    {% endfor %}
+</div>

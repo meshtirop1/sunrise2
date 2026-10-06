@@ -1,0 +1,25 @@
+{% load static %}
+<div class="dash-head">
+    <h1>{{ page_title|default:"Staff Dashboard" }}</h1>
+    <form method="post" action="{% url 'business:logout' %}" class="dash-logout-form">
+        {% csrf_token %}
+        <button type="submit" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Logout</button>
+    </form>
+</div>
+
+<nav class="dash-nav">
+    <a href="{% url 'business:dashboard' %}" class="{% if active_tab == 'overview' %}active{% endif %}"><i class="fas fa-chart-line"></i> Overview</a>
+    <a href="{% url 'business:proposal_list' %}" class="{% if active_tab == 'proposals' %}active{% endif %}"><i class="fas fa-file-signature"></i> Proposals</a>
+    <a href="{% url 'business:invoice_list' %}" class="{% if active_tab == 'invoices' %}active{% endif %}"><i class="fas fa-file-invoice-dollar"></i> Invoices</a>
+    <a href="{% url 'business:project_list' %}" class="{% if active_tab == 'projects' %}active{% endif %}"><i class="fas fa-hard-hat"></i> Projects</a>
+    <a href="{% url 'business:client_list' %}" class="{% if active_tab == 'clients' %}active{% endif %}"><i class="fas fa-address-book"></i> Clients</a>
+    <a href="{% url 'business:enquiry_list' %}" class="{% if active_tab == 'enquiries' %}active{% endif %}"><i class="fas fa-envelope-open-text"></i> Enquiries</a>
+</nav>
+
+{% if messages %}
+<div class="dash-messages">
+    {% for message in messages %}
+    <div class="dash-message {{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+</div>
+{% endif %}

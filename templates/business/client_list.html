@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Clients - Staff Dashboard{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="dash">
+    <div class="container">
+        {% include 'business/_dashnav.html' with page_title="Clients" %}
+
+        <div class="dash-toolbar">
+            <form method="get" class="dash-filter">
+                <input type="text" name="q" value="{{ q }}" class="dash-input" placeholder="Search name, company, email or phone…">
+                <button type="submit" class="btn-admin"><i class="fas fa-search"></i> Search</button>
+            </form>
+            <a href="{% url 'business:client_create' %}" class="btn-admin btn-new"><i class="fas fa-plus"></i> New Client</a>
+        </div>
+
+        <div class="panel">
+            <table>
+                <tr><th>Name</th><th>Company</th><th>Email</th><th>Phone</th><th class="num">Proposals</th><th class="num">Invoices</th><th></th></tr>
+                {% for c in clients %}
+                <tr>
+                    <td><a href="{% url 'business:client_edit' c.pk %}">{{ c.name }}</a></td>
+                    <td>{{ c.company|default:"–" }}</td>
+                    <td>{{ c.email }}</td>
+                    <td>{{ c.phone|default:"–" }}</td>
+                    <td class="num">{{ c.proposals.count }}</td>
+                    <td class="num">{{ c.invoices.count }}</td>
+                    <td class="row-actions"><a class="btn-mini" href="{% url 'business:client_edit' c.pk %}" title="Edit"><i class="fas fa-pen"></i></a></td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="7" class="empty">No clients yet — <a href="{% url 'business:client_create' %}">add the first one</a>.</td></tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</section>
+{% endblock %}

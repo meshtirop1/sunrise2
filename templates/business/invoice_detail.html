@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% load static humanize %}
+
+{% block title %}{{ invoice.reference }} - Staff Dashboard{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="dash">
+    <div class="container">
+        {% include 'business/_dashnav.html' with page_title=invoice.reference %}
+
+        <div class="dash-toolbar">
+            <div class="detail-meta">
+                <span class="badge badge-{{ invoice.status }}">{{ invoice.get_status_display }}</span>
+                <span>created {{ invoice.created_at|date:"d M Y" }}{% if invoice.due_date %} · due {{ invoice.due_date|date:"d M Y" }}{% endif %}</span>
+                {% if invoice.is_overdue %}<span class="badge badge-rejected">Overdue</span>{% endif %}
+            </div>
+            <div class="row-actions">
+                <a href="{% url 'business:invoice_pdf' invoice.pk %}" class="btn-admin"><i class="fas fa-file-pdf"></i> View PDF</a>
+                <a href="{% url 'business:invoice_edit' invoice.pk %}" class="btn-admin"><i class="fas fa-pen"></i> Edit</a>
+                <form method="post" action="{% url 'business:send_invoice' invoice.pk %}"
+                      onsubmit="return confirm('Email {{ invoice.reference }} to {{ invoice.client.email }}?');">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{% url 'business:invoice_detail' invoice.pk %}">
+                    <button type="submit" class="btn-admin btn-new"><i class="fas fa-paper-plane"></i> Email to client</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="detail-grid">
+            <div class="panel">
+                <h2><i class="fas fa-file-invoice-dollar"></i> {{ invoice.title }}</h2>
+                <p class="detail-client">
+                    <strong>{{ invoice.client.name }}</strong>{% if invoice.client.company %} — {{ invoice.client.company }}{% endif %}<br>
+                    {{ invoice.client.email }}{% if invoice.client.phone %} · {{ invoice.client.phone }}{% endif %}
+                </p>
+                <table>
+                    <tr><th>Description</th><th>Qty</th><th>Unit</th><th class="num">Unit price</th><th class="num">Total (KES)</th></tr>
+                    {% for item in invoice.items.all %}
+                    <tr>
+                        <td>{{ item.description }}</td>
+                        <td>{{ item.quantity|floatformat:"-2" }}</td>
+                        <td>{{ item.unit }}</td>
+                        <td class="num">{{ item.unit_price|floatformat:0|intcomma }}</td>
+                        <td class="num">{{ item.line_total|floatformat:0|intcomma }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="5" class="empty">No line items yet — <a href="{% url 'business:invoice_edit' invoice.pk %}">add some</a>.</td></tr>
+                    {% endfor %}
+                    <tr class="total-row"><td colspan="4"><strong>Total</strong></td>
+                        <td class="num"><strong>{{ invoice.total|floatformat:0|intcomma }}</strong></td></tr>
+                    <tr><td colspan="4">Paid</td><td class="num">{{ invoice.amount_paid|floatformat:0|intcomma }}</td></tr>
+                    <tr class="total-row"><td colspan="4"><strong>Balance due</strong></td>
+                        <td class="num"><strong>{{ invoice.balance|floatformat:0|intcomma }}</strong></td></tr>
+                </table>
+            </div>
+
+            <div class="detail-side">
+                <div class="panel">
+                    <h2><i class="fas fa-hand-holding-dollar"></i> Record a payment</h2>
+                    <form method="post" action="{% url 'business:payment_add' invoice.pk %}">
+                        {% csrf_token %}
+                        {% include 'business/_form_fields.html' with form=payment_form %}
+                        <div class="form-actions">
+                            <button type="submit" class="btn-admin btn-ok"><i class="fas fa-plus"></i> Record payment</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="panel">
+                    <h2><i class="fas fa-receipt"></i> Payments &amp; receipts</h2>
+                    <table>
+                        <tr><th>Receipt</th><th class="num">KES</th><th>When</th><th></th></tr>
+                        {% for payment in invoice.payments.all %}
+                        <tr>
+                            <td>{{ payment.receipt_number }}<br><small>{{ payment.get_method_display }}{% if payment.transaction_ref %} · {{ payment.transaction_ref }}{% endif %}</small></td>
+                            <td class="num">{{ payment.amount|floatformat:0|intcomma }}</td>
+                            <td>{{ payment.received_on|date:"d M Y" }}</td>
+                            <td class="row-actions">
+                                <a class="btn-mini" href="{% url 'business:receipt_pdf' payment.pk %}" title="View receipt PDF"><i class="fas fa-file-pdf"></i></a>
+                                <form method="post" action="{% url 'business:payment_send_receipt' payment.pk %}"
+                                      onsubmit="return confirm('Email receipt {{ payment.receipt_number }} to {{ invoice.client.email }}?');">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn-mini" title="Email receipt"><i class="fas fa-paper-plane"></i></button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr><td colspan="4" class="empty">No payments recorded yet.</td></tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

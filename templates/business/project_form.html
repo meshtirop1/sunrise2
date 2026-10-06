@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{% if project %}Edit {{ project.name }}{% else %}New Project{% endif %} - Staff Dashboard{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="dash">
+    <div class="container">
+        {% if project %}
+        {% include 'business/_dashnav.html' with page_title=project.name %}
+        {% else %}
+        {% include 'business/_dashnav.html' with page_title="New Project" %}
+        {% endif %}
+
+        <form method="post" class="panel form-panel">
+            {% csrf_token %}
+            {% include 'business/_form_fields.html' %}
+            <div class="form-actions">
+                <button type="submit" class="btn-admin btn-new"><i class="fas fa-save"></i> Save project</button>
+                <a href="{% url 'business:project_list' %}" class="btn-logout">Cancel</a>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}
